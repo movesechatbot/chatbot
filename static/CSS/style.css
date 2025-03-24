@@ -1,0 +1,536 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Asap:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+
+.Menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 92px;
+    background-color: #731702;
+}
+
+.Menu li {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    color: #FFFFFF;
+    width: 46px;
+    text-decoration: none;
+    list-style: none;
+    display: inline-block;
+    padding: 40px;
+}
+
+.Menu a {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    color: #FFFFFF;
+    width: 46px;
+    height: 19px;
+    text-decoration: none;
+    list-style: none;
+    display: inline-block;
+}
+
+
+.Menu-Logo {
+    position: absolute;
+    right: 85%;
+    width: 71px;
+    height: 68px;
+}
+
+.botoes{
+    position: absolute;
+    right: 5%;
+}
+
+.button_01 {
+    height: 41px;
+    width: 104px;
+    left: 1011px;
+    top: 34px;
+    border-radius: 100px;
+    background-color: #F2C48D;
+    color: #2A2622;
+    margin-right: 20px;
+    font-family: 'Roboto';
+    font-style:normal;
+    font-weight: 700;
+    font-size: 16px;
+    border: none;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.button_02 {
+    height: 41px;
+    width: 147px;
+    left: 1155px;
+    top: 34px;
+    border-radius: 100px;
+    border-radius: 100px;
+    background-color: #F2C48D;
+    color: #2A2622;
+    margin-right: 20px;
+    font-family: 'Roboto';
+    font-style:normal;
+    font-weight: 700;
+    font-size: 16px;
+    border: none;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+
+.page_01 {
+    background-image: url(/static/imgs/dogoculosamarelo.png) no-repeat center/cover;
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-color: #F2C48D;
+    position: absolute;
+    top: 92px;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+}
+
+.texts-page_01 {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+}
+
+.texts-page_01 h1 {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    font-weight: 700;
+    font-size: 100px;
+    line-height: 93.7%;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+}
+
+.texts-page_01 h2 {
+    position: absolute;
+    top: 53%;
+    left: 5%;
+    font-family: 'Asap';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 105.7%;
+    color: #ffffff;
+}
+
+.Button_Agenda_Servico {
+    height: 47.92486572265625px;
+    width: 187.74742126464844px;
+    border-radius: 100px;
+    position: absolute;
+    top: 70%;
+    left: 5%;
+    height: 60px;
+    width: 275px;
+    background-color: #FFE7DC;
+    color: #0E0B0B;
+    margin-right: 20px;
+    font-family: 'Roboto';
+    font-style:normal;
+    font-weight: 700;
+    font-size: 20px;
+    border: none;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.page_02{
+    background-color: #F2C48D;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+}
+
+.texts-page_02 h1 {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 60px;
+    line-height: 105.7%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #731702;
+}
+
+.texts-page_02 h2 {
+    position: absolute;
+    width: 168px;
+    height: 28px;
+    font-family: 'Asap';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 105.7%;
+    color: #731702;
+}
+
+.texts-page_02 h3 {
+    position: relative;
+    font-family: 'Asap';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 105.7%;
+    color: #0c0000;
+}
+
+.img_01 {
+    background-image: url(./imgs/cachorrotosa.jpg);
+    background-size: 150%;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 20%;
+    left: 15%;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%; 
+    background-color: red; 
+}
+
+.img_02 {
+    background-image: url(/imgs/cachorroacessorios.jpg);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;   
+    position: absolute;
+    top: 20%;
+    left: 55%;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%; 
+    background-color: red; 
+}
+
+.img_03 {
+    background-image: url(./imgs/cachorrobanho.jpg);
+    background-size: 150%;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 70%;
+    left: 15%;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%; 
+    background-color: red; 
+}
+
+.img_04 {
+    background-image: url(./imgs/cachorrovet.jpg);
+    background-size: 150%;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 70%;
+    left: 55%;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%; 
+    background-color: red; 
+}
+
+.Tosa {
+    position: absolute;
+    top: 20%;
+    left: 30%;
+}
+.Tosa h3 {
+    top: 50px;
+}
+
+
+.veterinario {
+    position: absolute;
+    top: 70%;
+    left: 70%;
+}
+
+.veterinario h3 {
+    top: 50px;
+}
+
+.Banho {
+    position: absolute;
+    top: 70%;
+    left: 30%;
+}
+
+.Banho h3 {
+    top: 50px;
+}
+
+.Acessorios{
+    position: absolute;
+    top: 20%;
+    left: 70%;
+}
+
+.Acessorios h3 {
+    top: 50px;
+}
+
+.page_03{
+    background-color: #BF7534;
+    position: absolute;
+    top: 200%;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+}
+
+.page_03_img{
+    height: 100%;
+}
+
+.page_03_content h1 {
+    position: absolute;
+    top: 250%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 50px;
+    line-height: 105.7%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #ffffff;
+}
+
+#titulo {
+    position: absolute;
+    top: 208%;
+    left: 92%;
+    width: 100%;
+}
+
+#Cadastro_Titulo {
+    position: absolute;
+    top: 218%;
+    left: 99%;
+    width: 100%;
+    color: #731702;
+}
+
+#Agendamento {
+    position: absolute;
+    top: 250%;
+    left: 97%;
+    width: 100%;
+}
+
+#Cadastrado{
+    position: absolute;
+    top: 265%;
+    left: 110%;
+    width: 100%;
+    color: #731702;
+}
+
+.Button_Cadastro_Pet{
+    height: 47.92486572265625px;
+    width: 187.74742126464844px;
+    border-radius: 100px;
+    position: absolute;
+    top: 235%;
+    left: 61%;
+    height: 60px;
+    width: 250px;
+    background-color: #FEAD11;
+    color: #731702;
+    margin-right: 20px;
+    font-family: 'Roboto';
+    font-style:normal;
+    font-weight: 800;
+    font-size: 20px;
+    border: none;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.Button_Agendamento_Page_03 {
+    height: 47.92486572265625px;
+    width: 187.74742126464844px;
+    border-radius: 100px;
+    position: absolute;
+    top: 280%;
+    left: 61%;
+    height: 60px;
+    width: 250px;
+    background-color: #FEAD11;
+    color: #731702;
+    margin-right: 20px;
+    font-family: 'Roboto';
+    font-style:normal;
+    font-weight: 800;
+    font-size: 20px;
+    border: none;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.page_03_logo {
+    position: absolute;
+    top: 285%;
+    left: 91%;
+    height: 128px;
+}
+
+.rodape {
+    position: absolute;
+    top: 301%;
+    left: 0;
+    height: 250px;
+    width: 100%;
+    background-color: #731702;
+}
+
+.rodape h1 {
+    font-family: 'Asap';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 105.7%;
+    color: #9C9C9C;
+}
+
+.footer_logo {
+    position: absolute;
+    top: 20%;
+    left: 5%;
+    height: 86px;
+}
+
+.local_map{
+    position: absolute;
+    left: 70%;
+    top: 10%;
+    height: 200px;
+}
+
+#text_rua {
+    position: absolute;
+    left: 45%;
+    top: 10%;
+}
+
+#text_num {
+    position: absolute;
+    left: 45%;
+    top: 45%; 
+}
+
+#text_copyright {
+    position:absolute;
+    top: 55%;
+    left: 5%;
+}
+
+
+#instagram {
+    position: absolute;
+    top: 30%;
+    left: 15%;
+    height: 36px;
+}
+
+#facebook {
+    position: absolute;
+    top: 30%;
+    left: 20%;
+    height: 36px;
+}
+
+#youtube {
+    position: absolute;
+    top: 30%;
+    left: 25%;
+    height: 36px;
+}
+.Barra {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 92px;
+    background-color: #731702;
+}
+.Barra-logo{
+    position: absolute;
+    max-width: 71.11px;
+    max-height: 68px;
+    left: 860px;
+    top: 5px;
+
+}
+
+.cadastro_html{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.form_cd_cli{
+    position: absolute;
+    width: 378px;
+    height: 105px;
+    left: 100px;
+    top: 123px; 
+}
+
+.form_cd_pet{
+    position: absolute;
+    width: 378px;
+    height: 105px;
+    left: 100px;
+    top: 123px; 
+}
+
+.form_login{
+    position: absolute;
+    width: 378px;
+    height: 105px;
+    left: 100px;
+    top: 123px; 
+}
+
