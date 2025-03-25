@@ -1,0 +1,85 @@
+body {
+    background-color: #F2C48D !important;
+}
+
+
+/* ---- */
+
+.hero-section {
+    background: url('../imgs/dogoculosamarelo.png') no-repeat center/cover;
+    padding: 100px 0;
+    display: flex;
+    align-items: center;
+    height: 100dvh;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.servicos {
+    height: 100dvh;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+}
+
+/* ------ */
+.presentation-col {
+    width: 100%;
+    position: relative;
+    height: 100%;
+    padding: 100px 80px;
+}
+
+.presentation-col h1 {
+    font-size: 4.8rem;
+    color: white;
+    font-weight: 600;
+}
+
+.presentation-col h4 {
+    color: white;
+}
+
+.container-servicos{
+    height: 75%;
+}
+
+.title {
+    margin-top: 300px;
+    font-weight: 600;
+    font-size: 3.5rem;
+    color: rgb(117, 24, 24);
+}
+
+.row-servicos .col {
+    justify-content: left !important;
+}
+
+.wrapper-img {
+    display: flex;
+}
+
+.wrapper-img img{
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.wrapper-conteudo {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.wrapper-conteudo h4 {
+    font-size: 2rem;
+    padding-bottom: 20px;
+    color: rgb(117, 24, 24);
+}
+
+.wrapper-conteudo h6 {
+    font-size: 1.4rem;
+}
