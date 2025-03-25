@@ -1,15 +1,15 @@
 <?php
 
+session_start();
 include ('../Classes/message.php'); // Inclue o arquivo PHP message para mostrar Box Pop-Up nas telas.
 include('../Classes/conect.php'); // Conecta com o BD
-include('../protect.php'); // Inclue o arquivo de proteção de tela, para verificar o login
-
-if(!isset($_SESSION)){
-    session_start();
+/*
+if (isset($_SESSION['user'])) {
+    boxpopup('Sessão iniciada');
+} else {
+    boxpopup('Sessão iniciada, porém, sem login autenticado.');
 }
-
-boxpopup("Bem vindo");
-
+*/
 ?>
 
 <!DOCTYPE html>
@@ -18,131 +18,131 @@ boxpopup("Bem vindo");
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../static/CSS/style.css">
+    <!--CSS-->
+    <link rel="stylesheet" type="text/css" href="../static/CSS/indexheader.css" />
+    <link rel="stylesheet" type="text/css" href="../static/CSS/index.css" />
+    <!--ICON-->
     <link rel="icon" type="image/png" href="../static/imgs/logopawfoliomenor.png"/>
+    <!--BOOTSTRAP CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
     <title>PawFolio - Seu eCommerce de serviços pet!</title>
 </head>
+
+<header>
+    <a href="index.php">
+        <img src="../static/imgs/logopawfoliomenor.png" alt="logo" />
+    </a>
+    <ul class="nav-links">
+        <li class="nav-item"><a href="/templates/index.php">HOME</a></li>
+        <li class="nav-item"><a href="#">SERVIÇOS</a></li>
+        <li class="nav-item"><a href="#">AGENDAMENTOS</a></li>
+        <?php 
+        // Validação do usuário para ter acesso a funcionalidade: Logout.
+            $linkcadastro = '';
+            $linklogin = '';
+            if (!isset($_SESSION['user'])) {
+                $linkcadastro = '<a href="cadastro.php" class="header-button">CADASTRAR</a>';
+                $linklogin = '<a href="Login.php" class="header-button">LOGIN</a>';
+                echo $linkcadastro;
+                echo $linklogin; 
+            } else if (isset($_SESSION['user'])) {
+                echo '<a href="../logout.php" class="header-button">LOGOUT</a>';
+            }
+             
+        ?>   
+    </ul>
+</header>
 <body>
-    <nav class="Menu">
-        <img class="Menu-Logo" src="../static/imgs/logopawfoliomenor.png">
-        <li><a href=""> HOME </a></li>
-        <li> | </li>
-        <li><a href="">  SERVIÇOS </a></li>
-        <li> | </li>
-        <li><a href="">  AGENDAMENTOS </a></li>
-        <div class="botoes">
-            <button class="button_01">ENTRAR</button>
-            <button class="button_02">CADASTRE-SE</button>
-            <a href = "../logout.php">SAIR</a>
-            
+<section class="hero-section">
+        <div class="presentation-col">
+            <h1>
+                O MELHOR <br />
+                CUIDADO PARA <br />
+                SEU MELHOR <br />
+                AMIGO.
+                <br />
+                <br />
+            </h1>
+            <h4>
+                Está esperando o que para fazer seu pet mais <br>
+                feliz? Aqui você encontra o cuidado que seu pet <br>
+                merece. Banho, tosa, rações e acessórios.<br>
+            </h4>
         </div>
-    </nav>
+    </section>
 
-        <main> 
-            <div class="page_01">
-                <div class="img_god"></div>
-            <div class="texts-page_01">
-                <h1>
-                    O MELHOR <br>
-                    CUIDADO PARA <br>
-                    SEU MELHOR <br>
-                    AMIGO
-                </h1>
-                <h2>
-                    Está esperando o que para fazer seu pet mais <br>
-                    feliz? Aqui você encontra o cuidado que seu pet <br>
-                    merece. Banho, tosa, rações e acessórios.<br>
-                </h2>
-                
-                <button class="Button_Agenda_Servico">Agendar serviço</button>
-            </div>
-        </div>
-
-            <div class="page_02">
-                <div class="page_02_imagens">
-                    <div class="img_01"></div>
-                    <div class="img_02"></div>
-                    <div class="img_03"></div>
-                    <div class="img_04"></div>
-                </div>
-                <div class="texts-page_02">
-                    <h1> NOSSOS SERVIÇOS </h1>
-                    <div class="Tosa">
-                        <h2>
+    <section class="servicos">
+         <h1 class="mt-5 mb-5 title">NOSSOS SERVIÇOS</h1>
+         <div class="container-fluid d-flex justify-content-center align-items-center container-servicos">
+            <div class="row row-cols-2 row-servicos">
+                <div class="col-md-6 d-flex mt-5 mb-5">
+                    <div class="wrapper-img">
+                        <img src="../static/imgs/cachorrotosa.jpg" alt="cachorro-tosa" />
+                    </div>
+                    <div class="wrapper-conteudo">
+                        <h4>
                             Tosa
-                        </h2>
-                        <h3>
+                        </h4>
+                        <h6>
                             A tosa é um procedimento de <br>
                             corte do pelo de um animal de <br>
                             estimação.
-                        </h3>
+                        </h6>
                     </div>
-
-                    <div class="veterinario">
-                        <h2>
-                            Veterinário
-                        </h2>
-                        <h3>
-                            A função do médico veterinário é <br>
-                            cuidar da saúde e bem-estar dos <br>
-                            animais.
-                        </h3>
+                </div>
+                <div class="col-md-6 d-flex mt-5">
+                    <div class="wrapper-img">
+                        <img src="../static/imgs/cachorrotosa.jpg" alt="cachorro-tosa" />
                     </div>
-
-                    <div class="Banho">
-                        <h2>
-                            Banho
-                        </h2>
-                        <h3>
-                            O banho em PET é uma <br>
-                            atividade essencial para manter <br>
-                            a higiene e o bem-estar do <br>
-                            animal de estimação.<br>
-                        </h3>
-                    </div>
-
-                    <div class="Acessorios">
-                        <h2>
-                            Acessórios
-                        </h2>
-                        <h3>
+                    <div class="wrapper-conteudo">
+                        <h4>
+                            Acessorios
+                        </h4>
+                        <h6>
                             Os acessórios para animais de <br>
                             estimação são itens projetados <br>
                             para melhorar o conforto, bem- <br>
                             estar, segurança e estilo dos <br>
                             animais de estimação.
-                        </h3>
+                        </h6>
                     </div>
-
+                </div>
+                <div class="col-md-6 d-flex mt-5 mb-5">
+                    <div class="wrapper-img">
+                        <img src="../static/imgs/cachorrotosa.jpg" alt="cachorro-tosa" />
+                    </div>
+                    <div class="wrapper-conteudo">
+                        <h4>
+                            Banho
+                        </h4>
+                        <h6>
+                            O banho em PET é uma <br>
+                            atividade essencial para manter <br>
+                            a higiene e o bem-estar do <br>
+                            animal de estimação.<br>
+                        </h6>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex mt-5 mb-5">
+                    <div class="wrapper-img">
+                        <img src="../static/imgs/cachorrotosa.jpg" alt="cachorro-tosa" />
+                    </div>
+                    <div class="wrapper-conteudo">
+                        <h4>
+                            Veterinário
+                        </h4>
+                        <h6>
+                            A função do médico veterinário é <br>
+                            cuidar da saúde e bem-estar dos <br>
+                            animais.
+                        </h6>
+                    </div>
                 </div>
             </div>
-
-            <div class="page_03">
-                <img class ="page_03_img" src="../static/imgs/ramester.jpg">
-            </div>
-            <div class="page_03_content">
-                <h1 id="titulo">
-                    Para realizar um agendamento é necessário <br>
-                    ter um pet cadastrado.
-                </h1>
-
-                <button class="Button_Cadastro_Pet">Cadastrar</button>
-
-                <h1 id="Cadastro_Titulo">
-                    Cadastre seu pet agora mesmo!    
-                </h1>
-
-                <h1 id="Agendamento">
-                    ou <br><br>
-                    Faça um agendamento para um pet 
-                </h1>
-                <h1 id="Cadastrado">
-                    já cadastrado!
-                </h1>
-                <button class="Button_Agendamento_Page_03">Agendar</button>
-            </div>
-            <img class="page_03_logo" src="../static/imgs/logopawfoliomenor.png">
-        </main>
+         </div>
+    </section>
+    <!--
         <footer>
             <div class="rodape">
                 <img class="footer_logo" src="../static/imgs/logopawfoliomenor.png">
@@ -170,6 +170,8 @@ boxpopup("Bem vindo");
                 <img id="youtube" src="../static/imgs/youtube.png"></a>
             </div>
             </div>
-        </footer>  
+        </footer> 
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
