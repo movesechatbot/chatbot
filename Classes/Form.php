@@ -35,9 +35,9 @@ class Form{
         }
 
         if($stmt->execute()){
-            echo 'Inserção no BD com sucesso!';
-        }else{
-            echo 'Inserção não efetuada com sucesso.' . $stmt->error;
+            header("Location: Login.php");
+        } else {
+            echo 'Inserção de novo usuário errada.'-> mysql_errno;
         }
     }
    
