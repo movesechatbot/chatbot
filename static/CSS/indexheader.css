@@ -1,0 +1,52 @@
+
+header {
+    height: 92px;
+    width: 100%;
+    background-color: rgba(61, 0, 0, 0.8);
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+    position: absolute !important;
+    top: 0;
+    z-index: 2;
+}
+
+ul {
+    padding: 0 !important;
+}
+
+header a img {
+    width: 60px;
+    height: 80px;
+    padding: 12px 0px;
+}
+
+.header-button {
+    text-decoration: none;
+    color: black;
+    background-color: rgb(255, 189, 114);
+    padding: 10px 20px;
+    border-radius: 18px;
+    font-weight: 600;
+}
+
+li {
+    height: fit-content;
+}
+
+li a {
+    text-decoration: none;
+    color: white;
+}
+
+.nav-links {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    gap: 50px;
+    list-style: none;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
