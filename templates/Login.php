@@ -1,37 +1,37 @@
 <?php
 
-include('../Classes/conect.php'); // Conecta o BD
+session_start(); // Inicia a sessão no começo do arquivo
 
-// Verifica se os campos Usuario e senha estão vazios
-if(isset($_POST['user']) || isset($_POST['senha'])){
-    if(strlen($_POST['user'])== 0){
-         echo 'O campo Usuário está vazio, preencha-o';
-     } else if(strlen($_POST['senha']) == 0){
+include('../Classes/conect.php'); // Conecta ao banco de dados
+
+// Verifica se os campos Usuario e senha foram enviados
+if(isset($_POST['user']) && isset($_POST['senha'])){
+    if(strlen($_POST['user']) == 0){
+        echo 'O campo Usuário está vazio, preencha-o';
+    } else if(strlen($_POST['senha']) == 0){
         echo 'O campo senha está vazio, preencha-o';
-     } else{ 
-        //Se não estão vazios, então ele verifica os campos e se forem válidos, seu login é efetuado.
+    } else { 
         $user = $connect->real_escape_string($_POST['user']);
         $senha = $connect->real_escape_string($_POST['senha']);
 
-        $sql_code = "SELECT * FROM cliente  WHERE nomeCliente = '$user' AND senha = '$senha'";
-        $sql_query = $connect->query($sql_code) or die("Falha na execução do código SQL: ". $connect->error);
+        // Consulta segura com prepared statement para evitar SQL Injection
+        $sql_code = "SELECT * FROM cliente WHERE nomeCliente = ? AND senha = ?";
+        $stmt = $connect->prepare($sql_code);
+        $stmt->bind_param("ss", $user, $senha);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        $quantidade = $sql_query->num_rows;
-
-        if($quantidade == 1){
-            $usuario = $sql_query->fetch_assoc();
-            if(!isset($_SESSION)) {
-                session_start();
-            }
-
-            $_SESSION['user'] = $usuario['nomeCliente'];
-            header("Location: index.php"); // Caso tudo esteja de acordo com o Login, logo após fazê-lo você é redirecionado para a tela Index.php
+        if($result->num_rows == 1){
+            $usuario = $result->fetch_assoc();
             
+            $_SESSION['user'] = $usuario['nomeCliente']; // Armazena o usuário na sessão
+            header("Location: index.php"); // Redireciona para a página inicial
+            exit();
         } else {
-            echo 'Falha em logar! E-mail ou senha incorretos.';
+            echo 'Falha em logar! Usuário ou senha incorretos.';
         }
-     }
- }
+    }
+}
 
 ?>
 
@@ -41,7 +41,8 @@ if(isset($_POST['user']) || isset($_POST['senha'])){
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="../static/CSS/sub-header.css">
+        <link rel="stylesheet" type="text/css" href="../static/CSS/subheader.css">
+        <link rel="stylesheet" type="text/css" href="../static/CSS/login.css">
         <link rel="icon" type="image/png" href="C:\Users\Oem\Desktop\PawFolio\imgs\logopawfoliomenor.png"/>
         <title>Entrar em sua conta</title>
     </head>
@@ -52,7 +53,7 @@ if(isset($_POST['user']) || isset($_POST['senha'])){
     
         <div class="form_login">
             <form action = "" method="POST">
-                <p>Seja bem-vindo!</p>
+                <h1 style="color: white;">Seja bem-vindo!</h1>
                 <span>Faça login para acessar a página inicial.</span>
                     <div class="whiteline"></div>
                         <div><input type="text" name="user" placeholder="Seu nome"></div>
