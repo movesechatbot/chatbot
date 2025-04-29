@@ -28,34 +28,44 @@ if (isset($_SESSION['user'])) {
     
     <title>PawFolio - Seu eCommerce de serviços pet!</title>
 </head>
-
-<header>
-    <a href="index.php">
-        <img src="../static/imgs/logopawfoliomenor.png" alt="logo" />
-    </a>
-    <ul class="nav-links">
-        <li class="nav-item"><a href="/templates/index.php">HOME</a></li>
-        <li class="nav-item"><a href="#">SERVIÇOS</a></li>
-        <li class="nav-item"><a href="#">AGENDAMENTOS</a></li>
-        <?php 
-        // Validação do usuário para ter acesso a funcionalidade: Logout.
-            $linkcadastro = '';
-            $linklogin = '';
-            if (!isset($_SESSION['user'])) {
-                $linkcadastro = '<a href="cadastro.php" class="header-button">CADASTRAR</a>';
-                $linklogin = '<a href="Login.php" class="header-button">LOGIN</a>';
-                echo $linkcadastro;
-                echo $linklogin; 
-            } else if (isset($_SESSION['user'])) {
-                echo '<a href="../logout.php" class="header-button">LOGOUT</a>';
-            }
-             
-        ?>   
-    </ul>
-</header>
 <body>
+<!-- Navegação -->
+<nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="index.php">
+            <img src="../static/imgs/logopawfoliomenor.png" alt="Logo" width="60" height="60" class="me-2">
+            <span>PawFolio</span>
+        </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" onclick="trocaNavbarCor()">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto d-flex text-center align-items-center justify-content-center ul-lst">
+                    <li class="nav-item"><a class="nav-link" href="index.php">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">INICIO</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">AGENDAMENTOS</a></li>
+                    <?php 
+                    // Validação do usuário para ter acesso a funcionalidade: Logout.
+                        $linkcadastro = '';
+                        $linklogin = '';
+                        if (!isset($_SESSION['user'])) {
+                            $linkcadastro = '<li class="nav-item"><a href="cadastro.php" class="header-button nav-link">CADASTRAR</a></li>';
+                            $linklogin = '<li class="nav-item"><a href="Login.php" class="header-button nav-link">LOGIN</a></li>';
+                            echo $linkcadastro;
+                            echo $linklogin; 
+                        } else if (isset($_SESSION['user'])) {
+                            echo '<li class="nav-item"><a href="../logout.php" class="header-button nav-link">LOGOUT</a></li>';
+                        }
+                        
+                    ?> 
+                  <!--<li class="nav-item"><a class="nav-link" href="https://api.whatsapp.com/send?phone=14996897996">Whatsapp</a></li>-->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
 <section class="hero-section">
-        <div class="presentation-col">
+        <div class="presentation-col img-fluid">
             <h1>
                 O MELHOR <br />
                 CUIDADO PARA <br />
@@ -76,7 +86,7 @@ if (isset($_SESSION['user'])) {
          <h1 class="mt-5 mb-5 title">NOSSOS SERVIÇOS</h1>
          <div class="container-fluid d-flex justify-content-center align-items-center container-servicos">
             <div class="row row-cols-2 row-servicos">
-                <div class="col-md-6 d-flex mt-5 mb-5">
+                <div class="col-md-6 d-flex mt-5 mb-5 col">
                     <div class="wrapper-img">
                         <img src="../static/imgs/cachorrotosa.jpg" alt="cachorro-tosa" />
                     </div>
@@ -91,7 +101,7 @@ if (isset($_SESSION['user'])) {
                         </h6>
                     </div>
                 </div>
-                <div class="col-md-6 d-flex mt-5">
+                <div class="col-md-6 d-flex mt-5 col">
                     <div class="wrapper-img">
                         <img src="../static/imgs/cachorrotosa.jpg" alt="cachorro-tosa" />
                     </div>
@@ -108,7 +118,7 @@ if (isset($_SESSION['user'])) {
                         </h6>
                     </div>
                 </div>
-                <div class="col-md-6 d-flex mt-5 mb-5">
+                <div class="col-md-6 d-flex mt-5 mb-5 col">
                     <div class="wrapper-img">
                         <img src="../static/imgs/cachorrotosa.jpg" alt="cachorro-tosa" />
                     </div>
@@ -124,7 +134,7 @@ if (isset($_SESSION['user'])) {
                         </h6>
                     </div>
                 </div>
-                <div class="col-md-6 d-flex mt-5 mb-5">
+                <div class="col-md-6 d-flex mt-5 mb-5 col">
                     <div class="wrapper-img">
                         <img src="../static/imgs/cachorrotosa.jpg" alt="cachorro-tosa" />
                     </div>
@@ -141,6 +151,9 @@ if (isset($_SESSION['user'])) {
                 </div>
             </div>
          </div>
+        <div class="container-fluid d-flex align-items-center justify-content-center mt-5">
+            <a href="#" class="btn-cta">AGENDE AGORA!</a>
+        </div>
     </section>
     <!--
         <footer>

@@ -1,15 +1,14 @@
 body {
     background-color: #F2C48D !important;
+    overflow-x: hidden;
 }
 
-
 /* ---- */
-
 .hero-section {
-    background: url('../imgs/dogoculosamarelo.png') no-repeat center/cover;
-    padding: 100px 0;
+    background: url('../imgs/dogoculosamarelo.png') no-repeat center/cover !important;
     display: flex;
     align-items: center;
+    justify-content: center;
     height: 100dvh;
     position: relative;
     overflow: hidden;
@@ -17,7 +16,7 @@ body {
 }
 
 .servicos {
-    height: 100dvh;
+    height: 87dvh;
     width: 100%;
     justify-content: center;
     text-align: center;
@@ -27,29 +26,34 @@ body {
 .presentation-col {
     width: 100%;
     position: relative;
-    height: 100%;
-    padding: 100px 80px;
+    align-items: left;
+    padding: clamp(6%, 4vw, 8%) 8%;
 }
 
 .presentation-col h1 {
-    font-size: 4.8rem;
+    font-size: clamp(2.8rem, 4.5vw, 5rem);
     color: white;
     font-weight: 600;
 }
 
 .presentation-col h4 {
     color: white;
+    font-size: clamp(1.2rem, 2.5vw, 2rem);
 }
 
 .container-servicos{
-    height: 75%;
+    height: auto;
 }
 
 .title {
-    margin-top: 300px;
+    margin-top: 6%;
+    margin-bottom: 6%;
     font-weight: 600;
-    font-size: 3.5rem;
+    font-size: clamp(2rem, 3.3vw, 3.5rem);
     color: rgb(117, 24, 24);
+}
+.row-servicos {
+    width: 75%;
 }
 
 .row-servicos .col {
@@ -75,11 +79,47 @@ body {
 }
 
 .wrapper-conteudo h4 {
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 2vw, 2rem);
     padding-bottom: 20px;
     color: rgb(117, 24, 24);
 }
 
 .wrapper-conteudo h6 {
-    font-size: 1.4rem;
+    font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+}
+
+.btn-cta {
+    font-size: clamp(1.3rem, 1.4vw, 3rem);
+    text-decoration: none;
+    color: black;
+    padding: 1%;
+    background-color: rgb(247, 162, 65) !important;
+    border-radius: 18px;
+}
+
+@media (min-width: 200px) {
+    .row-servicos {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .row-servicos .col {
+        width: 100%;
+    }
+}
+
+@media (min-width: 800px) {
+    .row-servicos {
+        width: 85%;
+    }
+}
+
+@media (min-width: 1180px) {
+    .row-servicos {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .row-servicos .col {
+        width: 50%;
+    }
 }
