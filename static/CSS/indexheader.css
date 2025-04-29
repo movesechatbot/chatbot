@@ -1,52 +1,51 @@
-
-header {
-    height: 92px;
-    width: 100%;
-    background-color: rgba(61, 0, 0, 0.8);
-    justify-content: space-around;
-    align-items: center;
-    display: flex;
-    position: absolute !important;
-    top: 0;
-    z-index: 2;
-}
-
-ul {
-    padding: 0 !important;
-}
-
-header a img {
-    width: 60px;
-    height: 80px;
-    padding: 12px 0px;
-}
-
 .header-button {
     text-decoration: none;
-    color: black;
-    background-color: rgb(255, 189, 114);
-    padding: 10px 20px;
+    color: black !important;
+    background-color: rgb(255, 189, 114) !important;
     border-radius: 18px;
-    font-weight: 600;
-}
-
-li {
-    height: fit-content;
-}
-
-li a {
-    text-decoration: none;
-    color: white;
-}
-
-.nav-links {
-    text-decoration: none;
-    color: white;
+    padding: 8px !important;
+    font-weight: 600 !important;
     display: flex;
-    gap: 50px;
-    list-style: none;
     text-align: center;
-    justify-content: center;
-    align-items: center;
+    width: fit-content;
 }
 
+.header-button:hover {
+    background-color: rgb(134, 79, 16) !important;
+    color: white !important;
+}
+
+.navbar {
+    transition: all 0.3s ease;
+    background-color: rgb(95, 13, 13);
+}
+
+.ul-lst{
+    gap: 10px;
+}
+
+.navbar-brand span {
+    transition: none;
+    color: white;
+}
+
+.navbar-brand span:hover{
+    transition: none;
+    color: white;
+}
+
+.navbar a {
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.navbar-ativa {
+    background-color: #ffffff; 
+    transition: all 0.3s ease;
+}
+
+.navbar-ativa li,
+.navbar-ativa a {
+    color: #000000; 
+    transition: all 0.3s ease;
+}
