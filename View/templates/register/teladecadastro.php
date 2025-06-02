@@ -1,7 +1,7 @@
 <?php
 
-include('../Classes/conect.php');// Conexta o BD
-include('../Classes/Form.php') // Inclue Form
+include('../../../Models/conect.php');// Conexta o BD
+include('../../../Controllers/ClienteController.php') // Inclue Cadastrar o Cliente
 
 ?>
 
@@ -10,16 +10,16 @@ include('../Classes/Form.php') // Inclue Form
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="../static/CSS/subheader.css">
-    <link rel="stylesheet" href="../static/CSS/cadastro.css">
+    <link rel="stylesheet" href="../../static/CSS/subheader.css">
+    <link rel="stylesheet" href="../../static/CSS/cadastro.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="C:\Users\Oem\Desktop\PawFolio\imgs\logopawfoliomenor.png"/>
+    <link rel="icon" type="image/png" href="../../static/imgs/logopawfoliomenor.png"/>
 
     <title>Cadastro do cliente PawFolio</title>
     
 </head>
     <header>
-            <img src="../static/imgs/logopawfoliomenor.png" alt="logo" />
+            <img src="../../static/imgs/logopawfoliomenor.png" alt="logo" />
     </header>
     <body>
         <div class="form_cd">
@@ -37,22 +37,22 @@ include('../Classes/Form.php') // Inclue Form
                 $DNSC = $_POST['dtnsc'];
                 // Verifica se alguns dos campos do formulário de cadastro estão vazios
                 if ($nome == '') {
-                    Form::alert('erro', 'O nome ficou vazio.');
+                    ClienteController::alert('erro', 'O nome ficou vazio.');
                 } elseif ($email == '') {
-                    Form::alert('erro', 'O email está vazio.');
+                    ClienteController::alert('erro', 'O email está vazio.');
                 } elseif ($cpf == '') {
-                    Form::alert('erro', 'O CPF está vazio.');
+                    ClienteController::alert('erro', 'O CPF está vazio.');
                 } elseif ($senha == '') {
-                    Form::alert('erro', 'A senha está vazia.');
+                    ClienteController::alert('erro', 'A senha está vazia.');
                 } elseif ($tel == '') {
-                    Form::alert('erro', 'O telefone está vazio.');
+                    ClienteController::alert('erro', 'O telefone está vazio.');
                 } elseif ($end == '') {
-                    Form::alert('erro', 'O endereço está vazio.');
+                    ClienteController::alert('erro', 'O endereço está vazio.');
                 } elseif ($DNSC == '') {
-                    Form::alert('erro', 'A data de nascimento está vazia.');
+                    ClienteController::alert('erro', 'A data de nascimento está vazia.');
                 } else {
-                    Form::cadastrar($cpf, $nome, $DNSC, $tel, $end, $email, $senha); // Chama a função cadastrar para cadastrar os atributos no BD
-                    Form::alert('sucesso', 'Cadastro de  '.$nome.'  efetuado com sucesso!'); // Mensagem de confirmação
+                    ClienteController::cadastrar($cpf, $nome, $DNSC, $tel, $end, $email, $senha); // Chama a função cadastrar para cadastrar os atributos no BD
+                    ClienteController::alert('sucesso', 'Cadastro de  '.$nome.'  efetuado com sucesso!'); // Mensagem de confirmação
                 }
             }
 ?>
@@ -70,7 +70,7 @@ include('../Classes/Form.php') // Inclue Form
                     <div><input type="hidden" name="form" value="c_form"></div>
                 <div class="whiteline"></div>
                 <p>Já tem uma conta?</p>    
-                <a href="../templates/Login.php">Fazer Login</a>   
+                <a href="../login/Login.php">Fazer Login</a>   
             </form>
         </div>    
     </body>

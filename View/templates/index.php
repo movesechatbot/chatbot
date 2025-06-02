@@ -1,8 +1,8 @@
 <?php
 
 session_start();
-include ('../Classes/message.php'); // Inclue o arquivo PHP message para mostrar Box Pop-Up nas telas.
-include('../Classes/conect.php'); // Conecta com o BD
+include ('../../Models/message.php'); // Inclue o arquivo PHP message para mostrar Box Pop-Up nas telas.
+include('../../Models/conect.php'); // Conecta com o BD
 /*
 if (isset($_SESSION['user'])) {
     boxpopup('Sessão iniciada');
@@ -49,12 +49,12 @@ if (isset($_SESSION['user'])) {
                         $linkcadastro = '';
                         $linklogin = '';
                         if (!isset($_SESSION['user'])) {
-                            $linkcadastro = '<li class="nav-item"><a href="cadastro.php" class="header-button nav-link">CADASTRAR</a></li>';
-                            $linklogin = '<li class="nav-item"><a href="Login.php" class="header-button nav-link">LOGIN</a></li>';
+                            $linkcadastro = '<li class="nav-item"><a href="register/teladecadastro.php" class="header-button nav-link">CADASTRAR</a></li>';
+                            $linklogin = '<li class="nav-item"><a href="login/login.php" class="header-button nav-link">LOGIN</a></li>';
                             echo $linkcadastro;
                             echo $linklogin; 
                         } else if (isset($_SESSION['user'])) {
-                            echo '<li class="nav-item"><a href="../logout.php" class="header-button nav-link">LOGOUT</a></li>';
+                            echo '<li class="nav-item"><a href="../../logout.php" class="header-button nav-link">LOGOUT</a></li>';
                         }
                         
                     ?> 

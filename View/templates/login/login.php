@@ -2,7 +2,7 @@
 
 session_start(); // Inicia a sessão no começo do arquivo
 
-include('../Classes/conect.php'); // Conecta ao banco de dados
+include('../../../Models/conect.php'); // Conecta ao banco de dados
 
 // Verifica se os campos Usuario e senha foram enviados
 if(isset($_POST['user']) && isset($_POST['senha'])){
@@ -25,7 +25,7 @@ if(isset($_POST['user']) && isset($_POST['senha'])){
             $usuario = $result->fetch_assoc();
             
             $_SESSION['user'] = $usuario['nomeCliente']; // Armazena o usuário na sessão
-            header("Location: index.php"); // Redireciona para a página inicial
+            header("Location: ../index.php"); // Redireciona para a página inicial
             exit();
         } else {
             echo 'Falha em logar! Usuário ou senha incorretos.';
@@ -41,13 +41,13 @@ if(isset($_POST['user']) && isset($_POST['senha'])){
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="../static/CSS/subheader.css">
-        <link rel="stylesheet" type="text/css" href="../static/CSS/login.css">
-        <link rel="icon" type="image/png" href="C:\Users\Oem\Desktop\PawFolio\imgs\logopawfoliomenor.png"/>
+        <link rel="stylesheet" type="text/css" href="../../static/CSS/subheader.css">
+        <link rel="stylesheet" type="text/css" href="../../static/CSS/login.css">
+        <link rel="icon" type="image/png" href="../../static/imgs/logopawfoliomenor.png"/>
         <title>Entrar em sua conta</title>
     </head>
     <header>
-            <img src="../static/imgs/logopawfoliomenor.png" alt="logo" />
+            <img src="../../static/imgs/logopawfoliomenor.png" alt="logo" />
     </header>
     <body>
     
@@ -62,7 +62,7 @@ if(isset($_POST['user']) && isset($_POST['senha'])){
                         <div><input type="hidden" name="form" value="L_form"></div> 
                     <div class="whiteline"></div>
                 <p class="cta">Não tem uma conta?</p>
-                <a href="../templates/cadastro.php">Cadastre-se</a>
+                <a href="../register/teladecadastro.php">Cadastre-se</a>
             </form>
 
 

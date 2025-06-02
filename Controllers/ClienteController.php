@@ -11,8 +11,7 @@ Nesta classe Form, também fica a parte dos INSERT, na função cadastrar, que f
 
 */
 
-
-class Form{
+class ClienteController{
 
     public static function alert($tipo, $mensagem){
         if($tipo == 'erro'){
@@ -25,7 +24,7 @@ class Form{
     }
 
     public static function cadastrar($cpf, $nome, $DNSC, $tel, $end, $email, $senha){
-        include('conect.php');
+        include('../../../Models/conect.php');
         $sql = "INSERT INTO `cliente` VALUES(?,?,?,?,?,?,?)";
         $stmt = $connect->prepare($sql);
         if(!$stmt){
@@ -35,7 +34,7 @@ class Form{
         }
 
         if($stmt->execute()){
-            header("Location: Login.php");
+            header("Location: ../login/Login.php");
         } else {
             echo 'Inserção de novo usuário errada.'-> mysql_errno;
         }
