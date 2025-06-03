@@ -1,57 +1,54 @@
-<h1>PawFolio</h1>
+<h1> PawFolio - Trabalho de Faculdade </h1>
 
-<h3>PawFolio - Trabalho de Faculdade</h3>
+## Diagramas
 
-<h5>Diagramas:</h5>
+### Diagrama de Classes
 
+```
 class Cliente {
-  - id: int
-  - nome: string
-  - email: string
-  - senha: string
-  + cadastrarPet(): void
-  + agendarServico(): void
+  id: int
+  nome: string
+  email: string
+  senha: string
+  cadastrarPet(): void
+  agendarServico(): void
 }
-
 class Pet {
-  - id: int
-  - nome: string
-  - comportamento: string
-  - raca: string
-  - diferencial: string
+  id: int
+  nome: string
+  comportamento: string
+  raca: string
+  diferencial: string
 }
-
 class Petshop {
-  - id: int
-  - nome: string
-  - email: string
-  - senha: string
-  + cadastrarServico(): void
+  id: int
+  nome: string
+  email: string
+  senha: string
+  cadastrarServico(): void
 }
-
 class Servico {
-  - id: int
-  - nome: string
-  - descricao: string
-  - preco: float
+  id: int
+  nome: string
+  descricao: string
+  preco: float
 }
-
 class Agendamento {
-  - id: int
-  - dataHora: datetime
-  + confirmarAgendamento(): void
+  id: int
+  dataHora: datetime
+  confirmarAgendamento(): void
 }
+Cliente "1" -- "" Pet : possui
+Pet "" -- "1" Cliente : pertence
+Pet "" -- "" Servico : solicita
+Petshop "1" -- "" Servico : oferece
+Cliente "1" -- "" Agendamento : faz
+Servico "" -- "" Agendamento : está associado
+```
 
-Cliente "1" -- "*" Pet : possui
-Pet "*" -- "1" Cliente : pertence
-Pet "*" -- "*" Servico : solicita
-Petshop "1" -- "*" Servico : oferece
-Cliente "1" -- "*" Agendamento : faz
-Servico "*" -- "*" Agendamento : está associado
+### Diagrama de Casos de Uso
 
-
-// Diagrama de Casos de Uso
-
+```
 actor Cliente
 actor Petshop
 
@@ -64,112 +61,66 @@ Cliente -- CP
 Cliente -- AS
 Petshop -- CS
 Petshop -- GA
+```
 
-Projeto PawFolio mais robusto e multidisciplinar.
----
+## Disciplinas e Integrações
 
-🧠 1. Inglês 1 – Prompt para IA (Valéria Baccili)
+### 🧠 1. Inglês 1 – Prompt para IA
+- Área de FAQ com IA simulando ambiente bilíngue.
+- Prompts em inglês para interação automatizada.
 
-No projeto:
+### 📊 2. Estatística Aplicada – Indicadores
+- Página de dashboard com:
+  - Gráfico de acessos
+  - Serviços mais acessados
+  - Taxa de retorno de usuários
 
-Crie uma área de FAQ com IA (pode ser um chatbot ou apenas um formulário inteligente que responde com base em perguntas pré-definidas).
+### ☁️ 3. Computação em Nuvem – Arduino Cloud + ESP32
+- Protótipo teórico de sensores integrados (temperatura, movimento).
 
-Os prompts podem estar em inglês, simulando um ambiente bilíngue.
+### 🤖 4. IA e Aprendizado de Máquina
+- Recomendação de serviços baseada em histórico ou tipo de pet.
 
+### 📱 5. Multiplataforma e BI
+- Relatórios com Google Data Studio / Power BI / PHP.
+- Armazenamento de dados para análise.
 
-No relatório:
-
-> Foi iniciada a elaboração de prompts em inglês para um sistema de assistência automatizada ao usuário, utilizando técnicas de linguagem natural. A proposta é aplicar habilidades de escrita e compreensão do idioma para criar interações mais fluídas com o visitante do site.
-
-
-
-
----
-
-📊 2. Estatística Aplicada – Indicadores (Jéssica Delgado)
-
-No projeto:
-
-Adicione uma página de dashboard administrativo com:
-
-Gráfico de número de acessos
-
-Serviços mais acessados
-
-Taxa de retorno de usuários
-
-
-
-No relatório:
-
-> Foi implementado um painel de indicadores estatísticos com dados de navegação, utilizando gráficos simples (por exemplo, com Chart.js ou Google Charts), permitindo a visualização de informações relevantes como acessos por página e serviços mais procurados.
-
-
-
+### 🧩 6. Padrões de Projeto – MVC
+- Código organizado em Model, View, Controller.
+- Singleton aplicado à conexão com o banco.
 
 ---
 
-☁️ 3. Computação em Nuvem – Arduino Cloud + ESP32 (Gustavo Gonçalves)
+## ✅ Como configurar o projeto
 
-No projeto:
+1. **Pré-requisitos**
+   - PHP 8+
+   - MySQL/MariaDB
+   - Servidor local (ex: XAMPP, WAMP, Laragon)
 
-Crie um protótipo teórico (ou apenas descritivo/simulativo) de integração com sensores para monitoramento de pets (ex: temperatura de ambiente do pet shop).
+2. **Clone o repositório**
+   ```bash
+   git clone https://github.com/TheoTavora/ProjetoPawFolio.git
+   ```
 
+3. **Configure o banco de dados**
+   - Importe o arquivo `.sql` atualizado (conforme o diagrama de classes).
+   - Ou crie o banco com base no modelo acima usando MySQL Workbench.
 
-No relatório:
+4. **Configure o arquivo `config.php`**
+   - Ajuste as variáveis de conexão com o banco:
+     ```php
+     $dbHost = 'localhost';
+     $dbUsername = 'root';
+     $dbPassword = '';
+     $dbName = 'pawfolio';
+     ```
 
-> Foi desenvolvido um protótipo teórico de integração com a Arduino Cloud via ESP32, simulando a captação de temperatura ambiente ou movimento em áreas de pets, com possível visualização em tempo real no site.
+5. **Execute o projeto**
+   - Coloque os arquivos na pasta `htdocs` (ou equivalente).
+   - Acesse no navegador: `http://localhost/ProjetoPawFolio`
 
-
-
-
----
-
-🤖 4. IA e Aprendizado de Máquina – Machine Learning (Vinicius Marques)
-
-No projeto:
-
-Desenvolva um sistema simples de recomendação de serviços baseado em histórico de uso do usuário.
-
-Ou classifique tipos de pet para serviços ideais (ex: cão grande = banho especial).
-
-
-No relatório:
-
-> Iniciamos a construção de um modelo simples de machine learning para sugerir serviços com base em interações anteriores dos usuários. Utilizamos lógica condicional baseada em dados simulados para prever preferências e sugerir soluções personalizadas.
-
-
-
-
----
-
-📱 5. Multiplataforma e BI – Dashboard / Big Data (Isaque Katahira)
-
-No projeto:
-
-Use ferramentas como Google Data Studio, Power BI, ou PHP com gráficos para gerar relatórios.
-
-Armazene dados de usuários para futuras análises.
-
-
-No relatório:
-
-> A disciplina contribuiu com a análise de dados armazenados no banco do projeto, utilizando conceitos de BI para geração de relatórios e dashboards com estatísticas sobre os serviços e comportamento dos usuários.
-
-
-
+6. **(Opcional) Instalar dependências**
+   - Se houver bibliotecas externas, instale-as conforme instruções internas (ex: Chart.js, etc).
 
 ---
-
-🧩 6. Padrões de Projeto – MVC e outros (Andre Fávaro)
-
-No projeto:
-
-Organize o código em Model, View e Controller no PHP.
-
-Use Singleton para conexão com banco, por exemplo.
-
-
-No relatório:
-
-> O projeto foi reestruturado seguindo o padrão de arquitetura MVC, separando responsabilidades entre lógica de controle, interface e banco de dados. Padrões como Singleton também foram aplicados para otimizar conexões com o banco.
