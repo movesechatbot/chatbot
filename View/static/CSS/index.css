@@ -34,11 +34,13 @@ body {
     font-size: clamp(2.8rem, 4.5vw, 5rem);
     color: white;
     font-weight: 600;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.598);
 }
 
 .presentation-col h4 {
     color: white;
     font-size: clamp(1.2rem, 2.5vw, 2rem);
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.598);
 }
 
 .container-servicos{
@@ -95,6 +97,21 @@ body {
     padding: 1%;
     background-color: rgb(247, 162, 65) !important;
     border-radius: 18px;
+}
+
+.chatbot {
+    font-size: clamp(2.2rem, 2.2vw, 2.5rem);
+    color: #4d009f;
+    background-color: aliceblue;
+    border-radius: 25%;
+    bottom: 20px;
+    padding: 25px 0;
+    right: 20px;
+    position: fixed;
+    padding: 10px;
+    width: fit-content;
+    z-index: 9999;
+    text-decoration: none;
 }
 
 @media (min-width: 200px) {
