@@ -1,68 +1,5 @@
 <h1> PawFolio - Trabalho de Faculdade </h1>
 
-## Diagramas
-
-### Diagrama de Classes
-
-```
-class Cliente {
-  id: int
-  nome: string
-  email: string
-  senha: string
-  cadastrarPet(): void
-  agendarServico(): void
-}
-class Pet {
-  id: int
-  nome: string
-  comportamento: string
-  raca: string
-  diferencial: string
-}
-class Petshop {
-  id: int
-  nome: string
-  email: string
-  senha: string
-  cadastrarServico(): void
-}
-class Servico {
-  id: int
-  nome: string
-  descricao: string
-  preco: float
-}
-class Agendamento {
-  id: int
-  dataHora: datetime
-  confirmarAgendamento(): void
-}
-Cliente "1" -- "" Pet : possui
-Pet "" -- "1" Cliente : pertence
-Pet "" -- "" Servico : solicita
-Petshop "1" -- "" Servico : oferece
-Cliente "1" -- "" Agendamento : faz
-Servico "" -- "" Agendamento : está associado
-```
-
-### Diagrama de Casos de Uso
-
-```
-actor Cliente
-actor Petshop
-
-usecase "Cadastrar Pet" as CP
-usecase "Agendar Serviço" as AS
-usecase "Cadastrar Serviço" as CS
-usecase "Gerenciar Agendamentos" as GA
-
-Cliente -- CP
-Cliente -- AS
-Petshop -- CS
-Petshop -- GA
-```
-
 ## Disciplinas e Integrações
 
 ### 🧠 1. Inglês 1 – Prompt para IA
@@ -97,6 +34,8 @@ Petshop -- GA
    - PHP 8+
    - MySQL/MariaDB
    - Servidor local (ex: XAMPP, WAMP, Laragon)
+   - Python
+   - Python libs:(sentence-transformer, flask)
 
 2. **Clone o repositório**
    ```bash
@@ -119,8 +58,4 @@ Petshop -- GA
 5. **Execute o projeto**
    - Coloque os arquivos na pasta `htdocs` (ou equivalente).
    - Acesse no navegador: `http://localhost/ProjetoPawFolio`
-
-6. **(Opcional) Instalar dependências**
-   - Se houver bibliotecas externas, instale-as conforme instruções internas (ex: Chart.js, etc).
-
 ---
