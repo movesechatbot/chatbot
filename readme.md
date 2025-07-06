@@ -2,7 +2,7 @@
 
 ## Disciplinas e Integrações
 
-###🧠 1. Inglês 1 – Prompt para IA ✅
+###🧠 1. Inglês 1 – Prompt para IA (feito) 
 - Área de FAQ com IA simulando ambiente bilíngue.
 - Prompts em inglês para interação automatizada.
 
