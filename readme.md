@@ -36,6 +36,10 @@
    - Servidor local (ex: XAMPP, WAMP, Laragon)
    - Python
    - Python libs:(sentence-transformer, flask)
+   - Sass: Instale com:
+   ```bash
+   npm install -g sass
+   ```
 
 2. **Clone o repositório**
    ```bash
