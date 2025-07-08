@@ -14,8 +14,8 @@ modelo = SentenceTransformer('all-MiniLM-L6-v2')
 # Aqui um vetor chamado "faq" referente as perguntas-base, que será transformado em JSON.
 faq = [
     {
-        "pergunta": "Como agendar um banho para meu pet?",
-        "resposta": "Você pode agendar um banho acessando a aba de agendamento no menu principal."
+        "pergunta": "Como agendar?",
+        "resposta": "Você pode agendar serviços acessando a aba de agendamento no menu principal."
     },
     {
         "pergunta": "Posso remarcar um agendamento?",
@@ -52,6 +52,18 @@ faq = [
     {
         "pergunta": "Can i pay via website?",
         "resposta": "Payment is not made via the website, this is a function that is still under development!, but you can contact the pet shop where you chose to hire the service!"
+    },
+    {
+        "pergunta": "Quanto custa? Qual o valor?",
+        "resposta": "O PawFolio oferece serviços de outros petshop's e não vendemos. Confira os petshop's e escolha os devidos serviços e confira os preços."
+    },
+    {
+        "pergunta": "Quero falar com uma pessoa",
+        "resposta": "Sou uma I.A pronta para responder suas dúvidas, caso queira um ser-humano, vá direto para o petshop que deseja ser atendido e peça que a devida equipe atenda-o!"
+    },
+    {
+        "pergunta": "Why do i need to register my pet?",
+        "resposta": "In order for scheduling to be 100% via our website, we recommend registering your pet for better planning, both for the pet shop, for you and for us at PawFolio."
     }
 ]
 
