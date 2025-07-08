@@ -18,10 +18,10 @@ include('../../../Controllers/ClienteController.php') // Inclue Cadastrar o Clie
     <title>Cadastro do cliente PawFolio</title>
     
 </head>
-    <header>
-            <img src="../../static/imgs/logopawfoliomenor.png" alt="logo" />
-    </header>
     <body>
+    <?php 
+    include '../partials/navbar.php'; 
+    ?>
         <div class="form_cd">
 
             <?php
@@ -72,7 +72,10 @@ include('../../../Controllers/ClienteController.php') // Inclue Cadastrar o Clie
                 <p>Já tem uma conta?</p>    
                 <a href="../login/Login.php">Fazer Login</a>   
             </form>
-        </div>    
+        </div>
+<?php 
+    include '../partials/footer.php'; 
+?>
     </body>
 
 </html>
