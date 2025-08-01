@@ -5,7 +5,7 @@
 
         $usuario = "root";
         $senhaBD = '';
-        $database = 'petshop';
+        $database = 'pawfolio';
         $host = 'localhost';
 
         $connect = new mysqli($host, $usuario, $senhaBD, $database);
