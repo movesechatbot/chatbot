@@ -1,20 +1,9 @@
 <?php
-/*
-
-ARQUIVO TESTE *NAO TEM RELEVANCIA PARA O CODIGO FONTE*
-
-*/
-
-
-$print = function($class){ 
-    if(file_exists('Classes/'.$class.'.php')){ 
-        include_once('Classes/'.$class.'.php');
-    }else{
-        echo 'Erro em config.php'; 
-    }
-};
-
-spl_autoload_register($print); 
-
+// Rotas de páginas para desenvolvimento
+define('STATIC_URL', 'http://localhost/ProjetoPawFolio/View/static');
+define('login', 'http://localhost/ProjetoPawFolio/View/templates/login/login.php');
+define('cadastro', 'http://localhost/ProjetoPawFolio/View/templates/register/teladecadastro.php');
+define('logout', 'http://localhost/ProjetoPawFolio/logout.php');
+define('index', 'http://localhost/ProjetoPawFolio/View/templates/index.php');
 
 ?>
