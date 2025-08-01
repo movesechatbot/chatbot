@@ -1,5 +1,5 @@
 <?php 
-define('STATIC_URL', 'http://localhost/ProjetoPawFolio/View/static');
+include ('C:\xampp\htdocs\ProjetoPawFolio\config.php');
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +20,7 @@ define('STATIC_URL', 'http://localhost/ProjetoPawFolio/View/static');
 <!-- Navegação -->
 <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="index.php">
+        <a class="navbar-brand d-flex align-items-center" href="<?= index ?>">
             <img src="<?= STATIC_URL ?>/imgs/logopawfoliomenor.png" alt="Logo" width="60" height="60" class="me-2">
             <span>PawFolio</span>
         </a>
@@ -29,7 +29,7 @@ define('STATIC_URL', 'http://localhost/ProjetoPawFolio/View/static');
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex text-center align-items-center justify-content-center ul-lst">
-                    <li class="nav-item"><a class="nav-link" href="index.php">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= index ?>">HOME</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">INICIO</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">AGENDAMENTOS</a></li>
                     <?php 
@@ -37,16 +37,16 @@ define('STATIC_URL', 'http://localhost/ProjetoPawFolio/View/static');
                         $linkcadastro = '';
                         $linklogin = '';
                         if (!isset($_SESSION['user'])) {
-                            $linkcadastro = '<li class="nav-item"><a href="register/teladecadastro.php" class="header-button nav-link">CADASTRAR</a></li>';
-                            $linklogin = '<li class="nav-item"><a href="login/login.php" class="header-button nav-link">LOGIN</a></li>';
+                            $linkcadastro = '<li class="nav-item"><a href="'. cadastro .'" class="header-button nav-link">CADASTRAR</a></li>';
+                            $linklogin = '<li class="nav-item"><a href="'. login .'" class="header-button nav-link">LOGIN</a></li>';
                             echo $linkcadastro;
                             echo $linklogin; 
                         } else if (isset($_SESSION['user'])) {
-                            echo '<li class="nav-item"><a href="../../logout.php" class="header-button nav-link">LOGOUT</a></li>';
+                            echo '<li class="nav-item"><a href="'. logout .'" class="header-button nav-link">LOGOUT</a></li>';
                         }
                         
                     ?> 
-                  <!--<li class="nav-item"><a class="nav-link" href="https://api.whatsapp.com/send?phone=14996897996">Whatsapp</a></li>-->
+                  <!--<li class="nav-item"><a class="nav-link" href="https://api.whatsapp.com/send?phone=">Whatsapp</a></li>-->
                 </ul>
             </div>
         </div>

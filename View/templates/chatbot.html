@@ -52,6 +52,16 @@
       border: none;
       cursor: pointer;
     }
+    a {
+      margin: 16px;
+      color: aliceblue;
+      text-decoration: none;
+      transition: all 0.3s ease-in-out;
+      font-size: 1.3rem;
+    }
+    a:hover {
+      text-shadow: 0 0 30px #e22a2a;
+    }
   </style>
 
 </head>
@@ -63,6 +73,8 @@
     <input type="text" id="pergunta" placeholder="Digite sua pergunta..." />
     <button onclick="enviarPergunta()">Enviar</button>
   </div>
+
+  <a href="../../chatbot/admin.php">Painel de perguntas</a>
 
   <script>
     function adicionarMensagem(texto, classe) {

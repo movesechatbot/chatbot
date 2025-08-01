@@ -10,7 +10,6 @@ if (isset($_SESSION['user'])) {
     boxpopup('Sessão iniciada, porém, sem login autenticado.');
 }
 */
-define('STATIC_URL', 'http://localhost/ProjetoPawFolio/View/static');
 ?>
 
 <!DOCTYPE html>
@@ -20,9 +19,9 @@ define('STATIC_URL', 'http://localhost/ProjetoPawFolio/View/static');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--CSS-->
-    <link rel="stylesheet" type="text/css" href="<?= STATIC_URL ?>/CSS/index.css" />
+    <link rel="stylesheet" type="text/css" href="../static/CSS/index.css" />
     <!--ICON-->
-    <link rel="icon" type="image/png" href="<?= STATIC_URL ?>/imgs/logopawfoliomenor.png"/>
+    <link rel="icon" type="image/png" href="../static/imgs/logopawfoliomenor.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!--BOOTSTRAP CSS-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -30,9 +29,9 @@ define('STATIC_URL', 'http://localhost/ProjetoPawFolio/View/static');
     <title>PawFolio - Seu eCommerce de serviços pet!</title>
 </head>
 <body>
-<?php 
-include 'partials/navbar.php'; 
-?>
+    <?php 
+        include 'partials/navbar.php'; 
+    ?>
 
 <section class="hero-section">
         <div class="presentation-col img-fluid">

@@ -19,7 +19,7 @@
                 <li class="nav-item"><a href="#" class="nav-link px-2 text-light">FAQs</a></li>
                 <li class="nav-item"><a href="#" class="nav-link px-2 text-light">About</a></li>
             </ul>
-            <p class="text-center text-light">© 2025 Company, Inc</p>
+            <p class="text-center text-light">© 2025 Théo Vitor Tavora, PawFolio Inc</p>
         </footer>
     </div>
 </body>

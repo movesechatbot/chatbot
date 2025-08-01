@@ -1,5 +1,4 @@
 <?php
-// include ('../ProjetoPawFolio/Classes/message.php');
 /*
 
 Código para sair da sua sessão

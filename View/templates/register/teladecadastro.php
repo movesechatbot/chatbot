@@ -24,38 +24,41 @@ include('../../../Controllers/ClienteController.php') // Inclue Cadastrar o Clie
     ?>
         <div class="form_cd">
 
-            <?php
+    <?php
+    if (isset($_POST['acao']) && $_POST['form'] === 'c_form') {
+        // Sanitização básica dos inputs
+        $nome   = trim($_POST['name'] ?? '');
+        $email  = trim($_POST['email'] ?? '');
+        $cpf    = trim($_POST['cpf'] ?? '');
+        $senha  = trim($_POST['senhaC'] ?? '');
+        $tel    = trim($_POST['telefone'] ?? '');
+        $end    = trim($_POST['endereco'] ?? '');
+        $DNSC   = trim($_POST['dtnsc'] ?? '');
 
-            // Passa os atributos do cadastro do cliente para as variaveis tipo POST
-            if (isset($_POST['acao']) && $_POST['form'] == 'c_form') {
-                $nome = $_POST['name'];
-                $email = $_POST['email'];
-                $cpf = $_POST['cpf'];
-                $senha = $_POST['senhaC'];
-                $tel = $_POST['telefone'];
-                $end = $_POST['endereco'];
-                $DNSC = $_POST['dtnsc'];
-                // Verifica se alguns dos campos do formulário de cadastro estão vazios
-                if ($nome == '') {
-                    ClienteController::alert('erro', 'O nome ficou vazio.');
-                } elseif ($email == '') {
-                    ClienteController::alert('erro', 'O email está vazio.');
-                } elseif ($cpf == '') {
-                    ClienteController::alert('erro', 'O CPF está vazio.');
-                } elseif ($senha == '') {
-                    ClienteController::alert('erro', 'A senha está vazia.');
-                } elseif ($tel == '') {
-                    ClienteController::alert('erro', 'O telefone está vazio.');
-                } elseif ($end == '') {
-                    ClienteController::alert('erro', 'O endereço está vazio.');
-                } elseif ($DNSC == '') {
-                    ClienteController::alert('erro', 'A data de nascimento está vazia.');
-                } else {
-                    ClienteController::cadastrar($cpf, $nome, $DNSC, $tel, $end, $email, $senha); // Chama a função cadastrar para cadastrar os atributos no BD
-                    ClienteController::alert('sucesso', 'Cadastro de  '.$nome.'  efetuado com sucesso!'); // Mensagem de confirmação
-                }
+        // Lista de campos obrigatórios
+        $camposObrigatorios = [
+            'nome'  => $nome,
+            'email' => $email,
+            'cpf'   => $cpf,
+            'senha' => $senha,
+            'telefone' => $tel,
+            'endereco' => $end,
+            'data de nascimento' => $DNSC
+        ];
+
+        // Validação
+        foreach ($camposObrigatorios as $campo => $valor) {
+            if (empty($valor)) {
+                ClienteController::alert('erro', "O campo {$campo} está vazio.");
+                return;
             }
-?>
+        }
+
+        // Chamada ao controller
+        ClienteController::cadastrar($cpf, $nome, $DNSC, $tel, $end, $email, $senha);
+        ClienteController::alert('sucesso', "Cadastro de {$nome} efetuado com sucesso!");
+    }
+    ?>
 
             <form method="POST">
             <h1 style="color: white;">Cadastre-se</h1>
