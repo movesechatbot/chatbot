@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <title>Chatbot FAQ – PawFolio</title>
-
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -24,117 +23,88 @@
       padding: 20px;
       box-shadow: 0 0 10px #ccc;
     }
-    #pergunta {
-      padding-right: 0;
-      width: 97%;
-    }
-    .mensagem {
-      margin: 10px 0;
-    }
-    .user {
-      text-align: right;
-      color: #2a7ae2;
-    }
-    .bot {
-      text-align: left;
-      color: #555;
-    }
+    #pergunta { width: 97%; }
+    .mensagem { margin: 10px 0; }
+    .user { text-align: right; color: #2a7ae2; }
+    .bot { text-align: left; color: #555; }
     input, button {
-      padding: 10px;
-      margin-top: 10px;
-      width: 100%;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      padding: 10px; margin-top: 10px; width: 100%;
+      border-radius: 5px; border: 1px solid #ccc;
     }
-    button {
-      background: #2a7ae2;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    a {
-      margin: 16px;
-      color: aliceblue;
-      text-decoration: none;
-      transition: all 0.3s ease-in-out;
-      font-size: 1.3rem;
-    }
-    a:hover {
-      text-shadow: 0 0 30px #e22a2a;
-    }
+    button { background: #2a7ae2; color: white; border: none; cursor: pointer; }
+    a { margin: 16px; color: aliceblue; text-decoration: none; font-size: 1.1rem; }
+    #mensagens { max-height: 50vh; overflow-y: auto; }
+    .muted { color:#999; font-size:.9rem; text-align:center; }
   </style>
-
 </head>
 <body>
-
   <h2>CHATBOT I.A PERSONALIZADO - PAWFOLIO</h2>
   <div id="chat">
     <div id="mensagens"></div>
     <input type="text" id="pergunta" placeholder="Digite sua pergunta..." />
-    <button onclick="enviarPergunta()">Enviar</button>
+    <button id="btnEnviar">Enviar</button>
+    <div class="muted">Dica: pergunte “Como agendar?”</div>
   </div>
 
-  <a href="../../chatbot/admin.php">Painel de perguntas</a>
+  <!-- se quiser manter: -->
+  <!-- <a href="../../chatbot/admin.php">Painel de perguntas</a> -->
 
-<script>
-  // URL da sua API na Render
-  const API_BASE = "https://chatbotmovese-v2.onrender.com";
-  const ENDPOINT = `${API_BASE}/chat`;
+  <script>
+    // ======= CONFIG =======
+    const API_BASE = "https://chatbotmovese-v2.onrender.com";
+    const ENDPOINT = `${API_BASE}/chat`; // mude aqui se seu endpoint tiver outro nome
 
-  const mensagensEl = document.getElementById('mensagens');
-  const input = document.getElementById('pergunta');
+    // ======= UI helpers =======
+    const mensagensEl = document.getElementById('mensagens');
+    const input = document.getElementById('pergunta');
+    const btn = document.getElementById('btnEnviar');
 
-  function adicionarMensagem(texto, classe) {
-    const div = document.createElement('div');
-    div.className = `mensagem ${classe}`;
-    div.textContent = texto;
-    mensagensEl.appendChild(div);
-    mensagensEl.scrollTop = mensagensEl.scrollHeight;
-  }
+    function adicionarMensagem(texto, classe) {
+      const div = document.createElement('div');
+      div.className = `mensagem ${classe}`;
+      div.textContent = texto;
+      mensagensEl.appendChild(div);
+      mensagensEl.scrollTop = mensagensEl.scrollHeight;
+    }
 
-  async function enviarPergunta() {
-    const pergunta = input.value.trim();
-    if (!pergunta) return;
+    async function enviarPergunta() {
+      const pergunta = input.value.trim();
+      if (!pergunta) return;
 
-    adicionarMensagem(pergunta, 'user');
-    input.value = '';
+      adicionarMensagem(pergunta, 'user');
+      input.value = '';
 
-    // indicador simples de "digitando..."
-    const typing = document.createElement('div');
-    typing.className = 'mensagem bot';
-    typing.textContent = 'IA está pensando...';
-    mensagensEl.appendChild(typing);
-    mensagensEl.scrollTop = mensagensEl.scrollHeight;
+      // indicador "pensando"
+      const typing = document.createElement('div');
+      typing.className = 'mensagem bot';
+      typing.textContent = 'IA está pensando...';
+      mensagensEl.appendChild(typing);
+      mensagensEl.scrollTop = mensagensEl.scrollHeight;
 
-    try {
-      const resp = await fetch(ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pergunta })
-      });
+      try {
+        const resp = await fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pergunta })
+        });
 
-      if (!resp.ok) {
-        throw new Error(`HTTP ${resp.status}`);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+        const json = await resp.json();
+        typing.remove();
+        adicionarMensagem(json.resposta || 'Sem resposta.', 'bot');
+      } catch (err) {
+        typing.remove();
+        adicionarMensagem('Erro ao contatar a API. Tente novamente.', 'bot');
+        console.error('[Front] Erro no fetch:', err);
       }
-
-      const json = await resp.json();
-      typing.remove();
-      adicionarMensagem(json.resposta || 'Sem resposta.', 'bot');
-    } catch (err) {
-      typing.remove();
-      adicionarMensagem('Erro ao contatar a API. Tente novamente.', 'bot');
-      console.error(err);
     }
-  }
 
-  // Enter para enviar
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      enviarPergunta();
-    }
-  });
-</script>
-
+    // eventos
+    btn.addEventListener('click', enviarPergunta);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); enviarPergunta(); }
+    });
+  </script>
 </body>
 </html>
