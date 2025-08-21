@@ -1,4 +1,4 @@
 flask
+flask-cors
 sentence-transformers
 torch
-flask-cors
