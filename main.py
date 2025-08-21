@@ -1,18 +1,12 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from sentence_transformers import SentenceTransformer, util
 import json, torch, logging
 
 app = Flask(__name__)
 
-# Libera CORS para tudo (pode restringir ao seu domínio depois)
-CORS(
-    app,
-    resources={r"/*": {"origins": "*"}},
-    supports_credentials=False,
-    allow_headers=["Content-Type", "Authorization"],
-    methods=["GET", "POST", "OPTIONS"]
-)
+# Libera CORS globalmente (pode ser redundante com cross_origin, mas ajuda)
+CORS(app, supports_credentials=False)
 
 logging.basicConfig(level=logging.INFO)
 
@@ -26,7 +20,7 @@ perguntas = [item["pergunta"] for item in base]
 respostas = [item["resposta"] for item in base]
 embeddings = torch.tensor([item["embedding"] for item in base], dtype=torch.float32)
 
-# Garantia extra de headers CORS (inclusive 500/erros)
+# Garantia extra de headers CORS
 @app.after_request
 def add_cors_headers(resp):
     resp.headers["Access-Control-Allow-Origin"] = "*"
@@ -34,16 +28,19 @@ def add_cors_headers(resp):
     resp.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
     return resp
 
-# Opcional: handler explícito p/ OPTIONS em /chat
+# Tratamento explícito para OPTIONS
 @app.route("/chat", methods=["OPTIONS"])
+@cross_origin(origins="*")
 def chat_options():
     return ("", 204)
 
 @app.route("/ping", methods=["GET"])
+@cross_origin(origins="*")
 def ping():
     return "API MiniLM ativa!"
 
 @app.route("/chat", methods=["POST"])
+@cross_origin(origins="*")
 def chat():
     try:
         data = request.get_json(force=True)
@@ -55,7 +52,7 @@ def chat():
         if emb_user.dtype != embeddings.dtype:
             emb_user = emb_user.to(dtype=embeddings.dtype)
 
-        scores = util.cos_sim(emb_user, embeddings)[0]  # (N,)
+        scores = util.cos_sim(emb_user, embeddings)[0]
         best_idx = int(torch.argmax(scores).item())
         best_score = float(scores[best_idx].item())
         return jsonify({

@@ -1,745 +1,55 @@
 # BUNDLE DO PROJETO
-# Gerado em: 2025-08-21T20:00:07.666Z
+# Gerado em: 2025-08-21T22:53:06.878Z
 # Raiz: C:\Users\Lucas\ProjetoPawFolio
-# Arquivos incluídos: 35
+# Arquivos incluídos: 40
 
 ## ÍNDICE
-  1. BD/Pawfolio.sql (4432 bytes)
-  2. bundle-text.js (5909 bytes)
-  3. chatbot/admin.php (4956 bytes)
-  4. chatbot/base_faq_raw.json (3426 bytes)
-  5. chatbot/chatbot_api.py (1715 bytes)
-  6. chatbot/dev-utils/base_faq.json (158905 bytes)
+  1. base_faq.json (158905 bytes)
+  2. BD/Pawfolio.sql (4432 bytes)
+  3. bundle-text.js (5909 bytes)
+  4. chatbot/admin.php (4956 bytes)
+  5. chatbot/base_faq_raw.json (3426 bytes)
+  6. chatbot/chatbot_api.py (1705 bytes)
   7. chatbot/dev-utils/gerar_embedding.py (1647 bytes)
   8. chatbot/responder.php (585 bytes)
   9. config.php (455 bytes)
  10. Controllers/ClienteController.php (1437 bytes)
  11. Controllers/PetController.php (940 bytes)
- 12. LICENSE (1111 bytes)
- 13. logout.php (419 bytes)
- 14. Models/conect.php (353 bytes)
- 15. Models/message.php (152 bytes)
- 16. readme.md (3112 bytes)
- 17. View/static/CSS/_cadastro.scss (1661 bytes)
- 18. View/static/CSS/_index.scss (2365 bytes)
- 19. View/static/CSS/_indexheader.scss (810 bytes)
- 20. View/static/CSS/_login.scss (1406 bytes)
- 21. View/static/CSS/_mixins.scss (758 bytes)
- 22. View/static/CSS/_subheader.scss (0 bytes)
- 23. View/static/CSS/_variables.scss (676 bytes)
- 24. View/static/CSS/cadastro.css (1749 bytes)
- 25. View/static/CSS/index.css (2533 bytes)
- 26. View/static/CSS/indexheader.css (875 bytes)
- 27. View/static/CSS/login.css (1679 bytes)
- 28. View/templates/chatbot.html (2544 bytes)
- 29. View/templates/header.php (2997 bytes)
- 30. View/templates/index.php (6697 bytes)
- 31. View/templates/login/login.php (2866 bytes)
- 32. View/templates/partials/footer.php (1502 bytes)
- 33. View/templates/partials/navbar.php (2990 bytes)
- 34. View/templates/register/teladecadastro.php (3184 bytes)
- 35. View/templates/register/teladecadastropet.php (2193 bytes)
+ 12. Dockerfile (378 bytes)
+ 13. docs/index.html (3586 bytes)
+ 14. LICENSE (1111 bytes)
+ 15. logout.php (419 bytes)
+ 16. main.py (2477 bytes)
+ 17. Models/conect.php (353 bytes)
+ 18. Models/message.php (152 bytes)
+ 19. readme.md (3112 bytes)
+ 20. render.yaml (157 bytes)
+ 21. requirements.txt (49 bytes)
+ 22. View/static/CSS/_cadastro.scss (1661 bytes)
+ 23. View/static/CSS/_index.scss (2365 bytes)
+ 24. View/static/CSS/_indexheader.scss (810 bytes)
+ 25. View/static/CSS/_login.scss (1406 bytes)
+ 26. View/static/CSS/_mixins.scss (758 bytes)
+ 27. View/static/CSS/_subheader.scss (0 bytes)
+ 28. View/static/CSS/_variables.scss (676 bytes)
+ 29. View/static/CSS/cadastro.css (1749 bytes)
+ 30. View/static/CSS/index.css (2533 bytes)
+ 31. View/static/CSS/indexheader.css (875 bytes)
+ 32. View/static/CSS/login.css (1679 bytes)
+ 33. View/templates/chatbot.html (2544 bytes)
+ 34. View/templates/header.php (2997 bytes)
+ 35. View/templates/index.php (6697 bytes)
+ 36. View/templates/login/login.php (2866 bytes)
+ 37. View/templates/partials/footer.php (1502 bytes)
+ 38. View/templates/partials/navbar.php (2990 bytes)
+ 39. View/templates/register/teladecadastro.php (3184 bytes)
+ 40. View/templates/register/teladecadastropet.php (2193 bytes)
 
 ---
 
 
 /* ===================================================================== */
-/* START FILE: BD/Pawfolio.sql | 4432 bytes */
-/* ===================================================================== */
-
-```sql
--- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Tempo de geração: 05-Jun-2025 às 21:06
--- Versão do servidor: 10.4.27-MariaDB
--- versão do PHP: 8.1.12
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Banco de dados: `pawfolio`
---
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `agendamento`
---
-
-CREATE TABLE `agendamento` (
-  `id_agendamento` int(11) NOT NULL,
-  `id_petshop_agendamento` int(11) DEFAULT NULL,
-  `data_agendamento` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `cliente`
---
-
-CREATE TABLE `cliente` (
-  `id_cliente` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `senha` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `pet`
---
-
-CREATE TABLE `pet` (
-  `id` int(11) NOT NULL,
-  `id_dono` int(11) DEFAULT NULL,
-  `nome` varchar(100) NOT NULL,
-  `comportamento` varchar(100) DEFAULT NULL,
-  `raca` varchar(100) DEFAULT NULL,
-  `diferencial` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `petshop`
---
-
-CREATE TABLE `petshop` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `senha` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `servicos` 
---
-
-CREATE TABLE `servicos` (
-  `pshop_related` int(11) DEFAULT NULL,
-  `descricao` varchar(100) NOT NULL,
-  `preco` varchar(100) NOT NULL -- PREÇO CHEGARA COMO VARCHAR NO BANCO DE DADOS POIS É SIMBOLICO, OU SEJ,A NÃO AGIRÁ PAGAMENTOS ONLINES VIA SISTEMA
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Índices para tabelas despejadas
---
-
---
--- Índices para tabela `agendamento`
---
-ALTER TABLE `agendamento`
-  ADD PRIMARY KEY (`id_agendamento`),
-  ADD KEY `id_petshop_agendamento` (`id_petshop_agendamento`);
-
---
--- Índices para tabela `cliente`
---
-ALTER TABLE `cliente`
-  ADD PRIMARY KEY (`id_cliente`);
-
---
--- Índices para tabela `pet`
---
-ALTER TABLE `pet`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_dono` (`id_dono`);
-
---
--- Índices para tabela `petshop`
---
-ALTER TABLE `petshop`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices para tabela `servicos`
---
-ALTER TABLE `servicos`
-  ADD KEY `pshop_related` (`pshop_related`);
-
---
--- AUTO_INCREMENT de tabelas despejadas
---
-
---
--- AUTO_INCREMENT de tabela `agendamento`
---
-ALTER TABLE `agendamento`
-  MODIFY `id_agendamento` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `cliente`
---
-ALTER TABLE `cliente`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `pet`
---
-ALTER TABLE `pet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `petshop`
---
-ALTER TABLE `petshop`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Restrições para despejos de tabelas
---
-
---
--- Limitadores para a tabela `agendamento`
---
-ALTER TABLE `agendamento`
-  ADD CONSTRAINT `agendamento_ibfk_1` FOREIGN KEY (`id_petshop_agendamento`) REFERENCES `petshop` (`id`);
-
---
--- Limitadores para a tabela `pet`
---
-ALTER TABLE `pet`
-  ADD CONSTRAINT `pet_ibfk_1` FOREIGN KEY (`id_dono`) REFERENCES `cliente` (`id_cliente`);
-
---
--- Limitadores para a tabela `servicos`
---
-ALTER TABLE `servicos`
-  ADD CONSTRAINT `servicos_ibfk_1` FOREIGN KEY (`pshop_related`) REFERENCES `petshop` (`id`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-```
-
-/* ================================ END FILE ============================ */
-
-
-/* ===================================================================== */
-/* START FILE: bundle-text.js | 5909 bytes */
-/* ===================================================================== */
-
-```javascript
-#!/usr/bin/env node
-/**
- * Junta arquivos de texto/código do projeto em um único arquivo,
- * com separadores contendo caminho e tamanho do arquivo.
- *
- * Uso:
- *   node bundle-text.js --root . --out TEXTAO.txt --maxKB 500
- *   (todos os parâmetros são opcionais)
- */
-
-const fs = require('fs');
-const fsp = fs.promises;
-const path = require('path');
-
-const argv = (() => {
-  const a = process.argv.slice(2);
-  const out = {};
-  for (let i = 0; i < a.length; i++) {
-    const k = a[i];
-    if (k.startsWith('--')) {
-      const key = k.slice(2);
-      const val = (i + 1 < a.length && !a[i + 1].startsWith('--')) ? a[++i] : true;
-      out[key] = val;
-    }
-  }
-  return out;
-})();
-
-const ROOT = path.resolve(argv.root || '.');
-const OUT  = path.resolve(argv.out  || 'PROJECT_BUNDLE.txt');
-const MAX_KB = parseInt(argv.maxKB || '600', 10); // pula arquivos > MAX_KB
-const MAX_BYTES = MAX_KB * 1024;
-
-// Whitelist de extensões consideradas texto/código
-const TEXT_EXT = new Set([
-  // web / node / php
-  '.js','.jsx','.ts','.tsx','.mjs','.cjs',
-  '.php','.html','.htm','.css','.scss','.sass',
-  '.json','.jsonc','.md','.markdown','.txt',
-  '.yaml','.yml','.env','.env.example',
-  '.gitignore','.gitattributes',
-  // outras linguagens comuns
-  '.py','.rb','.go','.rs','.java','.kt','.c','.h','.cpp','.hpp','.cs',
-  '.sql','.sh','.bat','.ps1','.ini','.conf','.toml',
-  // templates / views
-  '.twig','.blade.php','.ejs','.hbs'
-]);
-
-// Diretórios a ignorar
-const IGNORE_DIRS = new Set([
-  'node_modules','.git','vendor','dist','build','.next','.cache','.turbo',
-  '.parcel-cache','coverage','.idea','.vscode','storage','logs','tmp','.nuxt',
-  '.angular','out','.expo','.gradle','target'
-]);
-
-// Arquivos específicos a ignorar (grandes/ruidosos)
-const IGNORE_FILES = new Set([
-  'package-lock.json','yarn.lock','pnpm-lock.yaml','composer.lock',
-  '.DS_Store'
-]);
-
-// Extensões explicitamente ignoradas (binários)
-const IGNORE_EXT = new Set([
-  '.png','.jpg','.jpeg','.gif','.webp','.avif','.bmp','.ico',
-  '.pdf','.zip','.rar','.7z','.tar','.gz',
-  '.mp3','.wav','.flac','.mp4','.mov','.mkv',
-  '.woff','.woff2','.ttf','.eot',
-  '.obj','.fbx','.glb','.gltf'
-]);
-
-function looksTextByExt(file) {
-  const ext = path.extname(file).toLowerCase();
-  if (IGNORE_EXT.has(ext)) return false;
-  if (TEXT_EXT.has(ext)) return true;
-  // fallback: trate sem extensão como texto pequeno
-  return ext === '' ? true : false;
-}
-
-async function* walk(dir) {
-  let entries;
-  try {
-    entries = await fsp.readdir(dir, { withFileTypes: true });
-  } catch (e) {
-    return;
-  }
-  for (const entry of entries) {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      if (IGNORE_DIRS.has(entry.name)) continue;
-      yield* walk(full);
-    } else if (entry.isFile()) {
-      if (IGNORE_FILES.has(entry.name)) continue;
-      yield full;
-    }
-  }
-}
-
-function rel(p) {
-  return path.relative(ROOT, p).split(path.sep).join('/');
-}
-
-function nowISO() {
-  const d = new Date();
-  return d.toISOString();
-}
-
-async function main() {
-  const files = [];
-  for await (const fp of walk(ROOT)) {
-    if (!looksTextByExt(fp)) continue;
-    try {
-      const st = await fsp.stat(fp);
-      if (st.size > MAX_BYTES) continue;
-      files.push({ fp, size: st.size });
-    } catch {}
-  }
-
-  // Ordena alfabeticamente para previsibilidade
-  files.sort((a,b) => rel(a.fp).localeCompare(rel(b.fp)));
-
-  const lines = [];
-  lines.push('# BUNDLE DO PROJETO');
-  lines.push(`# Gerado em: ${nowISO()}`);
-  lines.push(`# Raiz: ${ROOT}`);
-  lines.push(`# Arquivos incluídos: ${files.length}`);
-  lines.push('');
-  lines.push('## ÍNDICE');
-  files.forEach((f, i) => {
-    lines.push(`${String(i+1).padStart(3,' ')}. ${rel(f.fp)} (${f.size} bytes)`);
-  });
-  lines.push('\n---\n');
-
-  for (const f of files) {
-    const relative = rel(f.fp);
-    const ext = path.extname(relative).toLowerCase();
-    const fenceLang = (() => {
-      if (['.js','.jsx','.mjs','.cjs'].includes(ext)) return 'javascript';
-      if (['.ts','.tsx'].includes(ext)) return 'typescript';
-      if (ext === '.php' || ext === '.blade.php') return 'php';
-      if (ext === '.css' || ext === '.scss' || ext === '.sass') return 'css';
-      if (ext === '.html' || ext === '.htm') return 'html';
-      if (ext === '.md' || ext === '.markdown') return 'md';
-      if (ext === '.json' || ext === '.jsonc') return 'json';
-      if (ext === '.yml' || ext === '.yaml') return 'yaml';
-      if (ext === '.sh') return 'bash';
-      if (ext === '.ps1') return 'powershell';
-      if (ext === '.py') return 'python';
-      if (ext === '.rb') return 'ruby';
-      if (ext === '.sql') return 'sql';
-      return '';
-    })();
-
-    lines.push(`\n/* ===================================================================== */`);
-    lines.push(`/* START FILE: ${relative} | ${f.size} bytes */`);
-    lines.push(`/* ===================================================================== */\n`);
-
-    let content = '';
-    try {
-      content = await fsp.readFile(f.fp, 'utf8');
-    } catch (e) {
-      content = `<<ERRO AO LER ARQUIVO: ${e.message}>>`;
-    }
-
-    // Cerca com fence para ficar legível quando colar aqui no chat
-    lines.push('```' + fenceLang);
-    lines.push(content.replace(/\uFEFF/g, '')); // remove BOM se existir
-    lines.push('```');
-
-    lines.push(`\n/* ================================ END FILE ============================ */\n`);
-  }
-
-  await fsp.writeFile(OUT, lines.join('\n'), 'utf8');
-  console.log(`✅ Gerado: ${OUT}`);
-  console.log(`   Arquivos agregados: ${files.length}`);
-  console.log(`   Tamanho máx. por arquivo: ${MAX_KB} KB`);
-  console.log(`   Raiz: ${ROOT}`);
-}
-
-main().catch(err => {
-  console.error('Erro:', err);
-  process.exit(1);
-});
-
-```
-
-/* ================================ END FILE ============================ */
-
-
-/* ===================================================================== */
-/* START FILE: chatbot/admin.php | 4956 bytes */
-/* ===================================================================== */
-
-```php
-<?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-$faqPath = 'base_faq_raw.json';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-   // Verifica se a chave 'faq' veio
-    if (!isset($_POST['faq'])) {
-        http_response_code(400);
-        die("Erro 400: Dados de FAQ não enviados.");
-    }
-
-
-   $faq = $_POST['faq'];
-   if (!is_array($faq)) {
-        http_response_code(400);
-        die("Erro 400: Formato inválido, esperado array de perguntas e respostas.");
-    }
-
-    $faq_filtrado = array_filter($faq, function($item) {
-        return !empty($item['pergunta']) && !empty($item['resposta']) && empty($item['remover']);
-    });
-
-    // Tenta salvar JSON "raw"
-    $jsonRawPath = 'base_faq_raw.json';
-    $json_raw = json_encode(array_values($faq_filtrado), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-    if ($json_raw === false) {
-        http_response_code(500);
-        die("Erro 500: Falha ao converter JSON.");
-    }
-
-    $salvo = file_put_contents($jsonRawPath, $json_raw);
-    if ($salvo === false) {
-        http_response_code(500);
-        die("Erro 500: Falha ao salvar arquivo JSON.");
-    }
-    echo '<script>alert("✅ JSON salvo com sucesso")</script>';
-    
-    // Tenta executar o script Python
-    $comando = "cd dev-utils && python gerar_embedding.py";
-    $output = shell_exec($comando . " 2>&1");
-
-    if ($output === null) {
-        http_response_code(500);
-        die("Erro 500: Não foi possível executar o script Python.");
-    }
-    echo "<pre>Saída do script Python:\n$output</pre>";
-
-    header("Location: admin.php?salvo=1");
-    exit;
-}
-
-if (!file_exists($faqPath)) {
-    http_response_code(404);
-    die("Erro 404: Arquivo '$faqPath' não encontrado.");
-}
-
-$faq = json_decode(file_get_contents($faqPath), true);
-if ($faq === null) {
-    http_response_code(500);
-    die("Erro 500: Falha ao ler ou decodificar '$faqPath'.");
-}
-
-?>
-
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Painel FAQ</title>
-  <style>
-    form {
-      width: 80%;
-      margin-top: 86px;
-      padding: 20px;
-    }
-    body { 
-      font-family: sans-serif;
-      width: 100%; 
-      margin: auto;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    textarea {
-       width: 100%; 
-       height: 120px; 
-       margin-bottom: 20px; 
-      }
-    input, button { padding: 8px; }
-    input {
-      width: 30%;
-    }
-    .faq-item { 
-      border: 1px solid #ccc; 
-      padding: 10px; 
-      margin-bottom: 15px; 
-      border-radius: 5px; 
-      width: 100%;
-    }
-  </style>
-  <!--BOOTSTRAP CSS-->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
-</head>
-<body>
-  <?php 
-        include 'C:\xampp\htdocs\ProjetoPawFolio\View\templates\partials\navbar.php';
-    ?>
-  
-
-  <?php if (isset($_GET['salvo'])) echo '<script>alert("FAQ salvo com sucesso e embeddings atualizados!");</script>' ?>
-
-  <form method="POST">
-    <h1>Painel de FAQ – PawFolio</h1>
-    <h3>Adicionar nova pergunta</h3>
-      <div class="faq-item">
-        <label>Pergunta:</label><br>
-        <input type="text" name="faq[<?= count($faq) ?>][pergunta]"><br><br>
-        
-        <label>Resposta:</label><br>
-        <textarea name="faq[<?= count($faq) ?>][resposta]"></textarea><br>
-        
-        <input type="hidden" name="faq[<?= count($faq) ?>][embedding]" value="">
-      </div>
-      <button type="submit" class="mb-4">Salvar FAQ + Recalcular Embeddings</button>
-
-      <h3>Suas perguntas:</h3>
-      <?php 
-      foreach ($faq as $index => $item): ?>
-        <div class="faq-item">
-          <label>Pergunta:</label><br>
-          <input type="text" name="faq[<?= $index ?>][pergunta]" value="<?= htmlspecialchars($item['pergunta']) ?>"><br><br>
-          
-          <label>Resposta:</label><br>
-          <textarea name="faq[<?= $index ?>][resposta]"><?= htmlspecialchars($item['resposta']) ?></textarea><br>
-
-          <input type="hidden" name="faq[<?= $index ?>][embedding]" value="">
-
-          <input type="hidden" name="faq[<?= $index ?>][embedding]" value="">
-          <label style="color:red;">
-            <input type="checkbox" name="faq[<?= $index ?>][remover]" value="1"> Remover
-          </label>
-        </div>
-    <?php endforeach; ?>
-  </form>
-
-  <?php 
-        include 'C:\xampp\htdocs\ProjetoPawFolio\View\templates\partials\footer.php';
-  ?>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
-</html>
-
-```
-
-/* ================================ END FILE ============================ */
-
-
-/* ===================================================================== */
-/* START FILE: chatbot/base_faq_raw.json | 3426 bytes */
-/* ===================================================================== */
-
-```json
-[
-    {
-        "pergunta": "Como agendar?",
-        "resposta": "Você pode agendar serviços acessando a aba de agendamento no menu principal.",
-        "embedding": ""
-    },
-    {
-        "pergunta": "Posso remarcar um agendamento?",
-        "resposta": "Sim, você pode remarcar até 24h antes do horário marcado.",
-        "embedding": ""
-    },
-    {
-        "pergunta": "O PawFolio atende gatos?",
-        "resposta": "Sim, atendemos tanto cães quanto gatos de todos os portes.",
-        "embedding": ""
-    },
-    {
-        "pergunta": "Como cancelar um agendamento?",
-        "resposta": "Clique em 'Meus Agendamentos' e selecione a opção 'Cancelar'.",
-        "embedding": ""
-    },
-    {
-        "pergunta": "O que é o Pawfolio? O que vocês fazem? O que são vocês?",
-        "resposta": "O Pawfolio é um sistema\/fórum que atua como uma grande rede de conexão entre petshop's, assim, oferecendo serviços em nosso site, para qualquer um acessar!",
-        "embedding": ""
-    },
-    {
-        "pergunta": "Preciso cadastrar meu pet?",
-        "resposta": "Para que o agendamento seja 100% via nosso site, é orientado o cadastro do seu pet para melhor planejamento, tanto do petshop, quanto seu e nós da PawFolio.",
-        "embedding": ""
-    },
-    {
-        "pergunta": "Pagamento via site?",
-        "resposta": "O pagamento não é feito via site, essa é uma função que ainda está em desenvolvimento!, mas você pode entrar em contato com o petshop na qual escolheu contratar o serviço!",
-        "embedding": ""
-    },
-    {
-        "pergunta": "Porque eu devo cadastrar o meu animal?",
-        "resposta": "Você deve cadastrar seu pet pois petshop acessa as credenciais do seu animal para ter um melhor planejamento quando for atendê-lo.",
-        "embedding": ""
-    },
-    {
-        "pergunta": "Do you take care of cats?",
-        "resposta": "Yes, petshop's serve both dogs and cats of all sizes.",
-        "embedding": ""
-    },
-    {
-        "pergunta": "Can i pay via website?",
-        "resposta": "Payment is not made via the website, this is a function that is still under development!, but you can contact the pet shop where you chose to hire the service!",
-        "embedding": ""
-    },
-    {
-        "pergunta": "Quanto custa? Qual o valor?",
-        "resposta": "O PawFolio oferece serviços de outros petshop's e não vendemos. Confira os petshop's e escolha os devidos serviços e confira os preços.",
-        "embedding": ""
-    },
-    {
-        "pergunta": "Quero falar com uma pessoa",
-        "resposta": "Sou uma I.A pronta para responder suas dúvidas, caso queira um ser-humano, vá direto para o petshop que deseja ser atendido e peça que a devida equipe atenda-o!",
-        "embedding": ""
-    },
-    {
-        "pergunta": "Why do i need to register my pet?",
-        "resposta": "In order for scheduling to be 100% via our website, we recommend registering your pet for better planning, both for the pet shop, for you and for us at PawFolio.",
-        "embedding": ""
-    },
-    {
-        "pergunta": "Vocês buscam pets em casa?",
-        "resposta": "Somos apenas um sistema de agendamento, os petshop's oferecem seus serviços de forma individual, nós apenas somos a vitrine para isso! Converse com o petshop que quer agendar para mais informações.",
-        "embedding": ""
-    }
-]
-```
-
-/* ================================ END FILE ============================ */
-
-
-/* ===================================================================== */
-/* START FILE: chatbot/chatbot_api.py | 1715 bytes */
-/* ===================================================================== */
-
-```python
-# Aqui desenvolvi uma API do JSON para ficar rodando no Flask, para carregar a base_faq.json apenas uma vez na memoria RAM, assim, deixando
-# o tempo de resposta extremamente rápido para o usuário. Caso não tivessemos essa API rodando no Flask, o usuario rodaria uma base_faq toda 
-# vez que enviasse uma pergunta no chat.
-
-
-from flask import Flask, request, jsonify
-from sentence_transformers import SentenceTransformer
-import json
-import numpy as np
-import os
-
-app = Flask(__name__)
-
-# Carrega o modelo e a base do FAQ uma única vez
-print("Carregando modelo e base de dados...")
-modelo = SentenceTransformer('all-MiniLM-L6-v2')
-
-with open("dev-utils/base_faq.json", "r", encoding="utf-8") as f:
-    base_faq = json.load(f)
-
-# Pré-processa os embeddings do FAQ
-faq_embeddings = [np.array(item["embedding"]) for item in base_faq]
-
-def cosine_similarity(a, b):
-    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
-
-@app.route("/responder", methods=["POST"])
-def responder():
-    pergunta = request.json.get("pergunta", "")
-    if not pergunta:
-        return jsonify({"erro": "Pergunta não recebida"}), 400
-
-    embedding = modelo.encode(pergunta)
-
-    # Busca o mais próximo
-    melhor_sim = -1
-    melhor_resposta = "Desculpe, não encontrei uma resposta para isso."
-
-    for i, emb in enumerate(faq_embeddings):
-        sim = cosine_similarity(embedding, emb)
-        if sim > melhor_sim:
-            melhor_sim = sim
-            melhor_resposta = base_faq[i]["resposta"]
-
-    return jsonify({
-        "resposta": melhor_resposta,
-        "similaridade": round(float(melhor_sim), 4)
-    })
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
-```
-
-/* ================================ END FILE ============================ */
-
-
-/* ===================================================================== */
-/* START FILE: chatbot/dev-utils/base_faq.json | 158905 bytes */
+/* START FILE: base_faq.json | 158905 bytes */
 /* ===================================================================== */
 
 ```json
@@ -6211,6 +5521,701 @@ if __name__ == "__main__":
 
 
 /* ===================================================================== */
+/* START FILE: BD/Pawfolio.sql | 4432 bytes */
+/* ===================================================================== */
+
+```sql
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Tempo de geração: 05-Jun-2025 às 21:06
+-- Versão do servidor: 10.4.27-MariaDB
+-- versão do PHP: 8.1.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Banco de dados: `pawfolio`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `agendamento`
+--
+
+CREATE TABLE `agendamento` (
+  `id_agendamento` int(11) NOT NULL,
+  `id_petshop_agendamento` int(11) DEFAULT NULL,
+  `data_agendamento` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `cliente`
+--
+
+CREATE TABLE `cliente` (
+  `id_cliente` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `senha` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `pet`
+--
+
+CREATE TABLE `pet` (
+  `id` int(11) NOT NULL,
+  `id_dono` int(11) DEFAULT NULL,
+  `nome` varchar(100) NOT NULL,
+  `comportamento` varchar(100) DEFAULT NULL,
+  `raca` varchar(100) DEFAULT NULL,
+  `diferencial` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `petshop`
+--
+
+CREATE TABLE `petshop` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `senha` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `servicos` 
+--
+
+CREATE TABLE `servicos` (
+  `pshop_related` int(11) DEFAULT NULL,
+  `descricao` varchar(100) NOT NULL,
+  `preco` varchar(100) NOT NULL -- PREÇO CHEGARA COMO VARCHAR NO BANCO DE DADOS POIS É SIMBOLICO, OU SEJ,A NÃO AGIRÁ PAGAMENTOS ONLINES VIA SISTEMA
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Índices para tabelas despejadas
+--
+
+--
+-- Índices para tabela `agendamento`
+--
+ALTER TABLE `agendamento`
+  ADD PRIMARY KEY (`id_agendamento`),
+  ADD KEY `id_petshop_agendamento` (`id_petshop_agendamento`);
+
+--
+-- Índices para tabela `cliente`
+--
+ALTER TABLE `cliente`
+  ADD PRIMARY KEY (`id_cliente`);
+
+--
+-- Índices para tabela `pet`
+--
+ALTER TABLE `pet`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_dono` (`id_dono`);
+
+--
+-- Índices para tabela `petshop`
+--
+ALTER TABLE `petshop`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `servicos`
+--
+ALTER TABLE `servicos`
+  ADD KEY `pshop_related` (`pshop_related`);
+
+--
+-- AUTO_INCREMENT de tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `agendamento`
+--
+ALTER TABLE `agendamento`
+  MODIFY `id_agendamento` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `cliente`
+--
+ALTER TABLE `cliente`
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `pet`
+--
+ALTER TABLE `pet`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `petshop`
+--
+ALTER TABLE `petshop`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restrições para despejos de tabelas
+--
+
+--
+-- Limitadores para a tabela `agendamento`
+--
+ALTER TABLE `agendamento`
+  ADD CONSTRAINT `agendamento_ibfk_1` FOREIGN KEY (`id_petshop_agendamento`) REFERENCES `petshop` (`id`);
+
+--
+-- Limitadores para a tabela `pet`
+--
+ALTER TABLE `pet`
+  ADD CONSTRAINT `pet_ibfk_1` FOREIGN KEY (`id_dono`) REFERENCES `cliente` (`id_cliente`);
+
+--
+-- Limitadores para a tabela `servicos`
+--
+ALTER TABLE `servicos`
+  ADD CONSTRAINT `servicos_ibfk_1` FOREIGN KEY (`pshop_related`) REFERENCES `petshop` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+```
+
+/* ================================ END FILE ============================ */
+
+
+/* ===================================================================== */
+/* START FILE: bundle-text.js | 5909 bytes */
+/* ===================================================================== */
+
+```javascript
+#!/usr/bin/env node
+/**
+ * Junta arquivos de texto/código do projeto em um único arquivo,
+ * com separadores contendo caminho e tamanho do arquivo.
+ *
+ * Uso:
+ *   node bundle-text.js --root . --out TEXTAO.txt --maxKB 500
+ *   (todos os parâmetros são opcionais)
+ */
+
+const fs = require('fs');
+const fsp = fs.promises;
+const path = require('path');
+
+const argv = (() => {
+  const a = process.argv.slice(2);
+  const out = {};
+  for (let i = 0; i < a.length; i++) {
+    const k = a[i];
+    if (k.startsWith('--')) {
+      const key = k.slice(2);
+      const val = (i + 1 < a.length && !a[i + 1].startsWith('--')) ? a[++i] : true;
+      out[key] = val;
+    }
+  }
+  return out;
+})();
+
+const ROOT = path.resolve(argv.root || '.');
+const OUT  = path.resolve(argv.out  || 'PROJECT_BUNDLE.txt');
+const MAX_KB = parseInt(argv.maxKB || '600', 10); // pula arquivos > MAX_KB
+const MAX_BYTES = MAX_KB * 1024;
+
+// Whitelist de extensões consideradas texto/código
+const TEXT_EXT = new Set([
+  // web / node / php
+  '.js','.jsx','.ts','.tsx','.mjs','.cjs',
+  '.php','.html','.htm','.css','.scss','.sass',
+  '.json','.jsonc','.md','.markdown','.txt',
+  '.yaml','.yml','.env','.env.example',
+  '.gitignore','.gitattributes',
+  // outras linguagens comuns
+  '.py','.rb','.go','.rs','.java','.kt','.c','.h','.cpp','.hpp','.cs',
+  '.sql','.sh','.bat','.ps1','.ini','.conf','.toml',
+  // templates / views
+  '.twig','.blade.php','.ejs','.hbs'
+]);
+
+// Diretórios a ignorar
+const IGNORE_DIRS = new Set([
+  'node_modules','.git','vendor','dist','build','.next','.cache','.turbo',
+  '.parcel-cache','coverage','.idea','.vscode','storage','logs','tmp','.nuxt',
+  '.angular','out','.expo','.gradle','target'
+]);
+
+// Arquivos específicos a ignorar (grandes/ruidosos)
+const IGNORE_FILES = new Set([
+  'package-lock.json','yarn.lock','pnpm-lock.yaml','composer.lock',
+  '.DS_Store'
+]);
+
+// Extensões explicitamente ignoradas (binários)
+const IGNORE_EXT = new Set([
+  '.png','.jpg','.jpeg','.gif','.webp','.avif','.bmp','.ico',
+  '.pdf','.zip','.rar','.7z','.tar','.gz',
+  '.mp3','.wav','.flac','.mp4','.mov','.mkv',
+  '.woff','.woff2','.ttf','.eot',
+  '.obj','.fbx','.glb','.gltf'
+]);
+
+function looksTextByExt(file) {
+  const ext = path.extname(file).toLowerCase();
+  if (IGNORE_EXT.has(ext)) return false;
+  if (TEXT_EXT.has(ext)) return true;
+  // fallback: trate sem extensão como texto pequeno
+  return ext === '' ? true : false;
+}
+
+async function* walk(dir) {
+  let entries;
+  try {
+    entries = await fsp.readdir(dir, { withFileTypes: true });
+  } catch (e) {
+    return;
+  }
+  for (const entry of entries) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      if (IGNORE_DIRS.has(entry.name)) continue;
+      yield* walk(full);
+    } else if (entry.isFile()) {
+      if (IGNORE_FILES.has(entry.name)) continue;
+      yield full;
+    }
+  }
+}
+
+function rel(p) {
+  return path.relative(ROOT, p).split(path.sep).join('/');
+}
+
+function nowISO() {
+  const d = new Date();
+  return d.toISOString();
+}
+
+async function main() {
+  const files = [];
+  for await (const fp of walk(ROOT)) {
+    if (!looksTextByExt(fp)) continue;
+    try {
+      const st = await fsp.stat(fp);
+      if (st.size > MAX_BYTES) continue;
+      files.push({ fp, size: st.size });
+    } catch {}
+  }
+
+  // Ordena alfabeticamente para previsibilidade
+  files.sort((a,b) => rel(a.fp).localeCompare(rel(b.fp)));
+
+  const lines = [];
+  lines.push('# BUNDLE DO PROJETO');
+  lines.push(`# Gerado em: ${nowISO()}`);
+  lines.push(`# Raiz: ${ROOT}`);
+  lines.push(`# Arquivos incluídos: ${files.length}`);
+  lines.push('');
+  lines.push('## ÍNDICE');
+  files.forEach((f, i) => {
+    lines.push(`${String(i+1).padStart(3,' ')}. ${rel(f.fp)} (${f.size} bytes)`);
+  });
+  lines.push('\n---\n');
+
+  for (const f of files) {
+    const relative = rel(f.fp);
+    const ext = path.extname(relative).toLowerCase();
+    const fenceLang = (() => {
+      if (['.js','.jsx','.mjs','.cjs'].includes(ext)) return 'javascript';
+      if (['.ts','.tsx'].includes(ext)) return 'typescript';
+      if (ext === '.php' || ext === '.blade.php') return 'php';
+      if (ext === '.css' || ext === '.scss' || ext === '.sass') return 'css';
+      if (ext === '.html' || ext === '.htm') return 'html';
+      if (ext === '.md' || ext === '.markdown') return 'md';
+      if (ext === '.json' || ext === '.jsonc') return 'json';
+      if (ext === '.yml' || ext === '.yaml') return 'yaml';
+      if (ext === '.sh') return 'bash';
+      if (ext === '.ps1') return 'powershell';
+      if (ext === '.py') return 'python';
+      if (ext === '.rb') return 'ruby';
+      if (ext === '.sql') return 'sql';
+      return '';
+    })();
+
+    lines.push(`\n/* ===================================================================== */`);
+    lines.push(`/* START FILE: ${relative} | ${f.size} bytes */`);
+    lines.push(`/* ===================================================================== */\n`);
+
+    let content = '';
+    try {
+      content = await fsp.readFile(f.fp, 'utf8');
+    } catch (e) {
+      content = `<<ERRO AO LER ARQUIVO: ${e.message}>>`;
+    }
+
+    // Cerca com fence para ficar legível quando colar aqui no chat
+    lines.push('```' + fenceLang);
+    lines.push(content.replace(/\uFEFF/g, '')); // remove BOM se existir
+    lines.push('```');
+
+    lines.push(`\n/* ================================ END FILE ============================ */\n`);
+  }
+
+  await fsp.writeFile(OUT, lines.join('\n'), 'utf8');
+  console.log(`✅ Gerado: ${OUT}`);
+  console.log(`   Arquivos agregados: ${files.length}`);
+  console.log(`   Tamanho máx. por arquivo: ${MAX_KB} KB`);
+  console.log(`   Raiz: ${ROOT}`);
+}
+
+main().catch(err => {
+  console.error('Erro:', err);
+  process.exit(1);
+});
+
+```
+
+/* ================================ END FILE ============================ */
+
+
+/* ===================================================================== */
+/* START FILE: chatbot/admin.php | 4956 bytes */
+/* ===================================================================== */
+
+```php
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$faqPath = 'base_faq_raw.json';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+   // Verifica se a chave 'faq' veio
+    if (!isset($_POST['faq'])) {
+        http_response_code(400);
+        die("Erro 400: Dados de FAQ não enviados.");
+    }
+
+
+   $faq = $_POST['faq'];
+   if (!is_array($faq)) {
+        http_response_code(400);
+        die("Erro 400: Formato inválido, esperado array de perguntas e respostas.");
+    }
+
+    $faq_filtrado = array_filter($faq, function($item) {
+        return !empty($item['pergunta']) && !empty($item['resposta']) && empty($item['remover']);
+    });
+
+    // Tenta salvar JSON "raw"
+    $jsonRawPath = 'base_faq_raw.json';
+    $json_raw = json_encode(array_values($faq_filtrado), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+    if ($json_raw === false) {
+        http_response_code(500);
+        die("Erro 500: Falha ao converter JSON.");
+    }
+
+    $salvo = file_put_contents($jsonRawPath, $json_raw);
+    if ($salvo === false) {
+        http_response_code(500);
+        die("Erro 500: Falha ao salvar arquivo JSON.");
+    }
+    echo '<script>alert("✅ JSON salvo com sucesso")</script>';
+    
+    // Tenta executar o script Python
+    $comando = "cd dev-utils && python gerar_embedding.py";
+    $output = shell_exec($comando . " 2>&1");
+
+    if ($output === null) {
+        http_response_code(500);
+        die("Erro 500: Não foi possível executar o script Python.");
+    }
+    echo "<pre>Saída do script Python:\n$output</pre>";
+
+    header("Location: admin.php?salvo=1");
+    exit;
+}
+
+if (!file_exists($faqPath)) {
+    http_response_code(404);
+    die("Erro 404: Arquivo '$faqPath' não encontrado.");
+}
+
+$faq = json_decode(file_get_contents($faqPath), true);
+if ($faq === null) {
+    http_response_code(500);
+    die("Erro 500: Falha ao ler ou decodificar '$faqPath'.");
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel FAQ</title>
+  <style>
+    form {
+      width: 80%;
+      margin-top: 86px;
+      padding: 20px;
+    }
+    body { 
+      font-family: sans-serif;
+      width: 100%; 
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    textarea {
+       width: 100%; 
+       height: 120px; 
+       margin-bottom: 20px; 
+      }
+    input, button { padding: 8px; }
+    input {
+      width: 30%;
+    }
+    .faq-item { 
+      border: 1px solid #ccc; 
+      padding: 10px; 
+      margin-bottom: 15px; 
+      border-radius: 5px; 
+      width: 100%;
+    }
+  </style>
+  <!--BOOTSTRAP CSS-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+</head>
+<body>
+  <?php 
+        include 'C:\xampp\htdocs\ProjetoPawFolio\View\templates\partials\navbar.php';
+    ?>
+  
+
+  <?php if (isset($_GET['salvo'])) echo '<script>alert("FAQ salvo com sucesso e embeddings atualizados!");</script>' ?>
+
+  <form method="POST">
+    <h1>Painel de FAQ – PawFolio</h1>
+    <h3>Adicionar nova pergunta</h3>
+      <div class="faq-item">
+        <label>Pergunta:</label><br>
+        <input type="text" name="faq[<?= count($faq) ?>][pergunta]"><br><br>
+        
+        <label>Resposta:</label><br>
+        <textarea name="faq[<?= count($faq) ?>][resposta]"></textarea><br>
+        
+        <input type="hidden" name="faq[<?= count($faq) ?>][embedding]" value="">
+      </div>
+      <button type="submit" class="mb-4">Salvar FAQ + Recalcular Embeddings</button>
+
+      <h3>Suas perguntas:</h3>
+      <?php 
+      foreach ($faq as $index => $item): ?>
+        <div class="faq-item">
+          <label>Pergunta:</label><br>
+          <input type="text" name="faq[<?= $index ?>][pergunta]" value="<?= htmlspecialchars($item['pergunta']) ?>"><br><br>
+          
+          <label>Resposta:</label><br>
+          <textarea name="faq[<?= $index ?>][resposta]"><?= htmlspecialchars($item['resposta']) ?></textarea><br>
+
+          <input type="hidden" name="faq[<?= $index ?>][embedding]" value="">
+
+          <input type="hidden" name="faq[<?= $index ?>][embedding]" value="">
+          <label style="color:red;">
+            <input type="checkbox" name="faq[<?= $index ?>][remover]" value="1"> Remover
+          </label>
+        </div>
+    <?php endforeach; ?>
+  </form>
+
+  <?php 
+        include 'C:\xampp\htdocs\ProjetoPawFolio\View\templates\partials\footer.php';
+  ?>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
+
+```
+
+/* ================================ END FILE ============================ */
+
+
+/* ===================================================================== */
+/* START FILE: chatbot/base_faq_raw.json | 3426 bytes */
+/* ===================================================================== */
+
+```json
+[
+    {
+        "pergunta": "Como agendar?",
+        "resposta": "Você pode agendar serviços acessando a aba de agendamento no menu principal.",
+        "embedding": ""
+    },
+    {
+        "pergunta": "Posso remarcar um agendamento?",
+        "resposta": "Sim, você pode remarcar até 24h antes do horário marcado.",
+        "embedding": ""
+    },
+    {
+        "pergunta": "O PawFolio atende gatos?",
+        "resposta": "Sim, atendemos tanto cães quanto gatos de todos os portes.",
+        "embedding": ""
+    },
+    {
+        "pergunta": "Como cancelar um agendamento?",
+        "resposta": "Clique em 'Meus Agendamentos' e selecione a opção 'Cancelar'.",
+        "embedding": ""
+    },
+    {
+        "pergunta": "O que é o Pawfolio? O que vocês fazem? O que são vocês?",
+        "resposta": "O Pawfolio é um sistema\/fórum que atua como uma grande rede de conexão entre petshop's, assim, oferecendo serviços em nosso site, para qualquer um acessar!",
+        "embedding": ""
+    },
+    {
+        "pergunta": "Preciso cadastrar meu pet?",
+        "resposta": "Para que o agendamento seja 100% via nosso site, é orientado o cadastro do seu pet para melhor planejamento, tanto do petshop, quanto seu e nós da PawFolio.",
+        "embedding": ""
+    },
+    {
+        "pergunta": "Pagamento via site?",
+        "resposta": "O pagamento não é feito via site, essa é uma função que ainda está em desenvolvimento!, mas você pode entrar em contato com o petshop na qual escolheu contratar o serviço!",
+        "embedding": ""
+    },
+    {
+        "pergunta": "Porque eu devo cadastrar o meu animal?",
+        "resposta": "Você deve cadastrar seu pet pois petshop acessa as credenciais do seu animal para ter um melhor planejamento quando for atendê-lo.",
+        "embedding": ""
+    },
+    {
+        "pergunta": "Do you take care of cats?",
+        "resposta": "Yes, petshop's serve both dogs and cats of all sizes.",
+        "embedding": ""
+    },
+    {
+        "pergunta": "Can i pay via website?",
+        "resposta": "Payment is not made via the website, this is a function that is still under development!, but you can contact the pet shop where you chose to hire the service!",
+        "embedding": ""
+    },
+    {
+        "pergunta": "Quanto custa? Qual o valor?",
+        "resposta": "O PawFolio oferece serviços de outros petshop's e não vendemos. Confira os petshop's e escolha os devidos serviços e confira os preços.",
+        "embedding": ""
+    },
+    {
+        "pergunta": "Quero falar com uma pessoa",
+        "resposta": "Sou uma I.A pronta para responder suas dúvidas, caso queira um ser-humano, vá direto para o petshop que deseja ser atendido e peça que a devida equipe atenda-o!",
+        "embedding": ""
+    },
+    {
+        "pergunta": "Why do i need to register my pet?",
+        "resposta": "In order for scheduling to be 100% via our website, we recommend registering your pet for better planning, both for the pet shop, for you and for us at PawFolio.",
+        "embedding": ""
+    },
+    {
+        "pergunta": "Vocês buscam pets em casa?",
+        "resposta": "Somos apenas um sistema de agendamento, os petshop's oferecem seus serviços de forma individual, nós apenas somos a vitrine para isso! Converse com o petshop que quer agendar para mais informações.",
+        "embedding": ""
+    }
+]
+```
+
+/* ================================ END FILE ============================ */
+
+
+/* ===================================================================== */
+/* START FILE: chatbot/chatbot_api.py | 1705 bytes */
+/* ===================================================================== */
+
+```python
+# Aqui desenvolvi uma API do JSON para ficar rodando no Flask, para carregar a base_faq.json apenas uma vez na memoria RAM, assim, deixando
+# o tempo de resposta extremamente rápido para o usuário. Caso não tivessemos essa API rodando no Flask, o usuario rodaria uma base_faq toda 
+# vez que enviasse uma pergunta no chat.
+
+
+from flask import Flask, request, jsonify
+from sentence_transformers import SentenceTransformer
+import json
+import numpy as np
+import os
+
+app = Flask(__name__)
+
+# Carrega o modelo e a base do FAQ uma única vez
+print("Carregando modelo e base de dados...")
+modelo = SentenceTransformer('all-MiniLM-L6-v2')
+
+with open("base_faq.json", "r", encoding="utf-8") as f:
+    base_faq = json.load(f)
+
+# Pré-processa os embeddings do FAQ
+faq_embeddings = [np.array(item["embedding"]) for item in base_faq]
+
+def cosine_similarity(a, b):
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+@app.route("/responder", methods=["POST"])
+def responder():
+    pergunta = request.json.get("pergunta", "")
+    if not pergunta:
+        return jsonify({"erro": "Pergunta não recebida"}), 400
+
+    embedding = modelo.encode(pergunta)
+
+    # Busca o mais próximo
+    melhor_sim = -1
+    melhor_resposta = "Desculpe, não encontrei uma resposta para isso."
+
+    for i, emb in enumerate(faq_embeddings):
+        sim = cosine_similarity(embedding, emb)
+        if sim > melhor_sim:
+            melhor_sim = sim
+            melhor_resposta = base_faq[i]["resposta"]
+
+    return jsonify({
+        "resposta": melhor_resposta,
+        "similaridade": round(float(melhor_sim), 4)
+    })
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+```
+
+/* ================================ END FILE ============================ */
+
+
+/* ===================================================================== */
 /* START FILE: chatbot/dev-utils/gerar_embedding.py | 1647 bytes */
 /* ===================================================================== */
 
@@ -6416,6 +6421,158 @@ class PetController{
 
 
 /* ===================================================================== */
+/* START FILE: Dockerfile | 378 bytes */
+/* ===================================================================== */
+
+```
+FROM python:3.10-slim
+
+# Instala dependências básicas
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
+# Cria diretório de trabalho
+WORKDIR /app
+
+# Copia arquivos
+COPY . /app
+
+# Instala libs Python
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expõe a porta 10000
+EXPOSE 10000
+
+# Roda a API
+CMD ["python", "main.py"]
+
+
+```
+
+/* ================================ END FILE ============================ */
+
+
+/* ===================================================================== */
+/* START FILE: docs/index.html | 3586 bytes */
+/* ===================================================================== */
+
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chatbot FAQ – PawFolio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #333333;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      min-height: 100dvh;
+      padding: 40px;
+      overflow-x: hidden;
+    } body h2 {color: white;}
+    #chat {
+      width: 100%;
+      max-width: 400px;
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    #pergunta { width: 97%; }
+    .mensagem { margin: 10px 0; }
+    .user { text-align: right; color: #2a7ae2; }
+    .bot { text-align: left; color: #555; }
+    input, button {
+      padding: 10px; margin-top: 10px; width: 100%;
+      border-radius: 5px; border: 1px solid #ccc;
+    }
+    button { background: #2a7ae2; color: white; border: none; cursor: pointer; }
+    a { margin: 16px; color: aliceblue; text-decoration: none; font-size: 1.1rem; }
+    #mensagens { max-height: 50vh; overflow-y: auto; }
+    .muted { color:#999; font-size:.9rem; text-align:center; }
+  </style>
+</head>
+<body>
+  <h2>CHATBOT I.A PERSONALIZADO - PAWFOLIO</h2>
+  <div id="chat">
+    <div id="mensagens"></div>
+    <input type="text" id="pergunta" placeholder="Digite sua pergunta..." />
+    <button id="btnEnviar">Enviar</button>
+    <div class="muted">Dica: pergunte “Como agendar?”</div>
+  </div>
+
+  <!-- se quiser manter: -->
+  <!-- <a href="../../chatbot/admin.php">Painel de perguntas</a> -->
+
+  <script>
+    // ======= CONFIG =======
+    const API_BASE = "https://chatbotmovese-v2.onrender.com";
+    const ENDPOINT = `${API_BASE}/chat`; // mude aqui se seu endpoint tiver outro nome
+
+    // ======= UI helpers =======
+    const mensagensEl = document.getElementById('mensagens');
+    const input = document.getElementById('pergunta');
+    const btn = document.getElementById('btnEnviar');
+
+    function adicionarMensagem(texto, classe) {
+      const div = document.createElement('div');
+      div.className = `mensagem ${classe}`;
+      div.textContent = texto;
+      mensagensEl.appendChild(div);
+      mensagensEl.scrollTop = mensagensEl.scrollHeight;
+    }
+
+    async function enviarPergunta() {
+      const pergunta = input.value.trim();
+      if (!pergunta) return;
+
+      adicionarMensagem(pergunta, 'user');
+      input.value = '';
+
+      // indicador "pensando"
+      const typing = document.createElement('div');
+      typing.className = 'mensagem bot';
+      typing.textContent = 'IA está pensando...';
+      mensagensEl.appendChild(typing);
+      mensagensEl.scrollTop = mensagensEl.scrollHeight;
+
+      try {
+        const resp = await fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pergunta })
+        });
+
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+        const json = await resp.json();
+        typing.remove();
+        adicionarMensagem(json.resposta || 'Sem resposta.', 'bot');
+      } catch (err) {
+        typing.remove();
+        adicionarMensagem('Erro ao contatar a API. Tente novamente.', 'bot');
+        console.error('[Front] Erro no fetch:', err);
+      }
+    }
+
+    // eventos
+    btn.addEventListener('click', enviarPergunta);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); enviarPergunta(); }
+    });
+  </script>
+</body>
+</html>
+
+```
+
+/* ================================ END FILE ============================ */
+
+
+/* ===================================================================== */
 /* START FILE: LICENSE | 1111 bytes */
 /* ===================================================================== */
 
@@ -6472,6 +6629,89 @@ if (session_status() === PHP_SESSION_NONE) {
 exit();
 
 ?>
+```
+
+/* ================================ END FILE ============================ */
+
+
+/* ===================================================================== */
+/* START FILE: main.py | 2477 bytes */
+/* ===================================================================== */
+
+```python
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from sentence_transformers import SentenceTransformer, util
+import json, torch, logging
+
+app = Flask(__name__)
+
+# Libera CORS para tudo (pode restringir ao seu domínio depois)
+CORS(
+    app,
+    resources={r"/*": {"origins": "*"}},
+    supports_credentials=False,
+    allow_headers=["Content-Type", "Authorization"],
+    methods=["GET", "POST", "OPTIONS"]
+)
+
+logging.basicConfig(level=logging.INFO)
+
+# ===== Carrega base =====
+model = SentenceTransformer('all-MiniLM-L6-v2')
+
+with open("base_faq.json", "r", encoding="utf-8") as f:
+    base = json.load(f)
+
+perguntas = [item["pergunta"] for item in base]
+respostas = [item["resposta"] for item in base]
+embeddings = torch.tensor([item["embedding"] for item in base], dtype=torch.float32)
+
+# Garantia extra de headers CORS (inclusive 500/erros)
+@app.after_request
+def add_cors_headers(resp):
+    resp.headers["Access-Control-Allow-Origin"] = "*"
+    resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    resp.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    return resp
+
+# Opcional: handler explícito p/ OPTIONS em /chat
+@app.route("/chat", methods=["OPTIONS"])
+def chat_options():
+    return ("", 204)
+
+@app.route("/ping", methods=["GET"])
+def ping():
+    return "API MiniLM ativa!"
+
+@app.route("/chat", methods=["POST"])
+def chat():
+    try:
+        data = request.get_json(force=True)
+        pergunta_usuario = (data.get("pergunta") or "").strip()
+        if not pergunta_usuario:
+            return jsonify({"erro": "Pergunta não fornecida"}), 400
+
+        emb_user = model.encode(pergunta_usuario, convert_to_tensor=True)
+        if emb_user.dtype != embeddings.dtype:
+            emb_user = emb_user.to(dtype=embeddings.dtype)
+
+        scores = util.cos_sim(emb_user, embeddings)[0]  # (N,)
+        best_idx = int(torch.argmax(scores).item())
+        best_score = float(scores[best_idx].item())
+        return jsonify({
+            "pergunta": pergunta_usuario,
+            "resposta": respostas[best_idx],
+            "similaridade": round(best_score, 4),
+            "match_index": best_idx
+        })
+    except Exception as e:
+        app.logger.exception("Erro no /chat")
+        return jsonify({"erro": "Falha interna no servidor", "detalhe": str(e)}), 500
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000)
+
 ```
 
 /* ================================ END FILE ============================ */
@@ -6624,6 +6864,40 @@ Projeto acadêmico com código aberto para fins educacionais.
 Se você deseja uma versão personalizada para seu negócio (com deploy, segurança, manutenção), entre em contato!
 
 
+
+```
+
+/* ================================ END FILE ============================ */
+
+
+/* ===================================================================== */
+/* START FILE: render.yaml | 157 bytes */
+/* ===================================================================== */
+
+```yaml
+services:
+  - type: web
+    name: chatbot-minilm
+    env: docker
+    plan: free
+    branch: main
+    dockerfilePath: Dockerfile
+    autoDeploy: true
+
+```
+
+/* ================================ END FILE ============================ */
+
+
+/* ===================================================================== */
+/* START FILE: requirements.txt | 49 bytes */
+/* ===================================================================== */
+
+```
+flask
+flask-cors
+sentence-transformers
+torch
 
 ```
 
