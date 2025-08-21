@@ -33,7 +33,13 @@ def ping():
 
 @app.route("/chat", methods=["OPTIONS"])
 def chat_options():
-    return ("", 204)
+    response = app.make_response("")
+    response.status_code = 204
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    return response
+
 
 @app.route("/chat", methods=["POST"])
 def chat():
