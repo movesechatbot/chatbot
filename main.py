@@ -2,8 +2,10 @@ from flask import Flask, request, jsonify
 from sentence_transformers import SentenceTransformer, util
 import json
 import torch
+from flask_cors import CORS  # <-- NOVO
 
 app = Flask(__name__)
+CORS(app)
 
 # Carrega o modelo MiniLM
 model = SentenceTransformer('all-MiniLM-L6-v2')

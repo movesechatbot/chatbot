@@ -76,33 +76,65 @@
 
   <a href="../../chatbot/admin.php">Painel de perguntas</a>
 
-  <script>
-    function adicionarMensagem(texto, classe) {
-      const div = document.createElement('div');
-      div.className = `mensagem ${classe}`;
-      div.textContent = texto;
-      document.getElementById('mensagens').appendChild(div);
-    }
+<script>
+  // URL da sua API na Render
+  const API_BASE = "https://chatbotmovese-v2.onrender.com";
+  const ENDPOINT = `${API_BASE}/chat`;
 
-    async function enviarPergunta() {
-      const input = document.getElementById('pergunta');
-      const pergunta = input.value.trim();
-      if (!pergunta) return;
+  const mensagensEl = document.getElementById('mensagens');
+  const input = document.getElementById('pergunta');
 
-      adicionarMensagem(pergunta, 'user');
-      input.value = '';
+  function adicionarMensagem(texto, classe) {
+    const div = document.createElement('div');
+    div.className = `mensagem ${classe}`;
+    div.textContent = texto;
+    mensagensEl.appendChild(div);
+    mensagensEl.scrollTop = mensagensEl.scrollHeight;
+  }
 
-      const formData = new FormData();
-      formData.append('pergunta', pergunta);
+  async function enviarPergunta() {
+    const pergunta = input.value.trim();
+    if (!pergunta) return;
 
-      const resposta = await fetch('../../chatbot/responder.php', {
+    adicionarMensagem(pergunta, 'user');
+    input.value = '';
+
+    // indicador simples de "digitando..."
+    const typing = document.createElement('div');
+    typing.className = 'mensagem bot';
+    typing.textContent = 'IA está pensando...';
+    mensagensEl.appendChild(typing);
+    mensagensEl.scrollTop = mensagensEl.scrollHeight;
+
+    try {
+      const resp = await fetch(ENDPOINT, {
         method: 'POST',
-        body: formData
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pergunta })
       });
 
-      const json = await resposta.json();
-      adicionarMensagem(json.resposta || 'Erro ao responder.', 'bot');
+      if (!resp.ok) {
+        throw new Error(`HTTP ${resp.status}`);
+      }
+
+      const json = await resp.json();
+      typing.remove();
+      adicionarMensagem(json.resposta || 'Sem resposta.', 'bot');
+    } catch (err) {
+      typing.remove();
+      adicionarMensagem('Erro ao contatar a API. Tente novamente.', 'bot');
+      console.error(err);
     }
-  </script>
+  }
+
+  // Enter para enviar
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      enviarPergunta();
+    }
+  });
+</script>
+
 </body>
 </html>
