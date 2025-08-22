@@ -1,95 +1,53 @@
-# 🐾 Movese – Sistema de Agendamento para Petshops
+# 🤖 Movese – Chatbot de Atendimento Comercial com IA
 
-Projeto acadêmico desenvolvido como integração prática entre diversas disciplinas do curso, unindo desenvolvimento web, inteligência artificial e análise de dados.
+Projeto em desenvolvimento para automação do primeiro contato com leads via **WhatsApp Business**, com foco em **qualificação por indução de coleta de documentos**.  
 
-Inclui uma interface completa para agendamento de serviços, painel de indicadores e um chatbot inteligente de FAQ com IA local.
-
-ATENÇÃO: O NOME DO SISTEMA (Movese) NÃO É MEU, APENAS UTILIZANDO PARA FINS ACADÊMICOS.
+O sistema combina **IA semântica** e **integração com APIs externas (OpenAI e ferramentas auxiliares)**, com logs e escalabilidade.  
 
 ---
 
-## 📚 Disciplinas e Integrações
+## 🚀 Funcionalidades
 
-### 🧠 1. Inglês 1 – Prompt para IA (concluido)
-- Área de FAQ com IA simulando ambiente bilíngue.
-- Prompts em inglês para interação automatizada.
+- **Integração com WhatsApp Business API**  
+  Atende leads automaticamente no canal oficial da empresa.  
 
-### 📊 2. Estatística Aplicada – Indicadores
-- Dashboard com:
-  - Gráfico de acessos
-  - Serviços mais buscados
-  - Taxa de retorno de usuários
+- **Base de conhecimento estruturada**  
+  Roteiro de vendas e contexto variável (ex.: copy do anúncio que originou o lead).  
 
-### ☁️ 3. Computação em Nuvem – Arduino Cloud + ESP32
-- Protótipo teórico de sensores integrados para o ambiente petshop.
+- **IA Semântica + GPT**  
+  Reconhecimento de intenção e entendimento de paráfrases para interações mais naturais.  
 
-### 🤖 4. IA e Aprendizado de Máquina
-- Recomendação de serviços baseada no tipo de pet.
-- Chatbot inteligente de FAQ com IA local e compreensão de paráfrases (detalhado abaixo).
+- **Condução para próxima etapa**  
+  Persuasão para envio de documentos necessários à análise de crédito.  
 
-### 📱 5. Multiplataforma e BI
-- Relatórios com Google Data Studio / Power BI / PHP.
-- Armazenamento em MySQL para análise futura.
+- **Monitoramento e Logs**  
+  Registro de todas as interações para auditoria, ajustes e métricas de desempenho.  
 
-### 🧩 6. Padrões de Projeto – MVC
-- Estrutura baseada em MVC.
-- Singleton aplicado na conexão com banco de dados.
+- **Escalabilidade e manutenção**  
+  Atualização periódica da base de conhecimento, otimizações e suporte técnico.  
 
 ---
 
-## 💬 Chatbot Inteligente com IA Local
+## ⚙️ Stack Tecnológica
 
-O sistema conta com um chatbot de FAQ capaz de entender diferentes formas de perguntar (paráfrases), usando IA local sem depender de APIs externas.
-
-### ⚙️ Como funciona:
-- Utiliza o modelo `all-MiniLM-L6-v2` da biblioteca `sentence-transformers`.
-- As perguntas do usuário são convertidas em vetores numéricos (embeddings).
-- O sistema compara a similaridade com a base existente e retorna a resposta mais próxima.
-
-### 🧪 Tecnologias:
-- Python + Flask
-- sentence-transformers
-- PHP 7+ / MySQL
-- HTML/CSS/Sass + Bootstrap
+- **Backend:** Python + Flask  
+- **IA Semântica:** sentence-transformers (`all-MiniLM-L6-v2`)  
+- **IA Generativa:** API OpenAI (GPT)  
+- **Banco de Dados:** MySQL / MariaDB  
+- **Integração WhatsApp:** WhatsApp Business API (Meta)  
+- **Infra:** Deploy em nuvem + monitoramento de logs  
 
 ---
 
-## ✅ Como configurar o projeto
+## 📋 Estrutura do Projeto
 
-1. **Pré-requisitos**
-- PHP 8+
-- MySQL/MariaDB (XAMPP/LAMPP)
-- Python 
-- Node.js (para SASS)
-- Flask e sentence-transformers:
-  ```bash
-  pip install flask sentence-transformers
-   ```
-- Sass: Instale com:
-   ```bash
-   npm install -g sass
-   ```
+### Fase 1 – Desenvolvimento e Implementação
+- Integração com WhatsApp  
+- Estruturação da base de conhecimento  
+- IA semântica + refinamento via GPT  
+- Testes, deploy e entrega  
 
-3. **Configure o banco de dados**
-   - Importe o arquivo `.sql` atualizado (conforme o diagrama de classes).
-   - Ou crie o banco com base no modelo acima usando MySQL Workbench.
-
-4. **Configure o arquivo `config.php`**
-   - Ajuste as variáveis de conexão com o banco:
-     ```php
-     $dbHost = 'localhost';
-     $dbUsername = 'root';
-     $dbPassword = '';
-     $dbName = 'Movese';
-     ```
-
-### 📎 Autor
-Desenvolvido por <a href="https://github.com/TheoTavora">Theo Vitor</a>
-
-### 📝 Licença
-Este projeto está licenciado sob a <a href="./LICENSE">Licença MIT.</a>
-
-Projeto acadêmico com código aberto para fins educacionais.
-Se você deseja uma versão personalizada para seu negócio (com deploy, segurança, manutenção), entre em contato!
-
-
+### Fase 2 – Manutenção e Escala
+- Atualização da base de conhecimento  
+- Logs e otimizações contínuas  
+- Suporte técnico  
