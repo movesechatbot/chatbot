@@ -13,9 +13,9 @@ include('../../../Controllers/ClienteController.php') // Inclue Cadastrar o Clie
     <link rel="stylesheet" href="../../static/CSS/subheader.css">
     <link rel="stylesheet" href="../../static/CSS/cadastro.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="../../static/imgs/logopawfoliomenor.png"/>
+    <link rel="icon" type="image/png" href="../../static/imgs/logoMovesemenor.png"/>
 
-    <title>Cadastro do cliente PawFolio</title>
+    <title>Cadastro do cliente Movese</title>
     
 </head>
     <body>

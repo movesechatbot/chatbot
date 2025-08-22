@@ -1,11 +1,11 @@
 # BUNDLE DO PROJETO
 # Gerado em: 2025-08-21T22:53:06.878Z
-# Raiz: C:\Users\Lucas\ProjetoPawFolio
+# Raiz: C:\Users\Lucas\ProjetoMovese
 # Arquivos incluídos: 40
 
 ## ÍNDICE
   1. base_faq.json (158905 bytes)
-  2. BD/Pawfolio.sql (4432 bytes)
+  2. BD/Movese.sql (4432 bytes)
   3. bundle-text.js (5909 bytes)
   4. chatbot/admin.php (4956 bytes)
   5. chatbot/base_faq_raw.json (3426 bytes)
@@ -835,7 +835,7 @@
     ]
   },
   {
-    "pergunta": "O PawFolio atende gatos?",
+    "pergunta": "O Movese atende gatos?",
     "resposta": "Sim, atendemos tanto cães quanto gatos de todos os portes.",
     "embedding": [
       -0.06766378879547119,
@@ -1615,8 +1615,8 @@
     ]
   },
   {
-    "pergunta": "O que é o Pawfolio? O que vocês fazem? O que são vocês?",
-    "resposta": "O Pawfolio é um sistema/fórum que atua como uma grande rede de conexão entre petshop's, assim, oferecendo serviços em nosso site, para qualquer um acessar!",
+    "pergunta": "O que é o Movese? O que vocês fazem? O que são vocês?",
+    "resposta": "O Movese é um sistema/fórum que atua como uma grande rede de conexão entre petshop's, assim, oferecendo serviços em nosso site, para qualquer um acessar!",
     "embedding": [
       0.04321696236729622,
       0.050639908760786057,
@@ -2006,7 +2006,7 @@
   },
   {
     "pergunta": "Preciso cadastrar meu pet?",
-    "resposta": "Para que o agendamento seja 100% via nosso site, é orientado o cadastro do seu pet para melhor planejamento, tanto do petshop, quanto seu e nós da PawFolio.",
+    "resposta": "Para que o agendamento seja 100% via nosso site, é orientado o cadastro do seu pet para melhor planejamento, tanto do petshop, quanto seu e nós da Movese.",
     "embedding": [
       -0.0016213287599384785,
       0.07941338419914246,
@@ -3956,7 +3956,7 @@
   },
   {
     "pergunta": "Quanto custa? Qual o valor?",
-    "resposta": "O PawFolio oferece serviços de outros petshop's e não vendemos. Confira os petshop's e escolha os devidos serviços e confira os preços.",
+    "resposta": "O Movese oferece serviços de outros petshop's e não vendemos. Confira os petshop's e escolha os devidos serviços e confira os preços.",
     "embedding": [
       -0.10571780055761337,
       0.06175081804394722,
@@ -4736,7 +4736,7 @@
   },
   {
     "pergunta": "Why do i need to register my pet?",
-    "resposta": "In order for scheduling to be 100% via our website, we recommend registering your pet for better planning, both for the pet shop, for you and for us at PawFolio.",
+    "resposta": "In order for scheduling to be 100% via our website, we recommend registering your pet for better planning, both for the pet shop, for you and for us at Movese.",
     "embedding": [
       -0.017567597329616547,
       -0.058163974434137344,
@@ -5521,7 +5521,7 @@
 
 
 /* ===================================================================== */
-/* START FILE: BD/Pawfolio.sql | 4432 bytes */
+/* START FILE: BD/Movese.sql | 4432 bytes */
 /* ===================================================================== */
 
 ```sql
@@ -5545,7 +5545,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `pawfolio`
+-- Banco de dados: `Movese`
 --
 
 -- --------------------------------------------------------
@@ -6019,14 +6019,14 @@ if ($faq === null) {
 </head>
 <body>
   <?php 
-        include 'C:\xampp\htdocs\ProjetoPawFolio\View\templates\partials\navbar.php';
+        include 'C:\xampp\htdocs\ProjetoMovese\View\templates\partials\navbar.php';
     ?>
   
 
   <?php if (isset($_GET['salvo'])) echo '<script>alert("FAQ salvo com sucesso e embeddings atualizados!");</script>' ?>
 
   <form method="POST">
-    <h1>Painel de FAQ – PawFolio</h1>
+    <h1>Painel de FAQ – Movese</h1>
     <h3>Adicionar nova pergunta</h3>
       <div class="faq-item">
         <label>Pergunta:</label><br>
@@ -6060,7 +6060,7 @@ if ($faq === null) {
   </form>
 
   <?php 
-        include 'C:\xampp\htdocs\ProjetoPawFolio\View\templates\partials\footer.php';
+        include 'C:\xampp\htdocs\ProjetoMovese\View\templates\partials\footer.php';
   ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
@@ -6088,7 +6088,7 @@ if ($faq === null) {
         "embedding": ""
     },
     {
-        "pergunta": "O PawFolio atende gatos?",
+        "pergunta": "O Movese atende gatos?",
         "resposta": "Sim, atendemos tanto cães quanto gatos de todos os portes.",
         "embedding": ""
     },
@@ -6098,13 +6098,13 @@ if ($faq === null) {
         "embedding": ""
     },
     {
-        "pergunta": "O que é o Pawfolio? O que vocês fazem? O que são vocês?",
-        "resposta": "O Pawfolio é um sistema\/fórum que atua como uma grande rede de conexão entre petshop's, assim, oferecendo serviços em nosso site, para qualquer um acessar!",
+        "pergunta": "O que é o Movese? O que vocês fazem? O que são vocês?",
+        "resposta": "O Movese é um sistema\/fórum que atua como uma grande rede de conexão entre petshop's, assim, oferecendo serviços em nosso site, para qualquer um acessar!",
         "embedding": ""
     },
     {
         "pergunta": "Preciso cadastrar meu pet?",
-        "resposta": "Para que o agendamento seja 100% via nosso site, é orientado o cadastro do seu pet para melhor planejamento, tanto do petshop, quanto seu e nós da PawFolio.",
+        "resposta": "Para que o agendamento seja 100% via nosso site, é orientado o cadastro do seu pet para melhor planejamento, tanto do petshop, quanto seu e nós da Movese.",
         "embedding": ""
     },
     {
@@ -6129,7 +6129,7 @@ if ($faq === null) {
     },
     {
         "pergunta": "Quanto custa? Qual o valor?",
-        "resposta": "O PawFolio oferece serviços de outros petshop's e não vendemos. Confira os petshop's e escolha os devidos serviços e confira os preços.",
+        "resposta": "O Movese oferece serviços de outros petshop's e não vendemos. Confira os petshop's e escolha os devidos serviços e confira os preços.",
         "embedding": ""
     },
     {
@@ -6139,7 +6139,7 @@ if ($faq === null) {
     },
     {
         "pergunta": "Why do i need to register my pet?",
-        "resposta": "In order for scheduling to be 100% via our website, we recommend registering your pet for better planning, both for the pet shop, for you and for us at PawFolio.",
+        "resposta": "In order for scheduling to be 100% via our website, we recommend registering your pet for better planning, both for the pet shop, for you and for us at Movese.",
         "embedding": ""
     },
     {
@@ -6309,11 +6309,11 @@ echo $resposta;
 ```php
 <?php
 // Rotas de páginas para desenvolvimento
-define('STATIC_URL', 'http://localhost/ProjetoPawFolio/View/static');
-define('login', 'http://localhost/ProjetoPawFolio/View/templates/login/login.php');
-define('cadastro', 'http://localhost/ProjetoPawFolio/View/templates/register/teladecadastro.php');
-define('logout', 'http://localhost/ProjetoPawFolio/logout.php');
-define('index', 'http://localhost/ProjetoPawFolio/View/templates/index.php');
+define('STATIC_URL', 'http://localhost/ProjetoMovese/View/static');
+define('login', 'http://localhost/ProjetoMovese/View/templates/login/login.php');
+define('cadastro', 'http://localhost/ProjetoMovese/View/templates/register/teladecadastro.php');
+define('logout', 'http://localhost/ProjetoMovese/logout.php');
+define('index', 'http://localhost/ProjetoMovese/View/templates/index.php');
 
 ?>
 ```
@@ -6460,7 +6460,7 @@ CMD ["python", "main.py"]
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <title>Chatbot FAQ – PawFolio</title>
+  <title>Chatbot FAQ – Movese</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -6496,7 +6496,7 @@ CMD ["python", "main.py"]
   </style>
 </head>
 <body>
-  <h2>CHATBOT I.A PERSONALIZADO - PAWFOLIO</h2>
+  <h2>CHATBOT I.A PERSONALIZADO - Movese</h2>
   <div id="chat">
     <div id="mensagens"></div>
     <input type="text" id="pergunta" placeholder="Digite sua pergunta..." />
@@ -6729,7 +6729,7 @@ if __name__ == "__main__":
 
         $usuario = "root";
         $senhaBD = '';
-        $database = 'pawfolio';
+        $database = 'Movese';
         $host = 'localhost';
 
         $connect = new mysqli($host, $usuario, $senhaBD, $database);
@@ -6769,13 +6769,13 @@ if __name__ == "__main__":
 /* ===================================================================== */
 
 ```md
-# 🐾 PawFolio – Sistema de Agendamento para Petshops
+# 🐾 Movese – Sistema de Agendamento para Petshops
 
 Projeto acadêmico desenvolvido como integração prática entre diversas disciplinas do curso, unindo desenvolvimento web, inteligência artificial e análise de dados.
 
 Inclui uma interface completa para agendamento de serviços, painel de indicadores e um chatbot inteligente de FAQ com IA local.
 
-ATENÇÃO: O NOME DO SISTEMA (PawFolio) NÃO É MEU, APENAS UTILIZANDO PARA FINS ACADÊMICOS.
+ATENÇÃO: O NOME DO SISTEMA (Movese) NÃO É MEU, APENAS UTILIZANDO PARA FINS ACADÊMICOS.
 
 ---
 
@@ -6851,7 +6851,7 @@ O sistema conta com um chatbot de FAQ capaz de entender diferentes formas de per
      $dbHost = 'localhost';
      $dbUsername = 'root';
      $dbPassword = '';
-     $dbName = 'pawfolio';
+     $dbName = 'Movese';
      ```
 
 ### 📎 Autor
@@ -7809,7 +7809,7 @@ html, body {
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <title>Chatbot FAQ – PawFolio</title>
+  <title>Chatbot FAQ – Movese</title>
 
   <style>
     body {
@@ -7874,7 +7874,7 @@ html, body {
 </head>
 <body>
 
-  <h2>CHATBOT I.A PERSONALIZADO - PAWFOLIO</h2>
+  <h2>CHATBOT I.A PERSONALIZADO - Movese</h2>
   <div id="chat">
     <div id="mensagens"></div>
     <input type="text" id="pergunta" placeholder="Digite sua pergunta..." />
@@ -7938,8 +7938,8 @@ html, body {
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="index.php">
-            <img src="../static/imgs/logopawfoliomenor.png" alt="Logo" width="60" height="60" class="me-2">
-            <span>PawFolio</span>
+            <img src="../static/imgs/logoMovesemenor.png" alt="Logo" width="60" height="60" class="me-2">
+            <span>Movese</span>
         </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" onclick="trocaNavbarCor()">
                 <span class="navbar-toggler-icon"></span>
@@ -8019,12 +8019,12 @@ if (isset($_SESSION['user'])) {
     <!--CSS-->
     <link rel="stylesheet" type="text/css" href="../static/CSS/index.css" />
     <!--ICON-->
-    <link rel="icon" type="image/png" href="../static/imgs/logopawfoliomenor.png"/>
+    <link rel="icon" type="image/png" href="../static/imgs/logoMovesemenor.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!--BOOTSTRAP CSS-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     
-    <title>PawFolio - Seu eCommerce de serviços pet!</title>
+    <title>Movese - Seu eCommerce de serviços pet!</title>
 </head>
 <body>
     <?php 
@@ -8125,9 +8125,9 @@ if (isset($_SESSION['user'])) {
     <!--
         <footer>
             <div class="rodape">
-                <img class="footer_logo" src="../static/imgs/logopawfoliomenor.png">
+                <img class="footer_logo" src="../static/imgs/logoMovesemenor.png">
                 <img class="local_map" src="../static/imgs/complexodoalemao.png">
-            <h1 id="text_copyright"> 2023, Pawfolio. <br>
+            <h1 id="text_copyright"> 2023, Movese. <br>
                 Todos os direitos reservados.
             </h1>
             <h1 id="text_rua">
@@ -8214,11 +8214,11 @@ if(isset($_POST['user']) && isset($_POST['senha'])){
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="../../static/CSS/subheader.css">
         <link rel="stylesheet" type="text/css" href="../../static/CSS/login.css">
-        <link rel="icon" type="image/png" href="../../static/imgs/logopawfoliomenor.png"/>
+        <link rel="icon" type="image/png" href="../../static/imgs/logoMovesemenor.png"/>
         <title>Entrar em sua conta</title>
     </head>
     <header>
-            <img src="../../static/imgs/logopawfoliomenor.png" alt="logo" />
+            <img src="../../static/imgs/logoMovesemenor.png" alt="logo" />
     </header>
     <body>
     
@@ -8259,7 +8259,7 @@ if(isset($_POST['user']) && isset($_POST['senha'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--ICON-->
-    <link rel="icon" type="image/png" href="../../static/imgs/logopawfoliomenor.png"/>
+    <link rel="icon" type="image/png" href="../../static/imgs/logoMovesemenor.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!--BOOTSTRAP CSS-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -8274,7 +8274,7 @@ if(isset($_POST['user']) && isset($_POST['senha'])){
                 <li class="nav-item"><a href="#" class="nav-link px-2 text-light">FAQs</a></li>
                 <li class="nav-item"><a href="#" class="nav-link px-2 text-light">About</a></li>
             </ul>
-            <p class="text-center text-light">© 2025 Théo Vitor Tavora, PawFolio Inc</p>
+            <p class="text-center text-light">© 2025 Théo Vitor Tavora, Movese Inc</p>
         </footer>
     </div>
 </body>
@@ -8290,7 +8290,7 @@ if(isset($_POST['user']) && isset($_POST['senha'])){
 
 ```php
 <?php 
-include ('C:\xampp\htdocs\ProjetoPawFolio\config.php');
+include ('C:\xampp\htdocs\ProjetoMovese\config.php');
 ?>
 
 <!DOCTYPE html>
@@ -8302,7 +8302,7 @@ include ('C:\xampp\htdocs\ProjetoPawFolio\config.php');
     <!--CSS-->
     <link rel="stylesheet" type="text/css" href="<?= STATIC_URL ?>/CSS/indexheader.css" />
     <!--ICON-->
-    <link rel="icon" type="image/png" href="../../static/imgs/logopawfoliomenor.png"/>
+    <link rel="icon" type="image/png" href="../../static/imgs/logoMovesemenor.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!--BOOTSTRAP CSS-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -8312,8 +8312,8 @@ include ('C:\xampp\htdocs\ProjetoPawFolio\config.php');
 <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="<?= index ?>">
-            <img src="<?= STATIC_URL ?>/imgs/logopawfoliomenor.png" alt="Logo" width="60" height="60" class="me-2">
-            <span>PawFolio</span>
+            <img src="<?= STATIC_URL ?>/imgs/logoMovesemenor.png" alt="Logo" width="60" height="60" class="me-2">
+            <span>Movese</span>
         </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" onclick="trocaNavbarCor()">
                 <span class="navbar-toggler-icon"></span>
@@ -8367,9 +8367,9 @@ include('../../../Controllers/ClienteController.php') // Inclue Cadastrar o Clie
     <link rel="stylesheet" href="../../static/CSS/subheader.css">
     <link rel="stylesheet" href="../../static/CSS/cadastro.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="../../static/imgs/logopawfoliomenor.png"/>
+    <link rel="icon" type="image/png" href="../../static/imgs/logoMovesemenor.png"/>
 
-    <title>Cadastro do cliente PawFolio</title>
+    <title>Cadastro do cliente Movese</title>
     
 </head>
     <body>
@@ -8454,7 +8454,7 @@ include('../../../Controllers/ClienteController.php') // Inclue Cadastrar o Clie
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="icon" type="image/png" href="C:\Users\Oem\Desktop\PawFolio\imgs\logopawfoliomenor.png"/>
+    <link rel="icon" type="image/png" href="C:\Users\Oem\Desktop\Movese\imgs\logoMovesemenor.png"/>
     <title>
         Cadastre seu Pet!
     </title>

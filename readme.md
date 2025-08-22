@@ -1,10 +1,10 @@
-# 🐾 PawFolio – Sistema de Agendamento para Petshops
+# 🐾 Movese – Sistema de Agendamento para Petshops
 
 Projeto acadêmico desenvolvido como integração prática entre diversas disciplinas do curso, unindo desenvolvimento web, inteligência artificial e análise de dados.
 
 Inclui uma interface completa para agendamento de serviços, painel de indicadores e um chatbot inteligente de FAQ com IA local.
 
-ATENÇÃO: O NOME DO SISTEMA (PawFolio) NÃO É MEU, APENAS UTILIZANDO PARA FINS ACADÊMICOS.
+ATENÇÃO: O NOME DO SISTEMA (Movese) NÃO É MEU, APENAS UTILIZANDO PARA FINS ACADÊMICOS.
 
 ---
 
@@ -80,7 +80,7 @@ O sistema conta com um chatbot de FAQ capaz de entender diferentes formas de per
      $dbHost = 'localhost';
      $dbUsername = 'root';
      $dbPassword = '';
-     $dbName = 'pawfolio';
+     $dbName = 'Movese';
      ```
 
 ### 📎 Autor

@@ -780,7 +780,7 @@
     ]
   },
   {
-    "pergunta": "O PawFolio atende gatos?",
+    "pergunta": "O Movese atende gatos?",
     "resposta": "Sim, atendemos tanto cães quanto gatos de todos os portes.",
     "embedding": [
       -0.06766378879547119,
@@ -1560,8 +1560,8 @@
     ]
   },
   {
-    "pergunta": "O que é o Pawfolio? O que vocês fazem? O que são vocês?",
-    "resposta": "O Pawfolio é um sistema/fórum que atua como uma grande rede de conexão entre petshop's, assim, oferecendo serviços em nosso site, para qualquer um acessar!",
+    "pergunta": "O que é o Movese? O que vocês fazem? O que são vocês?",
+    "resposta": "O Movese é um sistema/fórum que atua como uma grande rede de conexão entre petshop's, assim, oferecendo serviços em nosso site, para qualquer um acessar!",
     "embedding": [
       0.04321696236729622,
       0.050639908760786057,
@@ -1951,7 +1951,7 @@
   },
   {
     "pergunta": "Preciso cadastrar meu pet?",
-    "resposta": "Para que o agendamento seja 100% via nosso site, é orientado o cadastro do seu pet para melhor planejamento, tanto do petshop, quanto seu e nós da PawFolio.",
+    "resposta": "Para que o agendamento seja 100% via nosso site, é orientado o cadastro do seu pet para melhor planejamento, tanto do petshop, quanto seu e nós da Movese.",
     "embedding": [
       -0.0016213287599384785,
       0.07941338419914246,
@@ -3901,7 +3901,7 @@
   },
   {
     "pergunta": "Quanto custa? Qual o valor?",
-    "resposta": "O PawFolio oferece serviços de outros petshop's e não vendemos. Confira os petshop's e escolha os devidos serviços e confira os preços.",
+    "resposta": "O Movese oferece serviços de outros petshop's e não vendemos. Confira os petshop's e escolha os devidos serviços e confira os preços.",
     "embedding": [
       -0.10571780055761337,
       0.06175081804394722,
@@ -4681,7 +4681,7 @@
   },
   {
     "pergunta": "Why do i need to register my pet?",
-    "resposta": "In order for scheduling to be 100% via our website, we recommend registering your pet for better planning, both for the pet shop, for you and for us at PawFolio.",
+    "resposta": "In order for scheduling to be 100% via our website, we recommend registering your pet for better planning, both for the pet shop, for you and for us at Movese.",
     "embedding": [
       -0.017567597329616547,
       -0.058163974434137344,

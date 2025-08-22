@@ -1,5 +1,5 @@
 <?php 
-include ('C:\xampp\htdocs\ProjetoPawFolio\config.php');
+include ('C:\xampp\htdocs\ProjetoMovese\config.php');
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +11,7 @@ include ('C:\xampp\htdocs\ProjetoPawFolio\config.php');
     <!--CSS-->
     <link rel="stylesheet" type="text/css" href="<?= STATIC_URL ?>/CSS/indexheader.css" />
     <!--ICON-->
-    <link rel="icon" type="image/png" href="../../static/imgs/logopawfoliomenor.png"/>
+    <link rel="icon" type="image/png" href="../../static/imgs/logoMovesemenor.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!--BOOTSTRAP CSS-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -21,8 +21,8 @@ include ('C:\xampp\htdocs\ProjetoPawFolio\config.php');
 <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="<?= index ?>">
-            <img src="<?= STATIC_URL ?>/imgs/logopawfoliomenor.png" alt="Logo" width="60" height="60" class="me-2">
-            <span>PawFolio</span>
+            <img src="<?= STATIC_URL ?>/imgs/logoMovesemenor.png" alt="Logo" width="60" height="60" class="me-2">
+            <span>Movese</span>
         </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" onclick="trocaNavbarCor()">
                 <span class="navbar-toggler-icon"></span>

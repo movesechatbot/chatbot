@@ -110,14 +110,14 @@ if ($faq === null) {
 </head>
 <body>
   <?php 
-        include 'C:\xampp\htdocs\ProjetoPawFolio\View\templates\partials\navbar.php';
+        include 'C:\xampp\htdocs\ProjetoMovese\View\templates\partials\navbar.php';
     ?>
   
 
   <?php if (isset($_GET['salvo'])) echo '<script>alert("FAQ salvo com sucesso e embeddings atualizados!");</script>' ?>
 
   <form method="POST">
-    <h1>Painel de FAQ – PawFolio</h1>
+    <h1>Painel de FAQ – Movese</h1>
     <h3>Adicionar nova pergunta</h3>
       <div class="faq-item">
         <label>Pergunta:</label><br>
@@ -151,7 +151,7 @@ if ($faq === null) {
   </form>
 
   <?php 
-        include 'C:\xampp\htdocs\ProjetoPawFolio\View\templates\partials\footer.php';
+        include 'C:\xampp\htdocs\ProjetoMovese\View\templates\partials\footer.php';
   ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

@@ -43,11 +43,11 @@ if(isset($_POST['user']) && isset($_POST['senha'])){
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="../../static/CSS/subheader.css">
         <link rel="stylesheet" type="text/css" href="../../static/CSS/login.css">
-        <link rel="icon" type="image/png" href="../../static/imgs/logopawfoliomenor.png"/>
+        <link rel="icon" type="image/png" href="../../static/imgs/logoMovesemenor.png"/>
         <title>Entrar em sua conta</title>
     </head>
     <header>
-            <img src="../../static/imgs/logopawfoliomenor.png" alt="logo" />
+            <img src="../../static/imgs/logoMovesemenor.png" alt="logo" />
     </header>
     <body>
     

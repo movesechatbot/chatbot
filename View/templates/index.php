@@ -21,12 +21,12 @@ if (isset($_SESSION['user'])) {
     <!--CSS-->
     <link rel="stylesheet" type="text/css" href="../static/CSS/index.css" />
     <!--ICON-->
-    <link rel="icon" type="image/png" href="../static/imgs/logopawfoliomenor.png"/>
+    <link rel="icon" type="image/png" href="../static/imgs/logoMovesemenor.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!--BOOTSTRAP CSS-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     
-    <title>PawFolio - Seu eCommerce de serviços pet!</title>
+    <title>Movese - Seu eCommerce de serviços pet!</title>
 </head>
 <body>
     <?php 
@@ -127,9 +127,9 @@ if (isset($_SESSION['user'])) {
     <!--
         <footer>
             <div class="rodape">
-                <img class="footer_logo" src="../static/imgs/logopawfoliomenor.png">
+                <img class="footer_logo" src="../static/imgs/logoMovesemenor.png">
                 <img class="local_map" src="../static/imgs/complexodoalemao.png">
-            <h1 id="text_copyright"> 2023, Pawfolio. <br>
+            <h1 id="text_copyright"> 2023, Movese. <br>
                 Todos os direitos reservados.
             </h1>
             <h1 id="text_rua">

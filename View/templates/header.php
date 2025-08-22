@@ -12,8 +12,8 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="index.php">
-            <img src="../static/imgs/logopawfoliomenor.png" alt="Logo" width="60" height="60" class="me-2">
-            <span>PawFolio</span>
+            <img src="../static/imgs/logoMovesemenor.png" alt="Logo" width="60" height="60" class="me-2">
+            <span>Movese</span>
         </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" onclick="trocaNavbarCor()">
                 <span class="navbar-toggler-icon"></span>
