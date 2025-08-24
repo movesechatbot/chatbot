@@ -2,3 +2,5 @@ flask
 flask-cors
 sentence-transformers
 torch
+openai>=1.30.0
+gunicorn>=21.2

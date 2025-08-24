@@ -1,51 +1,103 @@
-# Aqui desenvolvi uma API do JSON para ficar rodando no Flask, para carregar a base_faq.json apenas uma vez na memoria RAM, assim, deixando
-# o tempo de resposta extremamente rápido para o usuário. Caso não tivessemos essa API rodando no Flask, o usuario rodaria uma base_faq toda 
-# vez que enviasse uma pergunta no chat.
+# api flask com fallback pro chatgpt quando a similaridade for média/baixa
+# deps: pip install sentence-transformers openai flask numpy
 
-
+import os, json, numpy as np
 from flask import Flask, request, jsonify
 from sentence_transformers import SentenceTransformer
-import json
-import numpy as np
-import os
+from numpy.linalg import norm
+from openai import OpenAI
+
+# thresholds
+HIGH, MED = 0.78, 0.62   # ajuste depois vendo logs
+TOPK = 3
 
 app = Flask(__name__)
 
-# Carrega o modelo e a base do FAQ uma única vez
-print("Carregando modelo e base de dados...")
+print("carregando modelo e base...")
 modelo = SentenceTransformer('all-MiniLM-L6-v2')
 
 with open("base_faq.json", "r", encoding="utf-8") as f:
-    base_faq = json.load(f)
+    base_faq = json.load(f)  # [{"resposta": "...", "embedding": [...], (opcional) "pergunta": "..."}]
 
-# Pré-processa os embeddings do FAQ
-faq_embeddings = [np.array(item["embedding"]) for item in base_faq]
+# matriz de embeddings normalizados (p/ cosseno)
+M = np.array([np.array(item["embedding"], dtype=np.float32) for item in base_faq], dtype=np.float32)
+M = M / np.clip(norm(M, axis=1, keepdims=True), 1e-9, None)
 
-def cosine_similarity(a, b):
-    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
-@app.route("/responder", methods=["POST"])
+def embed(texto: str) -> np.ndarray:
+    v = modelo.encode([texto], normalize_embeddings=True)[0].astype(np.float32)
+    return v
+
+def buscar_topk(qv: np.ndarray, k: int = TOPK):
+    sims = M @ qv  # como tudo está normalizado, isso é cosseno
+    idx = np.argpartition(-sims, range(min(k, len(sims))))[:k]
+    idx = idx[np.argsort(-sims[idx])]
+    return [(int(i), float(sims[i])) for i in idx]
+
+def ask_chatgpt(pergunta: str, contexto_chunks: list[str] | None):
+    sys = "seja objetivo. se não souber a partir do contexto, diga que não sabe."
+    if contexto_chunks:
+        user = f"pergunta: {pergunta}\n\ncontexto:\n- " + "\n- ".join(contexto_chunks)
+        model = os.environ.get("OPENAI_MODEL", "gpt-5.1-mini")
+    else:
+        user = pergunta
+        model = os.environ.get("OPENAI_MODEL", "gpt-5.1-mini")
+
+    r = client.chat.completions.create(
+        model=model,
+        temperature=0.2,
+        max_tokens=300,
+        messages=[{"role":"system","content":sys},{"role":"user","content":user}],
+    )
+    return r.choices[0].message.content.strip()
+
+@app.post("/responder")
 def responder():
-    pergunta = request.json.get("pergunta", "")
+    data = request.get_json(silent=True) or {}
+    pergunta = (data.get("pergunta") or "").strip()
     if not pergunta:
-        return jsonify({"erro": "Pergunta não recebida"}), 400
+        return jsonify({"erro":"Pergunta não recebida"}), 400
 
-    embedding = modelo.encode(pergunta)
+    qv = embed(pergunta)
+    hits = buscar_topk(qv, TOPK)
+    top_idx, top_score = hits[0]
+    top_resposta = base_faq[top_idx].get("resposta", "")
 
-    # Busca o mais próximo
-    melhor_sim = -1
-    melhor_resposta = "Desculpe, não encontrei uma resposta para isso."
+    # alta confiança → responde local
+    if top_score >= HIGH:
+        return jsonify({
+            "source": "local",
+            "similaridade": round(top_score, 4),
+            "resposta": top_resposta,
+            "ids": [i for i,_ in hits]
+        })
 
-    for i, emb in enumerate(faq_embeddings):
-        sim = cosine_similarity(embedding, emb)
-        if sim > melhor_sim:
-            melhor_sim = sim
-            melhor_resposta = base_faq[i]["resposta"]
+    # média → chatgpt com contexto (top-k)
+    if top_score >= MED:
+        ctx = []
+        for i,_ in hits:
+            # use "pergunta" se existir; senão, use "resposta" como contexto
+            p = base_faq[i].get("pergunta")
+            r = base_faq[i].get("resposta", "")
+            ctx.append((p if p else r).strip())
+        ans = ask_chatgpt(pergunta, ctx)
+        return jsonify({
+            "source": "chatgpt_ctx",
+            "similaridade": round(top_score, 4),
+            "resposta": ans,
+            "ids": [i for i,_ in hits]
+        })
 
+    # baixa → chatgpt aberto (ou peça esclarecimento)
+    ans = ask_chatgpt(pergunta, None)
     return jsonify({
-        "resposta": melhor_resposta,
-        "similaridade": round(float(melhor_sim), 4)
+        "source": "chatgpt_open",
+        "similaridade": round(top_score, 4),
+        "resposta": ans,
+        "ids": [i for i,_ in hits]
     })
 
 if __name__ == "__main__":
+    # defina OPENAI_API_KEY e (opcional) OPENAI_MODEL
     app.run(debug=True)
