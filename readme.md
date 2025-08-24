@@ -6,7 +6,7 @@ O sistema combina **IA semântica** e **integração com APIs externas (OpenAI e
 
 ---
 
-## 🚀 Funcionalidades
+## 🚀 Funcionalidades (em desenvolvimento)
 
 - **Integração com WhatsApp Business API**  
   Atende leads automaticamente no canal oficial da empresa.  
@@ -30,12 +30,10 @@ O sistema combina **IA semântica** e **integração com APIs externas (OpenAI e
 
 ## ⚙️ Stack Tecnológica
 
-- **Backend:** Python + Flask  
+- **Backend:** Python + Flask, Docker 
 - **IA Semântica:** sentence-transformers (`all-MiniLM-L6-v2`)  
 - **IA Generativa:** API OpenAI (GPT)  
-- **Banco de Dados:** MySQL / MariaDB  
 - **Integração WhatsApp:** WhatsApp Business API (Meta)  
-- **Infra:** Deploy em nuvem + monitoramento de logs  
 
 ---
 
@@ -51,3 +49,9 @@ O sistema combina **IA semântica** e **integração com APIs externas (OpenAI e
 - Atualização da base de conhecimento  
 - Logs e otimizações contínuas  
 - Suporte técnico  
+
+### Desenvolvimento atual: 
+- [x] Lógica de I.A Semantica
+- [x] Lógica de I.A generativa (gpt o4 mini)
+- [ ] Integração com a IA generativa
+- [ ] Integração com Whatsapp Business
