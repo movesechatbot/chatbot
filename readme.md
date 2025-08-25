@@ -53,5 +53,5 @@ O sistema combina **IA semântica** e **integração com APIs externas (OpenAI e
 ### Desenvolvimento atual: 
 - [x] Lógica de I.A Semantica
 - [x] Lógica de I.A generativa (gpt o4 mini)
-- [ ] Integração com a IA generativa
+- [x] Integração com a IA generativa
 - [ ] Integração com Whatsapp Business
