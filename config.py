@@ -5,8 +5,8 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 OPENAI_MODEL   = os.getenv("OPENAI_MODEL", "o4-mini-2025-04-16")
 
-HIGH = float(os.getenv("HIGH", "0.78"))
-MED  = float(os.getenv("MED",  "0.62"))
+HIGH = float(os.getenv("HIGH", "0.50"))
+MED  = float(os.getenv("MED",  "0.45"))
 TOPK = int(os.getenv("TOPK", "3"))
 
 PORT = int(os.getenv("PORT", "10000"))
