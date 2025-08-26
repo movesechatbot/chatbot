@@ -14,11 +14,21 @@ def ask_chatgpt(pergunta: str, ctx: Optional[List[str]]) -> str:
     "se não houver informação no contexto, peça para a pessoa reformular ou aguarde instruções."
     )
     user = f"pergunta: {pergunta}\n\ncontexto:\n- " + "\n- ".join(ctx) if ctx else pergunta
-    r = _client.chat.completions.create(
-        model=OPENAI_MODEL,
-        temperature=0.2,
-        max_tokens=300,
-        messages=[{"role":"system","content":sys},{"role":"user","content":user}],
-        timeout=12
-    )
-    return r.choices[0].message.content.strip()
+
+    try:
+        r = _client.chat.completions.create(
+            model=OPENAI_MODEL,
+            temperature=0.2,
+            max_tokens=300,
+            messages=[{"role":"system","content":sys},{"role":"user","content":user}],
+            timeout=12
+        )
+        return r.choices[0].message.content.strip()
+    
+    except Exception as e:
+        msg = str(e)
+        if "insufficient_quota" in msg or "429" in msg:
+            return "no momento estou sem créditos para consultar o modelo, vou responder apenas com base no que já sei."
+        return "tive um problema ao consultar o modelo externo, tente novamente mais tarde."
+
+
