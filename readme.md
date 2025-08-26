@@ -55,3 +55,6 @@ O sistema combina **IA semântica** e **integração com APIs externas (OpenAI e
 - [x] Lógica de I.A generativa (gpt o4 mini)
 - [x] Integração com a IA generativa
 - [ ] Integração com Whatsapp Business
+
+
+[produção](https://movesechatbot.github.io/chatbot/)
