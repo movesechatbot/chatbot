@@ -50,18 +50,27 @@ def chat():
                 "similaridade": round(best_score, 4),
                 "resposta": kb.get_answer(best_idx),
                 "match_index": best_idx
-            })
+            }), 200
 
         topk_idx, _ = kb.topk(q_emb, TOPK)
         ctx = kb.get_ctx(topk_idx) if best_score >= MED else None
-        ans = ask_chatgpt(pergunta, ctx)
+
+        # blindagem contra falha da OpenAI (sem 500)
+        try:
+            ans = ask_chatgpt(pergunta, ctx)
+        except Exception as e:
+            app.logger.warning(f"llm falhou: {e}")
+            ans = "tive um problema ao consultar o modelo externo; respondo com base no FAQ."
+            # ans = kb.get_answer(best_idx)
+
         return jsonify({
-            "source": "chatgpt_ctx" if ctx else "chatgpt_open",
+            "source": "chatgpt_ctx",
             "similaridade": round(best_score, 4),
             "resposta": ans,
             "match_index": best_idx,
             "topk": topk_idx
-        })
+        }), 200
+    
     except Exception as e:
         app.logger.exception("erro no /chat")
         return jsonify({"erro":"Falha interna no servidor", "detalhe": str(e)}), 500
