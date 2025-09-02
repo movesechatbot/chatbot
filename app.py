@@ -1,3 +1,7 @@
+# exemplo: memória em RAM (troque por Redis/DB no prod)
+SESSIONS = {}  # dict[user_id] = List[Message]
+MAX_MSGS = 16
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import logging
@@ -40,15 +44,25 @@ def chat():
         pergunta = (data.get("pergunta") or "").strip()
         if not pergunta:
             return jsonify({"erro":"Pergunta não fornecida"}), 400
+        
+        # pega um identificador do usuário
+        user_id = (data.get("user_id") or "anon").strip()  # no WhatsApp use o número
+        hist = SESSIONS.get(user_id, [])
 
         q_emb = kb.encode_query(pergunta)
         best_idx, best_score = kb.top_match(q_emb)
 
         if best_score >= HIGH:
+            ans = kb.get_answer(best_idx)
+            hist += [
+                 {"role":"user","content": pergunta},
+                 {"role":"assistant","content": ans}
+             ]
+            SESSIONS[user_id] = hist[-MAX_MSGS:]
             return jsonify({
                 "source": "local",
                 "similaridade": round(best_score, 4),
-                "resposta": kb.get_answer(best_idx),
+                "resposta": ans,
                 "match_index": best_idx
             }), 200
 
@@ -57,12 +71,15 @@ def chat():
 
         # blindagem contra falha da OpenAI (sem 500)
         try:
-            ans = ask_chatgpt(pergunta, ctx)
+            ans = ask_chatgpt(pergunta, ctx, history=hist)
         except Exception as e:
             app.logger.warning(f"llm falhou: {e}")
             ans = "tive um problema ao consultar o modelo externo; respondo com base no FAQ."
             # ans = kb.get_answer(best_idx)
 
+        hist += [{"role":"user","content": pergunta}, {"role":"assistant","content": ans}]
+        SESSIONS[user_id] = hist[-MAX_MSGS:]
+        
         return jsonify({
             "source": "chatgpt_ctx",
             "similaridade": round(best_score, 4),
