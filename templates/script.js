@@ -69,7 +69,7 @@
       const resp = await fetch(ENDPOINT, {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ pergunta }),
+        body: JSON.stringify({ pergunta, user_id: localStorage.uid || (localStorage.uid = crypto.randomUUID()) }),
         signal: ac.signal
       });
       clearTimeout(t);
@@ -79,12 +79,16 @@
       try { json = await resp.json(); } catch {}
 
       thinking.remove();
-      if (!ok) throw new Error(`HTTP ${resp.status} ${JSON.stringify(json)}`);
+      if (!resp.ok || !json) {
+        adicionarMensagem(`erro: ${resp.status || 0}`, 'bot');
+        console.warn('[front] resp:', resp, 'json:', json);
+        return;
+    }
 
-      adicionarMensagem(json.resposta || 'sem resposta.', 'bot', {
-        source: json.source || 'local',
-        similaridade: typeof json.similaridade === 'number' ? json.similaridade : undefined
-      });
+    adicionarMensagem(json.resposta || 'sem resposta.', 'bot', {
+      source: json.source || 'local',
+      similaridade: typeof json.similaridade === 'number' ? json.similaridade : undefined
+    });
 
     } 
     catch (err) {
