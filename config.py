@@ -4,6 +4,8 @@ load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 OPENAI_MODEL   = os.getenv("OPENAI_MODEL", "o4-mini-2025-04-16")
+WHATSAPP_TOKEN = os.getenv("WHATSAPP_TOKEN", "")
+ID_PHONE = os.getenv("ID_PHONE", "")
 
 HIGH = float(os.getenv("HIGH", "0.90"))
 MED  = float(os.getenv("MED",  "0.89"))

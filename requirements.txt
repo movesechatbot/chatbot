@@ -5,3 +5,4 @@ torch
 openai>=1.30.0
 gunicorn>=21.2
 python-dotenv>=1.0.1
+requests

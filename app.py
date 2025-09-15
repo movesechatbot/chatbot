@@ -8,8 +8,10 @@ import logging
 from config import HIGH, MED, TOPK, PORT
 import kb
 from llm import ask_chatgpt
+from whatsapp import bp as whatsapp_bp
 
 app = Flask(__name__)
+app.register_blueprint(whatsapp_bp)
 # remover parametros do cors para a prod
 CORS(app,
      resources={r"/*": {"origins": "*"}},
