@@ -3,33 +3,33 @@ import tempfile, os, mimetypes, hmac, hashlib, requests
 from typing import Optional
 from flask import Blueprint, request, abort
 from openai import OpenAI
-from config import WHATSAPP_TOKEN, ID_PHONE, APP_SECRET, PORT
+from config import WHATSAPP_TOKEN, PHONE_NUMBER_ID, VERIFY_TOKEN, PORT
 
 bp = Blueprint("whatsapp", __name__)
 
 _client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def _verify_signature(raw: bytes) -> bool:
-    if not APP_SECRET:
-        return True  # se não quiser validar assinatura agora
-    sig = request.headers.get("X-Hub-Signature-256", "")
-    if not sig.startswith("sha256="): 
-        return False
-    digest = hmac.new(APP_SECRET.encode(), raw, hashlib.sha256).hexdigest()
-    return hmac.compare_digest(sig, f"sha256={digest}")
+# def _verify_signature(raw: bytes) -> bool:
+#     if not APP_SECRET:
+#         return True  # se não quiser validar assinatura agora
+#     sig = request.headers.get("X-Hub-Signature-256", "")
+#     if not sig.startswith("sha256="): 
+#         return False
+#     digest = hmac.new(APP_SECRET.encode(), raw, hashlib.sha256).hexdigest()
+#     return hmac.compare_digest(sig, f"sha256={digest}")
 
 @bp.get("/whatsapp")
 def verify():
     # validação do webhook no painel da Meta
-    if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.verify_token") == WHATSAPP_TOKEN:
+    if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.verify_token") == VERIFY_TOKEN:
         return request.args.get("hub.challenge", ""), 200
     return "forbidden", 403
 
 @bp.post("/whatsapp")
 def incoming():
     raw = request.get_data()
-    if not _verify_signature(raw):
-        return "invalid signature", 403
+    # if not _verify_signature(raw):
+    #     return "invalid signature", 403
 
     data = request.get_json() or {}
     entries = data.get("entry", [])
@@ -104,15 +104,22 @@ def _pipeline(texto: str, user_id: str) -> str:
         return "tive um problema para processar sua mensagem. pode repetir em uma frase?"
 
 def _send_text(to: str, body: str):
-    requests.post(
-        f"https://graph.facebook.com/v22.0/{ID_PHONE}/messages",
-        headers={"Authorization": f"Bearer {WHATSAPP_TOKEN}",
-                 "Content-Type":"application/json"},
-        json={
-            "messaging_product":"whatsapp",
-            "to": to,
-            "type":"text",
-            "text": {"body": body[:4000]}  # corta segurança
-        },
-        timeout=15
-    )
+    url = f"https://graph.facebook.com/v20.0/{PHONE_NUMBER_ID}/messages"
+    payload = {
+        "messaging_product": "whatsapp",
+        "to": to,                 
+        "type": "text",
+        "text": {"body": body[:4000]}
+    }
+    headers = {
+        "Authorization": f"Bearer {WHATSAPP_TOKEN}",
+        "Content-Type": "application/json"
+    }
+
+    r = requests.post(url, headers=headers, json=payload, timeout=15)
+    print("SEND_TEXT status:", r.status_code)
+    print("SEND_TEXT resp:", r.text[:1000])
+
+    # opcional: levantar erro se não for 200
+    if r.status_code >= 300:
+        raise RuntimeError(f"send_text falhou: {r.status_code} {r.text}")
