@@ -10,22 +10,37 @@ def _trim(history: Optional[List[Message]], max_msgs: int = 16) -> List[Message]
     clean = [m for m in history if m.get("role") in ("user","assistant") and isinstance(m.get("content"), str)]
     return clean[-max_msgs:]
 
-def ask_chatgpt(pergunta: str, ctx: Optional[List[str]], history: Optional[List[Message]] = None) -> str:
+def ask_chatgpt(
+    pergunta: str,
+    ctx: Optional[List[str]],
+    history: Optional[List[Message]] = None,
+    playbook_snippet: str = ""   # NEW
+) -> str:
     if not _client:
         return "sem acesso ao modelo externo."
 
     sys = (
-      "você é um atendente de whatsapp. "
-      "responda curto e humanizado, siga o histórico da conversa. "
-      "sua principal tarefa é conduzir o cliente a enviar documentos para análise de crédito."
-      "os documentos para análise de crédito são: RG ou CNH,comprovante de residência e comprovante de renda. "
-      "EXCEÇÃO: para saudações ou pequenas cortesias (ex: 'oi', 'boa tarde'), responda educadamente e avance a conversa."
-      "se faltar dado factual no contexto, peça para reformular. "
+        "você é um atendente de whatsapp (SDR) da Imobiliária Movese."
+        "responda curto, humano e direto. 1 pergunta por vez."
+        "priorize as instruções do 'playbook da etapa' se fornecidas."
+        "use somente o contexto confiável recebido; não invente fatos."
+        "se faltar dado no contexto, diga isso em 1 linha e peça para reformular."
+        "sua meta é conduzir até a coleta de documentos para análise de crédito."
+        "documentos: RG ou CNH, comprovante de residência, comprovante de renda."
+        "para saudações (ex: 'oi', 'boa tarde'), cumprimente e avance a conversa."
+        "evite textos longos, listas grandes e jargões."
     )
 
     messages: List[Message] = [{"role":"system","content": sys}]
+
+    # NEW: cartilha da etapa atual (curta)
+    if playbook_snippet:
+        messages.append({"role":"system","content": playbook_snippet})
+
+    # histórico
     messages += _trim(history, max_msgs=16)
 
+    # contexto confiável (FAQ top-k) — depois da cartilha
     if ctx:
         messages.append({"role":"system","content": "contexto confiável:\n- " + "\n- ".join(ctx)})
 
@@ -34,10 +49,11 @@ def ask_chatgpt(pergunta: str, ctx: Optional[List[str]], history: Optional[List[
     try:
         r = _client.chat.completions.create(
             model=OPENAI_MODEL,
-            temperature=1,
-            max_completion_tokens=300,
+            temperature=0.5,
+            max_tokens=600,
+            response_format={"type": "text"},
             messages=messages,
-            timeout=12
+            timeout=120
         )
         return r.choices[0].message.content.strip()
     except Exception as e:
@@ -45,6 +61,7 @@ def ask_chatgpt(pergunta: str, ctx: Optional[List[str]], history: Optional[List[
         if "insufficient_quota" in m or "429" in m:
             return "no momento estou sem créditos para consultar o modelo; sigo pelo FAQ."
         return m
+
 
 
 

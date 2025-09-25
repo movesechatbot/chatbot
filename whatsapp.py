@@ -1,6 +1,6 @@
 # whatsapp.py
 import tempfile, os, mimetypes, hmac, hashlib, requests
-from typing import Optional
+from typing import Optional, Any
 from flask import Blueprint, request, abort
 from openai import OpenAI
 from config import WHATSAPP_TOKEN, PHONE_NUMBER_ID, VERIFY_TOKEN, PORT
@@ -44,7 +44,21 @@ def incoming():
                     continue
 
                 if t == "text":
-                    txt = msg["text"]["body"]
+                    txt = msg["text"]["body"].strip()
+
+                    # --- reset session --- (remover na PROD)
+                    if txt.lower() == "/reset":
+                        try:
+                            requests.post(
+                                f"http://localhost:{PORT}/reset",
+                                json={"user_id": user},
+                                timeout=5
+                            )
+                            _send_text(user, "sessão zerada.")
+                        except Exception as e:
+                            _send_text(user, f"erro ao resetar: {e}")
+                        continue  # pula o resto e vai pro próximo msg
+                    # --- fluxo normal ---
                     reply = _pipeline(txt, user)
                     _send_text(user, reply)
 
@@ -90,21 +104,77 @@ def _transcribe_media(media_id: str) -> str:
         try: os.remove(path)
         except: pass
 
+# -- HELPERS --
+ALT_KEYS = ("resposta", "answer", "message", "output", "text")
+
+def _pick_first_nonempty(d: dict, keys=ALT_KEYS) -> Optional[str]:
+    for k in keys:
+        v = d.get(k)
+        if isinstance(v, str) and v.strip():
+            return v.strip()
+    return None
+
+def _humanize_error(payload: Any, status: int, where: str) -> str:
+    # tenta extrair erro do backend
+    if isinstance(payload, dict):
+        err = payload.get("error") or payload.get("detail")
+        # aceita formatos comuns: {"error": "..."} ou {"error": {"code":..., "message":...}}
+        if isinstance(err, str) and err.strip():
+            return f"falha {status} em {where}: {err.strip()}"
+        if isinstance(err, dict):
+            msg = err.get("message") or err.get("detail") or str(err)
+            code = err.get("code")
+            return f"falha {status} em {where}: {code or 'erro'} - {msg}"
+    return f"falha {status} em {where}: resposta inválida"
+
+
 def _pipeline(texto: str, user_id: str) -> str:
     """Chama teu fluxo já pronto do /chat mantendo histórico por usuário."""
+    url = f"http://localhost:{PORT}/chat"
     try:
         resp = requests.post(
-            f"http://localhost:{PORT}/chat",
+            url,
             json={"pergunta": texto, "user_id": user_id},
-            timeout=15
+            timeout=(3, 50)
         )
+        #REMOVER ESSE TRATAMENTO DE EXCECOES NA PROD (INCLUSIVE OS HELPERs)
+    except requests.exceptions.ConnectTimeout:
+        return "falha: timeout na conexão (servidor lento ou offline)."
+    except requests.exceptions.ReadTimeout:
+        return "falha: timeout lendo a resposta (modelo lento)."
+    except requests.exceptions.ConnectionError:
+        return "falha: não consegui conectar no servidor."
+    except requests.exceptions.RequestException as e:
+        return f"falha de rede: {e.__class__.__name__}"
+    
+    # http != 200: tenta explicar com o corpo
+    if not resp.ok:
+        try:
+            j = resp.json()
+        except ValueError:
+            j = None
+        return _humanize_error(j, resp.status_code, "/chat")
+    
+    # http 200: tenta várias chaves antes de desistir
+    try:
         j = resp.json()
-        return j.get("resposta") or "não consegui responder agora."
-    except Exception:
-        return "tive um problema para processar sua mensagem. pode repetir em uma frase?"
+    except ValueError:
+        return "falha: servidor retornou texto não-JSON."
+    
+    msg = _pick_first_nonempty(j)
+    if msg:
+        return msg
+
+    # se vier um envelope de erro mesmo com 200
+    if "error" in j or "detail" in j:
+        return _humanize_error(j, 200, "/chat")
+
+    # fallback com razão clara
+    return "falha: payload sem campo de resposta reconhecido (esperado: resposta/answer/message)."
+
 
 def _send_text(to: str, body: str):
-    url = f"https://graph.facebook.com/v20.0/{PHONE_NUMBER_ID}/messages"
+    url = f"https://graph.facebook.com/v22.0/{PHONE_NUMBER_ID}/messages"
     payload = {
         "messaging_product": "whatsapp",
         "to": to,                 

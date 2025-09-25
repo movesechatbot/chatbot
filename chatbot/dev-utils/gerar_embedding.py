@@ -12,8 +12,8 @@ with open('treinamento_semantico.json', 'r', encoding='utf-8') as f:
     faq = json.load(f)
 
 
-# Modelo leve e gratuito: all-MiniLM-L6-v2
-modelo = SentenceTransformer('all-MiniLM-L6-v2')
+# Modelo leve e gratuito: intfloat/multilingual-e5-small
+modelo = SentenceTransformer('intfloat/multilingual-e5-small')
 
 # Extrai apenas as perguntas para gerar embeddings
 perguntas = [item['pergunta'] for item in faq]
