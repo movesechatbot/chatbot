@@ -1,9 +1,10 @@
 # whatsapp.py
-import tempfile, os, mimetypes, hmac, hashlib, requests
+import tempfile, os, mimetypes, requests # hmac, hashlib
 from typing import Optional, Any
 from flask import Blueprint, request, abort
 from openai import OpenAI
 from config import WHATSAPP_TOKEN, PHONE_NUMBER_ID, VERIFY_TOKEN, PORT
+import re, requests
 
 bp = Blueprint("whatsapp", __name__)
 
@@ -17,10 +18,19 @@ _client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 #         return False
 #     digest = hmac.new(APP_SECRET.encode(), raw, hashlib.sha256).hexdigest()
 #     return hmac.compare_digest(sig, f"sha256={digest}")
+EMAIL_RE = re.compile(r"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}", re.I)
+
+def _notify_doc(kind: str, user: str, label: str = "", email: str = ""):
+    try:
+        requests.post(f"http://localhost:{PORT}/docs",
+                      json={"user_id": user, "kind": kind, "label": label, "email": email},
+                      timeout=5)
+    except Exception:
+        pass
+
 
 @bp.get("/whatsapp")
 def verify():
-    # validação do webhook no painel da Meta
     if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.verify_token") == VERIFY_TOKEN:
         return request.args.get("hub.challenge", ""), 200
     return "forbidden", 403
@@ -60,6 +70,31 @@ def incoming():
                         continue  # pula o resto e vai pro próximo msg
                     # --- fluxo normal ---
                     reply = _pipeline(txt, user)
+                    _send_text(user, reply)
+
+                    m = EMAIL_RE.search(txt)
+                    if m:
+                        _notify_doc("email", user, email=m.group(0))
+                    reply = _pipeline(txt, user)
+                    _send_text(user, reply)
+
+                elif t in ("document", "image"):
+                    caption = (msg.get(t, {}).get("caption") or "").lower()
+                    filename = (msg.get(t, {}).get("filename") or "").lower()
+                    meta = f"{caption} {filename}"
+
+                    if any(k in meta for k in ("rg", "cnh", "carteira de motorista", "identidade")):
+                        _notify_doc("rg_cnh", user)
+                    elif any(k in meta for k in ("comprovante de residencia", "residência", "luz", "agua", "água", "energia")):
+                        _notify_doc("residencia", user)
+                    elif any(k in meta for k in ("holerite", "contracheque", "renda", "pro labore", "decorrente renda")):
+                        _notify_doc("renda", user)
+                    else:
+                        # se não souber, não marca; o GPT ainda verá a msg no histórico
+                        pass
+
+                    # segue fluxo normal (se quiser, pode responder um “recebido”)
+                    reply = _pipeline(caption or "enviei um documento", user)
                     _send_text(user, reply)
 
                 elif t in ("audio", "voice"):

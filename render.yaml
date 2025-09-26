@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: chatbot-minilm
-    env: docker
-    plan: free
-    branch: main
-    dockerfilePath: Dockerfile
-    autoDeploy: true

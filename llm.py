@@ -29,6 +29,7 @@ def ask_chatgpt(
         "documentos: RG ou CNH, comprovante de residência, comprovante de renda."
         "para saudações (ex: 'oi', 'boa tarde'), cumprimente e avance a conversa."
         "evite textos longos, listas grandes e jargões."
+        "se houver status_docs, confirme recebimento, peça só o que falta, e evite pedir novamente o que já foi enviado."
     )
 
     messages: List[Message] = [{"role":"system","content": sys}]
@@ -53,7 +54,7 @@ def ask_chatgpt(
             max_tokens=600,
             response_format={"type": "text"},
             messages=messages,
-            timeout=120
+            timeout=90
         )
         return r.choices[0].message.content.strip()
     except Exception as e:
