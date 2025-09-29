@@ -1,0 +1,1200 @@
+## ATENDIMENTO AO CLIENTE
+
+### ETIQUETAS NO WHATSAPP
+
+**Atualize os clientes nas etiquetas do WhatsApp conforme está descrito abaixo.**
+
+**Novo cliente:** cliente que entrou agora e não respondeu nenhuma mensagem ainda. Ex: cliente do C2S, que tu chamou e ainda não respondeu.
+
+**Conversando:** atualmente está em contato com o cliente, mas ainda não chegou na etapa de solicitar documentação. Está filtrando o cliente ainda.
+
+**Aguardando documentação:** já filtrou o cliente, e já solicitou a documentação.
+
+**Em análise:** está em análise e tem que ficar aguardando o retorno da aprovação.
+
+**Aprovado:** fazer o pré-fechamento com o cliente
+
+**Reprovado:** bacen; dívidas altas no nome; condicionou muito; rating mínimo. É um cliente que tu vai reativar daqui 30/45/60 dias.
+
+**Repique potencial:** cliente que está há muito tempo sem responder, pode estar em qualquer etapa do atendimento. Vai reativar daqui 30/45/60 dias.
+
+**Cliente Frio:** cliente desqualificado.
+
+**Assinado:** cliente comprou com você.
+
+### 1. BOAS VINDAS
+
+Leads que vieram do tráfego pago, que foram distribuídos pelo C2S, você deve aborda-los dando contexto a ele, explicando quem é você e porque você está entrando em contato:
+
+*Oi, [NOME DO CLIENTE], tudo bem? Meu nome é [NOME CORRETOR], especialista em primeiro imóvel aqui na Imobiliária Movese. 🏠*
+
+*Recebi o seu cadastro através do nosso anúncio e estou aqui para te ajudar a entender sobre como funciona o financiamento do primeiro imóvel.* 
+
+### 2. FILTRAR O CLIENTE
+
+O objetivo principal de filtrar o cliente é entender rapidamente quem está realmente qualificado para avançar no processo de financiamento do imóvel e quem não está. Esse filtro inicial evita que você invista tempo em conversas que não irão gerar resultado e permite focar exclusivamente naqueles clientes que atendem aos critérios do Minha Casa Minha Vida ou outras modalidades. Dessa forma, o atendimento fica mais produtivo e aumenta as chances de conversão em vendas efetivas.
+
+*Hoje tu procura imóvel em qual cidade?*
+
+- Lista de cidades que atuamos
+    Novo Hamburgo
+    Estância Velha
+    ⁠São Leopoldo
+    ⁠Nova Hartz
+    ⁠Esteio
+    ⁠Sapucaia do Sul
+    ⁠Canoas
+    ⁠Cachoeirinha
+    ⁠Gravataí
+    ⁠Porto Alegre
+    ⁠Viamão
+    ⁠Alvorada
+    ⁠Guaíba
+    
+- Cliente quer comprar em uma cidade que não atuamos
+    
+    *Poxa, infelizmente não vou conseguir te ajudar, a imobiliária que trabalho atua apenas na região metropolitana de Porto Alegre.*
+    
+
+*Perfeito, sou especialista nessa região! E me diz uma coisa, esse vai ser o teu primeiro imóvel?*
+
+- É o primeiro imóvel do cliente
+    
+    Pode seguir para ENTENDER O NÍVEL DE CONSCIÊNCIA
+    
+- Não é o primeiro imóvel dele
+    
+    As vezes o cliente diz que tem imóvel no nome, mas o imóvel pode não estar escriturado no nome dele, pode estar em uma área verde
+    
+    *E o imóvel tem escritura e está escriturado em seu nome mesmo?*
+    
+    - está escriturado no nome dele
+        
+        *Certo, e qual a sua renda mensal hoje?*
+        
+        - renda acima de R$ 6.500,00
+            
+            Pode seguir com **ENTENDER O NÍVEL DE CONSCIÊNCIA**
+            
+        - renda abaixo de R$ 6.500,00
+            
+            Nesse caso aqui o cliente não tem chance de comprar o imóvel 100% parcelado pela segunda vez, vai precisar dar um bom valor de entrada a vista, ele terá que comprar via SBPE (veja aqui no playbook o que é). Pergunte a ele se ele possui algum valor de entrada a vista para dar, pelo menos 10.000,00, se ele não tiver, infelizmente não vamos conseguir ajudar ele. Se ele tiver, faça uma simulação na Caixa como SBPE para ver de fato quanto vai dar de entrada a vista.
+            
+    - não está escriturado no nome dele
+        
+        *Maravilha, então podemos seguir normalmente, como o imóvel não está escriturado no seu nome, você garante os benefícios do programa Minha Casa Minha Vida!*
+        
+        Pode seguir com **ENTENDER O NÍVEL DE CONSCIÊNCIA**
+        
+
+### 3. ENTENDER O NÍVEL DE CONSCIÊNCIA
+
+Entender o nível de consciência do cliente permite identificar rapidamente o quanto ele já conhece sobre o processo de compra do imóvel, se já conversou com outros corretores, realizou análises de crédito ou se interessou em algum imóvel anteriormente. Isso possibilita personalizar o atendimento desde o início, tornando a abordagem única e relevante para cada cliente. Assim, o cliente percebe que não está recebendo um atendimento genérico e sente que sua situação é verdadeiramente compreendida, aumentando a confiança, a conexão e as chances de sucesso no atendimento.
+
+*Para que eu consiga te atender da melhor forma, preciso saber de uma coisa, você já chegou a conversar com algum corretor, chegou a fazer alguma análise de crédito, ou é a primeira vez que está buscando entender como funciona para comprar um imóvel?*
+
+- **Caso nunca tenha sido atendido por outro corretor**
+    
+    Nesse caso você pode ir para a etapa de **CONTEXTUALIZAÇÃO**.
+    
+- **Caso já tenha sido atendido por outro corretor e foi reprovado**
+    
+    Buscar entender qual foi o motivo da reprovação e se o cliente sabe e fez o que precisava ser feito para ser aprovado.
+    
+    *Entendi, [NOME DO CLIENTE]. Você chegou a entender o motivo da sua reprovação? O corretor explicou exatamente o que faltou ou o que precisa ajustar pra aumentar suas chances de aprovação?*
+    
+    - BACEN
+        
+        Caso o cliente informe que o motivo da reprovação tenha sido por dívida em prejuízo; uma dívida vencida; acordo que fez com o banco; acordo que fez para pagar uma dívida é porque provavelmente o motivo de reprovação é devido o nome dele estar no BACEN por dívida em prejuízo. Nesse caso, precisamos entender se o nome dele ainda está no BACEN. 
+        
+        *Você fez algum tipo acordo com alguma instituição financeira para quitar um dívida com desconto?*
+        
+        - Sim, fez acordo (dívida com prejuízo)
+            
+            *Você lembra quando foi que fez o acordo com essa instituição financeira?*
+            
+            - Faz mais de 90 dias
+                
+                 precisamos pedir o SCR (registrato atualizado) e analisarmos se no último mês costa algum valor em prejuízo.
+                
+                *[NOME DO CLIENTE], pelo que você comentou, é possível que o motivo da reprovação esteja relacionado a alguma pendência registrada no Banco Central (BACEN). Pra gente conseguir confirmar exatamente o que houve e te orientar corretamente, preciso dar uma olhada no seu SCR (Registrato atualizado). Você consegue emitir ele pelo site do Banco Central e me enviar? Vou te enviar um tutorial de como pegar ele lá. Assim conseguimos analisar juntos e entender qual o próximo passo pra aprovação.*
+                
+                Link do SCR para enviar ao cliente: https://registrato.bcb.gov.br/registrato/
+                
+                Tutorial em PDF para enviar ao cliente para que ele consiga pegar o SCR: 
+                
+                [Tutorial SCR.pdf](attachment:38530381-bb19-4610-abbd-7b0322d0626c:Tutorial_SCR.pdf)
+                
+                - Após analisar o SCR a dívida ainda consta no BACEN
+                    
+                    Se já passou dos 90 dias e a dívida ainda consta no SCR, pode ser que o cliente tenha que esperar até o próximo dia 20, o BACEN atualiza todo dia 20. Caso tenha esperado até o dia 20, pego o SCR atualizado e mesmo assim a dívida continua lá, o cliente precisa ligar para a instituição financeira, informar que fez um acordo com eles alguns meses atrás e que agora está tentando financiar um imóvel e precisa que tirem o nome dele do BACEN.
+                    
+                - Dívida saiu do BACEN
+                    
+                    *Vi aqui que a dívida não costa mais no BACEN, nesse caso já podemos rodar uma nova análise de crédito, para entender se vamos ter uma aprovação!*
+                    
+                    Agora você pode ir para a etapa CONTEXTUALIZAÇÃO, mas pulando a etapa de explicar o programa Minha Casa Minha Vida, isso porque o cliente já teve contato com isso antes.
+                    
+                
+            - Faz menos de 90 dias
+                
+                *Entendi, quando é feito um acordo para pagar uma dívida, o nome da pessoa será no mantido no BANCEN (BANCO CENTRAL) por 90 dias, então precisamos aguardar esse período para rodar uma nova análise de crédito, entendeu?*
+                
+            - Cliente não lembra
+                
+                 precisamos pedir o SCR (registrato atualizado) e analisarmos se no último mês costa algum valor em prejuízo ou vencido.
+                
+                *[NOME DO CLIENTE], pelo que você comentou, é possível que o motivo da reprovação esteja relacionado a alguma pendência registrada no Banco Central (BACEN). Pra gente conseguir confirmar exatamente o que houve e te orientar corretamente, preciso dar uma olhada no seu SCR (Registrato atualizado). Você consegue emitir ele pelo site do Banco Central e me enviar? Vou te enviar um tutorial de como pegar ele lá. Assim conseguimos analisar juntos e entender qual o próximo passo pra aprovação.*
+                
+                Link do SCR para enviar ao cliente: https://registrato.bcb.gov.br/registrato/
+                
+                Tutorial em PDF para enviar ao cliente para que ele consiga pegar o SCR: 
+                
+                [Tutorial SCR.pdf](attachment:38530381-bb19-4610-abbd-7b0322d0626c:Tutorial_SCR.pdf)
+                
+                - Após analisar o SCR a dívida ainda consta no BACEN
+                    
+                    Se já passou dos 90 dias e a dívida ainda consta no SCR, pode ser que o cliente tenha que esperar até o próximo dia 20, o BACEN atualiza todo dia 20. Caso tenha esperado até o dia 20, pego o SCR atualizado e mesmo assim a dívida continua lá, o cliente precisa ligar para a instituição financeira, informar que fez um acordo com eles alguns meses atrás e que agora está tentando financiar um imóvel e precisa que tirem o nome dele do BACEN.
+                    
+                - Dívida saiu do BACEN
+                    
+                    *Vi aqui que a dívida não costa mais no BACEN, nesse caso já podemos rodar uma nova análise de crédito, para entender se vamos ter uma aprovação!*
+                    
+                    Agora você pode ir para a etapa CONTEXTUALIZAÇÃO, mas pulando a etapa de explicar o programa Minha Casa Minha Vida, isso porque o cliente já teve contato com isso antes.
+                    
+                
+        - Não, não fez acordo (dívidas vencidas)
+            
+            Caso ele diga que não fez acordo, mas afirma que o resultado foi reprovação por BACEN, provavelmente ele está com uma dívida vencida. É mais tranquilo de resolver, pode ser um cartão de crédito que está vencido há um bom tempo, empréstimo ou algo do tipo.
+            
+            *Sabe dizer se você está com alguma fatura atrasada há um tempo, ou algum empréstimo que já passou da data de vencimento e ainda não foi pago?*
+            
+            - Sim, está com alguma dívida em dia
+                
+                Peça para ele colocar a dívida, quando colocar em dia, precisa esperar até o dia 20 do próximo mês para atualizar o BACEN.
+                
+                Após isso, você pode ir para a etapa CONTEXTUALIZAÇÃO, mas pulando a etapa de explicar o programa Minha Casa Minha Vida, isso porque o cliente já teve contato com isso antes.
+                
+            - Não, ele disse que está tudo em dia
+                
+                precisamos pedir o SCR (registrato atualizado) e analisarmos se no último mês costa algum valor vencido.
+                
+                *[NOME DO CLIENTE], pelo que você comentou, é possível que o motivo da reprovação esteja relacionado a alguma pendência registrada no Banco Central (BACEN). Pra gente conseguir confirmar exatamente o que houve e te orientar corretamente, preciso dar uma olhada no seu SCR (Registrato atualizado). Você consegue emitir ele pelo site do Banco Central e me enviar? Vou te enviar um tutorial de como pegar ele lá. Assim conseguimos analisar juntos e entender qual o próximo passo pra aprovação.*
+                
+                Link do SCR para enviar ao cliente: https://registrato.bcb.gov.br/registrato/
+                
+                Tutorial em PDF para enviar ao cliente para que ele consiga pegar o SCR: 
+                
+                [Tutorial SCR.pdf](attachment:38530381-bb19-4610-abbd-7b0322d0626c:Tutorial_SCR.pdf)
+                
+                - Após analisar o SCR a dívida ainda consta no BACEN
+                    
+                    Peça para ele colocar a dívida, quando colocar em dia, precisa esperar até o dia 20 do próximo mês para atualizar o BACEN.
+                    
+                    Após isso, você pode ir para a etapa CONTEXTUALIZAÇÃO, mas pulando a etapa de explicar o programa Minha Casa Minha Vida, isso porque o cliente já teve contato com isso antes.
+                    
+                - Dívida saiu do BACEN
+                    
+                    *Vi aqui que a dívida não costa mais no BACEN, nesse caso já podemos rodar uma nova análise de crédito, para entender se vamos ter uma aprovação!*
+                    
+                    Agora você pode ir para a etapa CONTEXTUALIZAÇÃO, mas pulando a etapa de explicar o programa Minha Casa Minha Vida, isso porque o cliente já teve contato com isso antes.
+                    
+        
+    - Rating mínimo
+        
+        Caso o cliente informe que o motivo de reprovação seja porque informaram que ele precisaria abrir conta na Caixa; criar um relacionamento com o banco/Caixa; rating mínimo é porque provavelmente o o motivo de reprovação é devido a rating mínimo. Nesse caso é preciso entender se ele realmente foi a Caixa Econômica e abriu a conta corrente.
+        
+        - **Caso ele tenha ido a Caixa Econômica e tenha aberto uma conta corrente**
+            
+            Buscar entender há quanto tempo ele fez isso. 
+            
+            *Ótimo, [NOME DO CLIENTE]! Você lembra há quanto tempo exatamente abriu a conta na Caixa Econômica? Pergunto porque, se isso já foi feito há mais de 60 dias, podemos rodar uma nova análise de crédito agora e temos grandes chances de conseguir a sua aprovação.*
+            
+            - **Caso tenha sido há mais de 60 dias**
+                
+                *Perfeito, [NOME DO CLIENTE]! Como já passaram mais de 60 dias desde a abertura da sua conta, agora podemos fazer uma nova análise de crédito. Nesse período, normalmente o relacionamento com o banco já evoluiu bastante, o que aumenta muito as chances de aprovação. Que tal tentarmos uma nova análise de crédito?*
+                
+                Após isso, você pode ir para a etapa **CONTEXTUALIZAÇÃO**, mas pulando a etapa de explicar o programa Minha Casa Minha Vida, isso porque o cliente já teve contato com isso antes.
+                
+            - **Caso não tenha sido há mais de 60 dias**
+                
+                *Entendi, [NOME DO CLIENTE]. Nesse caso, o ideal é aguardarmos completar pelo menos 60 dias desde a abertura da conta para garantirmos uma melhor pontuação no banco. Durante esse período, o importante é seguir a lista de tarefas de relacionamento com a Caixa Econômica que vou te enviar, assim aumentamos bastante as chances de aprovação na próxima análise. Combinado?*
+                
+                *Para o cliente aumentar o rating dele com a caixa é só fazer essa passo a passo abaixo:*
+                
+                *1- Rating C+: Abrir conta corrente;
+                2- Rating B-: Pedir Cartão de crédito;
+                3- Rating B: Fazer uma previdência mensal (Mínimo 50 reais);
+                4- Rating B+: Fazer um seguro de vida mensal (Mínimo 30 reais);
+                5- Rating A: Habilitar o Pix;
+                6- Rating AA: Home Broker (Fazer aplicação, qualquer valor)
+                7- Rating AAA: Aderir ao cesta tarifa: Custo a partir de 12,90*
+                
+            
+        - **Caso ele não tenha ido a Caixa Econômica**
+            
+            Orientar a que ele vá até a Caixa e consiga realizar o máximo de etapas das informações abaixo, pode enviar essa lista para ele e informar que quanto mais opções ele conseguir fazer melhor é a chance de ele conseguir a aprovação.
+            
+            *Certo, nesse caso o próximo passo importante é você ir até uma agência da Caixa Econômica para iniciar um relacionamento com o banco. Fazendo isso, em aproximadamente 60 dias aumentam bastante as suas chances de aprovação do crédito. Vou te enviar aqui uma lista simples de ações sugeridas pela própria Caixa, para que você consiga melhorar rapidamente seu relacionamento com o banco:*
+            
+            *para o cliente aumentar o rating dele com a caixa é só fazer essa passo a passo abaixo:*
+            
+            *1- Rating C+: Abrir conta corrente;
+            2- Rating B-: Pedir Cartão de crédito;
+            3- Rating B: Fazer uma previdência mensal (Mínimo 50 reais);
+            4- Rating B+: Fazer um seguro de vida mensal (Mínimo 30 reais);
+            5- Rating A: Habilitar o Pix;
+            6- Rating AA: Home Broker (Fazer aplicação, qualquer valor)
+            7- Rating AAA: Aderir ao cesta tarifa: Custo a partir de 12,90*
+            
+    - Comprometimento de Renda
+        
+        Primeiro passo é entender se o cliente reduziu os compromissos financeiros ou não.
+        
+        *Entendi, [NOME DO CLIENTE]. Hoje você ainda possui esses mesmos compromissos financeiros, como empréstimos ou financiamentos, ou já conseguiu quitar ou reduzir alguma coisa?*
+        
+        - **Caso o cliente ainda tenha compromissos financeiros**
+            
+            *Certo, [NOME DO CLIENTE]. Nesse caso, é importante reduzir ou quitar parte desses compromissos financeiros para liberar sua renda e melhorar suas chances de aprovação. Eu posso te ajudar a entender exatamente quanto precisaria reduzir para ter sucesso na próxima análise. Quer que eu te explique melhor?*
+            
+        - **Caso o cliente não tenha mais compromissos financeiros**
+            
+            *Ótimo, [NOME DO CLIENTE]! Como você já resolveu essa questão dos compromissos financeiros, as tuas chances de aprovação agora aumentam bastante.* 
+            
+            Agora você pode ir para a etapa de **CONTEXTUALIZAÇÃO**, sem explicar a parte do programa minha casa minha vida.
+            
+        
+    - Restrição Alta
+        
+        Precisamos entender se ele já quitou a dívida ou se ela continua em aberto.
+        
+        *Entendi, [NOME DO CLIENTE]. Você sabe me dizer se essa dívida já foi quitada ou se ela ainda está em aberto? Essa informação é importante porque influencia diretamente na aprovação do seu crédito.*
+        
+        - **Caso o cliente não tenha quitado a pendência**
+            
+            *Entendi, [NOME DO CLIENTE]. Nesse caso, o primeiro passo importante é resolver essa pendência, já que isso pode impedir sua aprovação no financiamento. Você já chegou a conversar com o credor sobre as condições para quitar ou negociar essa dívida? Posso te orientar sobre como fazer isso para que possamos avançar.*
+            
+        - **Caso o cliente tenha quitado a pendência**
+            
+            *Ótimo, [NOME DO CLIENTE]! Se essa dívida já está quitada, podemos seguir com a análise de crédito agora mesmo. Isso é excelente, pois suas chances de aprovação já aumentaram bastante.* 
+            
+            Após isso, você pode ir para a etapa CONTEXTUALIZAÇÃO, mas pulando a etapa de explicar o programa Minha Casa Minha Vida, isso porque o cliente já teve contato com isso antes.
+            
+        - **Caso ele não saiba se tem pendência no nome**
+            
+            Nesse caso nós enviamos a MO para o cliente assinar, essa MO é um documento da Caixa Econômica que autoriza o CCA (correspondente bancário) a verificar as pendências do cliente em todos os órgãos.
+            
+            *[NOME DO CLIENTE] podemos consultar isso rapidamente pra você. Vou te enviar um documento de autorização, que você pode imprimir e assinar ou, se preferir, assinar diretamente pelo aplicativo gov.br. Com essa autorização conseguimos consultar todos os órgãos de crédito e identificar rapidamente se existe algo ativo. Assim já entendemos melhor a sua situação e podemos te orientar sobre os próximos passos, combinado?*
+            
+            O cliente concordando você pode enviar o arquivo da MO:
+            
+            [AUTORIZAÇÃO CAIXA - ATUALIZADA.pdf](attachment:008863d5-e8ac-40bc-9ac0-14ff8ee0ac2d:AUTORIZACAO_CAIXA_-_ATUALIZADA.pdf)
+            
+            O cliente pode imprimir e assinar, mas isso leva tempo, nesse caso você pode orientá-lo a assinar pelo gov.br, já enviando o tutorial logo em seguida pra ele:
+            
+            *Para assinar pelo gov.br é só seguir o passo a passo:*
+            
+            *Entrar no gov com nível ouro > na barra de pesquisa escrever assinatura > primeiro link > arrastar o documento no campo que pede > clicar no quadro que precisa assinar > confirmar > baixar doc assinado*
+            
+            caso o cliente não seja nível ouro, envie esse tutorial a ele:
+            https://youtu.be/JfhUS9EESWo?si=RSbr3QRICnVKVQOF
+            
+            caso ele tenha dificuldade de assinar pelo gov.br, pode enviar esse tutorial a ele:
+            
+            https://youtu.be/dE_hy6sbe9Q?si=Ivi_SZYXNeYe6O4A
+            
+            - Pendência menor do que R$ 1.000,00
+                
+                *[NOME DO CLIENTE], como a pendência é abaixo de R$ 1.000,00, vale muito a pena a gente rodar a análise de crédito. Já tivemos vários casos de aprovação mesmo com esse tipo de restrição, principalmente em valores baixos. Vamos fazer a análise agora pra confirmar? Se for aprovado, já conseguimos seguir com o processo sem perder tempo.*
+                
+                Cliente concordando pode seguir para a etapa de **CONTEXTUALIZAÇÃO**
+                
+            - Pendência maior do que R$ 1.000,00
+                
+                *[NOME DO CLIENTE], como a pendência é superior a R$ 1.000,00, o primeiro passo agora é regularizar essa dívida. O ideal é entrar em contato com o banco ou a empresa responsável e verificar a possibilidade de fazer um acordo. Mas é fundamental confirmar se, ao pagar a primeira parcela do acordo, o seu nome já será retirado dos órgãos de restrição, como SPC, Serasa ou BACEN. Essa confirmação precisa ser clara, pra que a gente possa avançar com a análise de crédito no momento certo, sem risco de reprovação por restrição ativa. Certo?*
+                
+            
+    - Não sabe ou não lembra o motivo da reprovação
+        
+        *Sem problemas, [NOME DO CLIENTE]. Como você não lembra exatamente o motivo da reprovação anterior, o ideal é fazermos agora uma nova análise de crédito. Assim conseguimos identificar rapidamente o que pode estar impedindo sua aprovação e já definimos os próximos passos juntos ou então já termos a aprovação.* 
+        
+        Após isso, você pode ir para a etapa CONTEXTUALIZAÇÃO, mas pulando a etapa de explicar o programa Minha Casa Minha Vida, isso porque o cliente já teve contato com isso antes.
+        
+    
+- **Caso já tenha sido atendido por outro corretor e foi aprovado**
+    
+    Clientes que já foram aprovados anteriormente, mas não avançaram com a compra, normalmente têm receio de repetir etapas já realizadas sem um resultado concreto. Por isso, entender claramente o motivo que fez o cliente não prosseguir é essencial. Dessa forma, conseguimos personalizar o atendimento desde o início, oferecendo garantias de que o esforço dele será valorizado, que a análise será assertiva e que os erros anteriores não se repetirão. Quanto mais confiança o cliente tiver nesse ponto, maiores são as chances de ele avançar com segurança no processo.
+    
+    *Entendi, [NOME DO CLIENTE]. Só pra eu conseguir entender melhor, qual foi o motivo que fez você não seguir com a compra depois da aprovação?*
+    
+    Nessa etapa, é fundamental ser totalmente transparente e objetivo com o cliente. A transparência gera confiança, evita que o cliente se frustre novamente e demonstra claramente que você não cometerá os mesmos erros do atendimento anterior. Seu foco deve ser criar uma relação baseada em confiança e clareza desde o início, aumentando assim as chances de sucesso na continuidade do atendimento.
+    
+    - Quer casa e só mostraram apartamento
+        
+        Quando o cliente mencionar que deseja casa, mas só recebeu opções de apartamento, o primeiro passo é verificar no mapa da Movese onde estão as casas mais próximas da região onde ele mora ou deseja morar. Para identificar rapidamente essas opções, procure no mapa os imóveis com o ícone de casa.
+        
+        Regiões que não tem casa, mas cidades vizinhas possuem casa e podemos verificar com o cliente a possibilidade de morar nelas:
+        Canoas → em casa em Cachoeirinha ou Gravataí
+        
+        Porto Alegre Zona Leste → tem casa em Viamão ou na Zona Sul mesmo
+        
+        Porto Alegre Zona Norte → tem casa em Alvorada ou Gravataí
+        
+        Geralmente para essas mudanças de cidade não há objeção, então não é preciso ter um poder de convencimento para fazer ela morar na outra cidade, porque é próximo. Com base na distância e na possibilidade da pessoa morar perto ou longe de casas, decida abaixo qual caminho faz sentido:
+        
+        - Opções de casa são longe de onde ele mora
+            
+            *[NOME DO CLIENTE], aqui eu quero ser muito transparente contigo. Realmente, hoje não há opções de casas próximas à região que você deseja. Isso acontece porque, nessa região específica, o valor do metro quadrado ficou muito alto, tornando inviável construir casas com preços acessíveis pelo programa Minha Casa Minha Vida.*
+            
+            *É justamente por esse motivo que os apartamentos acabam sendo a opção mais comum: eles conseguem oferecer um preço acessível, mais segurança, estrutura e localização melhor, ficando mais próximos das regiões que as pessoas já conhecem e gostam.*
+            
+            *E deixa eu te dar uma dica importante, o primeiro imóvel, principalmente pelo Minha Casa Minha Vida, normalmente é aquele que resolve o problema imediato do aluguel e te ajuda a parar, ou então, evitar de gastar dinheiro todo mês com algo que não será seu. Já o segundo imóvel é aquele pra realizar o teu sonho mesmo, que pode ser uma casa maior, exatamente do jeito que você quer.*
+            
+            *Olhando por esse lado, o que é mais importante pra você nesse primeiro momento, morar em um apartamento perto de onde você realmente deseja, com mais facilidade no dia a dia, ou morar numa casa, mesmo que mais afastada?*
+            
+            - Morar em uma casa mesmo que mais afastada
+                
+                Como ainda não sabemos exatamente qual é a renda do cliente, é essencial perguntar isso de forma clara e objetiva antes de enviar opções. Assim, evitamos apresentar imóveis fora do orçamento e garantimos que o atendimento seja assertivo.
+                
+                *Para garantir que eu te envie opções dentro da tua realidade financeira, você pode me dizer aproximadamente qual é a tua renda mensal familiar hoje? Assim já conseguimos filtrar opções que realmente façam sentido pra ti.*
+                
+                Agora que temos a renda, é preciso verificar quais opções de casas mais próximas de onde ele procura imóvel, que estejam dentro da faixa de renda dele e pegar o material na [planilha de empreendimentos](https://docs.google.com/spreadsheets/d/1qybVC2VOYI6QlKPSVorfvFuLJb95MxjitIrOVYbFA8s/edit?gid=469527213#gid=469527213)
+                
+                **Enviar opção ao cliente**
+                
+                *Encontrei uma excelente opção pra você que se encaixa dentro da tua renda e do que você está procurando. Dá uma olhada com calma nesse empreendimento aqui: [ENVIAR MATERIAL]. Me avisa se gostar ou tiver alguma dúvida, ok?*
+                
+                 **Cliente gostou da opção enviada**
+                
+                *Ótimo, [NOME DO CLIENTE]! Que bom que gostou. Agora o próximo passo é rodarmos a tua análise de crédito atualizada pra já garantirmos que você tem aprovação para esse empreendimento específico. Posso te passar quais são os documentos necessários? São apenas 3*
+                
+                **Cliente não gostou da opção apresentada**
+                
+                Enviar outra opção
+                
+                **Cliente não gostou de nenhuma opção apresentada**
+                
+                *Entendo perfeitamente, [NOME DO CLIENTE]. Porém, só pra alinhar contigo, essas opções que enviei são as únicas disponíveis 100% parceladas dentro do programa Minha Casa Minha Vida nessa região. O que significa que, independentemente da imobiliária que você procurar, as opções serão as mesmas.* 
+                
+                *Realmente é comum no primeiro imóvel não encontrarmos exatamente tudo que gostaríamos. Mas pensa comigo: o objetivo principal agora é você não pagar aluguel, certo? Então talvez faça sentido escolher algo que seja prático e financeiramente acessível nesse momento, justamente para que, mais adiante, você tenha condições melhores para investir em algo maior, mais próximo do imóvel dos seus sonhos. Acha que faz sentido?*
+                
+                **Cliente concordou**
+                
+                *Ótimo, [NOME DO CLIENTE]! Agora o próximo passo é rodarmos a tua análise de crédito atualizada pra já garantirmos que você tem aprovação para esse empreendimento específico. Posso te passar quais são os documentos necessários? São apenas* 
+                
+                **Cliente não quer avançar**
+                
+                *Entendo a tua decisão e agradeço pela conversa até aqui. Vou deixar teu contato salvo e, caso surjam novas opções que possam te atender melhor, te aviso imediatamente, combinado? Fico à disposição sempre que precisar. Um abraço!*
+                
+            - Ver opções de apartamento
+                
+                Como ainda não sabemos exatamente qual é a renda do cliente, é essencial perguntar isso de forma clara e objetiva antes de enviar opções. Assim, evitamos apresentar imóveis fora do orçamento e garantimos que o atendimento seja assertivo.
+                
+                *Para garantir que eu te envie opções dentro da tua realidade financeira, você pode me dizer aproximadamente qual é a tua renda mensal familiar hoje? Assim já conseguimos filtrar opções que realmente façam sentido pra ti.*
+                
+                Agora que temos a renda, é preciso verificar quais opções de casas mais próximas de onde ele procura imóvel, que estejam dentro da faixa de renda dele e pegar o material na [planilha de empreendimentos](https://docs.google.com/spreadsheets/d/1qybVC2VOYI6QlKPSVorfvFuLJb95MxjitIrOVYbFA8s/edit?gid=469527213#gid=469527213)
+                
+                **Enviar opção ao cliente**
+                
+                *Encontrei uma excelente opção pra você que se encaixa dentro da tua renda e do que você está procurando. Dá uma olhada com calma nesse empreendimento aqui: [ENVIAR MATERIAL]. Me avisa se gostar ou tiver alguma dúvida, ok?*
+                
+                 **Cliente gostou da opção enviada**
+                
+                *Ótimo, [NOME DO CLIENTE]! Que bom que gostou. Agora o próximo passo é rodarmos a tua análise de crédito atualizada pra já garantirmos que você tem aprovação para esse empreendimento específico. Posso te passar quais são os documentos necessários? São apenas 3*
+                
+                **Cliente não gostou da opção apresentada**
+                
+                Enviar outra opção
+                
+                **Cliente não gostou de nenhuma opção apresentada**
+                
+                *Entendo perfeitamente, [NOME DO CLIENTE]. Porém, só pra alinhar contigo, essas opções que enviei são as únicas disponíveis 100% parceladas dentro do programa Minha Casa Minha Vida nessa região. O que significa que, independentemente da imobiliária que você procurar, as opções serão as mesmas.* 
+                
+                *Realmente é comum no primeiro imóvel não encontrarmos exatamente tudo que gostaríamos. Mas pensa comigo: o objetivo principal agora é você não pagar aluguel, certo? Então talvez faça sentido escolher algo que seja prático e financeiramente acessível nesse momento, justamente para que, mais adiante, você tenha condições melhores para investir em algo maior, mais próximo do imóvel dos seus sonhos. Acha que faz sentido?*
+                
+                **Cliente concordou**
+                
+                *Ótimo, [NOME DO CLIENTE]! Agora o próximo passo é rodarmos a tua análise de crédito atualizada pra já garantirmos que você tem aprovação para esse empreendimento específico. Posso te passar quais são os documentos necessários? São apenas* 
+                
+                **Cliente não quer avançar**
+                
+                *Entendo a tua decisão e agradeço pela conversa até aqui. Vou deixar teu contato salvo e, caso surjam novas opções que possam te atender melhor, te aviso imediatamente, combinado? Fico à disposição sempre que precisar. Um abraço!*
+                
+            - Nenhuma das alternativas
+                
+                **Cliente não gostou de nenhuma opção apresentada**
+                
+                *Entendo perfeitamente, [NOME DO CLIENTE]. Porém, só pra alinhar contigo, essas opções que enviei são as únicas disponíveis 100% parceladas dentro do programa Minha Casa Minha Vida nessa região. O que significa que, independentemente da imobiliária que você procurar, as opções serão as mesmas.* 
+                
+                *Realmente é comum no primeiro imóvel não encontrarmos exatamente tudo que gostaríamos. Mas pensa comigo: o objetivo principal agora é você não pagar aluguel, certo? Então talvez faça sentido escolher algo que seja prático e financeiramente acessível nesse momento, justamente para que, mais adiante, você tenha condições melhores para investir em algo maior, mais próximo do imóvel dos seus sonhos. Acha que faz sentido?*
+                
+                **Cliente concordou**
+                
+                *Ótimo, [NOME DO CLIENTE]! Agora o próximo passo é rodarmos a tua análise de crédito atualizada pra já garantirmos que você tem aprovação para esse empreendimento específico. Posso te passar quais são os documentos necessários? São apenas* 
+                
+                **Cliente não quer avançar**
+                
+                *Entendo a tua decisão e agradeço pela conversa até aqui. Vou deixar teu contato salvo e, caso surjam novas opções que possam te atender melhor, te aviso imediatamente, combinado? Fico à disposição sempre que precisar. Um abraço!*
+                
+        - Opções de casa são perto de onde ele mora
+            
+            *Olha só, [NOME DO CLIENTE], temos parcerias com construtoras que possuem opções de casas bem próximas da região que você deseja. Talvez o outro corretor não tenha mostrado essas opções por não trabalhar diretamente com essas construtoras ou ele se equivocou no seu atendimento. Vou te mandar agora mesmo as opções disponíveis para que você avalie com calma. Se gostar de alguma delas, já conseguimos avançar com a análise de crédito novamente, combinado?*
+            
+            **Enviar opção ao cliente**
+            
+            [ENVIAR MATERIAL DAS CASAS PRÓXIMAS DA REGIÃO, QUE VOCÊ VIU NO MAPA] pegar na [planilha de empreendimentos](https://docs.google.com/spreadsheets/d/1qybVC2VOYI6QlKPSVorfvFuLJb95MxjitIrOVYbFA8s/edit?gid=469527213#gid=469527213)
+            
+            **Cliente gostou da opção enviada**
+            
+            *Ótimo, [NOME DO CLIENTE]! Que bom que gostou. Agora o próximo passo é rodarmos a tua análise de crédito atualizada pra já garantirmos que você tem aprovação para esse empreendimento específico. Posso te passar quais são os documentos necessários? São apenas 3*
+            
+            **Cliente não gostou da opção apresentada**
+            
+            Enviar outra opção
+            
+            **Cliente não gostou de nenhuma opção apresentada**
+            
+            *Entendo perfeitamente, [NOME DO CLIENTE]. Porém, só pra alinhar contigo, essas opções que enviei são as únicas disponíveis 100% parceladas dentro do programa Minha Casa Minha Vida nessa região. O que significa que, independentemente da imobiliária que você procurar, as opções serão as mesmas.* 
+            
+            *Realmente é comum no primeiro imóvel não encontrarmos exatamente tudo que gostaríamos. Mas pensa comigo: o objetivo principal agora é você não pagar aluguel, certo? Então talvez faça sentido escolher algo que seja prático e financeiramente acessível nesse momento, justamente para que, mais adiante, você tenha condições melhores para investir em algo maior, mais próximo do imóvel dos seus sonhos. Acha que faz sentido?*
+            
+            **Cliente concordou**
+            
+            *Ótimo, [NOME DO CLIENTE]! Agora o próximo passo é rodarmos a tua análise de crédito atualizada pra já garantirmos que você tem aprovação para esse empreendimento específico. Posso te passar quais são os documentos necessários? São apenas* 
+            
+            **Cliente não quer avançar**
+            
+            *Entendo a tua decisão e agradeço pela conversa até aqui. Vou deixar teu contato salvo e, caso surjam novas opções que possam te atender melhor, te aviso imediatamente, combinado? Fico à disposição sempre que precisar. Um abraço!*
+            
+        
+         
+        
+    - Não gostou das opções apresentadas
+        
+        *Entendi, [NOME DO CLIENTE]. Você lembra quais foram as opções que o outro corretor te apresentou? Pergunto isso pra evitar repetir as mesmas opções e já buscar alternativas diferentes que realmente façam sentido pra você.*
+        
+        - Caso ele não lembre quais são as opções
+            
+            *Certo, para garantir que eu te envie opções dentro da tua realidade financeira, você pode me dizer aproximadamente qual é a tua renda mensal familiar hoje? Assim já conseguimos filtrar opções que realmente façam sentido pra ti.*
+            
+            Agora que temos a renda, é preciso verificar quais opções de casas mais próximas de onde ele procura imóvel, que estejam dentro da faixa de renda dele e pegar o material na [planilha de empreendimentos](https://docs.google.com/spreadsheets/d/1qybVC2VOYI6QlKPSVorfvFuLJb95MxjitIrOVYbFA8s/edit?gid=469527213#gid=469527213)
+            
+            **Enviar opção ao cliente**
+            
+            *Encontrei uma excelente opção pra você que se encaixa dentro da tua renda e do que você está procurando. Dá uma olhada com calma nesse empreendimento aqui: [ENVIAR MATERIAL]. Me avisa se gostar ou tiver alguma dúvida, ok?*
+            
+             **Cliente gostou da opção enviada**
+            
+            *Ótimo, [NOME DO CLIENTE]! Que bom que gostou. Agora o próximo passo é rodarmos a tua análise de crédito atualizada pra já garantirmos que você tem aprovação para esse empreendimento específico. Posso te passar quais são os documentos necessários? São apenas 3*
+            
+            **Cliente não gostou da opção apresentada**
+            
+            Enviar outra opção
+            
+            **Cliente não gostou de nenhuma opção apresentada**
+            
+            *Entendo perfeitamente, [NOME DO CLIENTE]. Porém, só pra alinhar contigo, essas opções que enviei são as únicas disponíveis 100% parceladas dentro do programa Minha Casa Minha Vida nessa região. O que significa que, independentemente da imobiliária que você procurar, as opções serão as mesmas.* 
+            
+            *Realmente é comum no primeiro imóvel não encontrarmos exatamente tudo que gostaríamos. Mas pensa comigo: o objetivo principal agora é você não pagar aluguel, certo? Então talvez faça sentido escolher algo que seja prático e financeiramente acessível nesse momento, justamente para que, mais adiante, você tenha condições melhores para investir em algo maior, mais próximo do imóvel dos seus sonhos. Acha que faz sentido?*
+            
+            **Cliente concordou**
+            
+            *Ótimo, [NOME DO CLIENTE]! Agora o próximo passo é rodarmos a tua análise de crédito atualizada pra já garantirmos que você tem aprovação para esse empreendimento específico. Posso te passar quais são os documentos necessários? São apenas* 
+            
+            **Cliente não quer avançar**
+            
+            *Entendo a tua decisão e agradeço pela conversa até aqui. Vou deixar teu contato salvo e, caso surjam novas opções que possam te atender melhor, te aviso imediatamente, combinado? Fico à disposição sempre que precisar. Um abraço!*
+            
+        - Caso ele lembre e informe alguma das opções
+            
+            *Entendi, [NOME DO CLIENTE]. E só pra eu conseguir buscar algo que realmente faça sentido pra você agora, me explica melhor o que exatamente não te agradou nessa opção? Foi algo relacionado ao preço, localização, prazo de entrega, ou algum outro ponto específico?*
+            
+            Conforme a resposta seguir para as opções abaixo, caso seja parcela, localização, etc…
+            
+        
+    - Valor da parcela ficou muito alto
+        
+        
+        **Perguntar o valor ideal da parcela para o cliente**
+        
+        *Entendi que a parcela ficou alta pra você, [NOME DO CLIENTE]. Qual seria o valor ideal da parcela, que ficaria confortável pra você pagar mensalmente?*
+        
+        **Perguntar a renda do cliente**
+        
+        *Perfeito! E só pra eu entender melhor se é possível chegar nesse valor, qual é a tua renda mensal familiar hoje?*
+        
+        - Caso a parcela desejada esteja próxima ou acima de 30% da renda informada (seguir normalmente)
+            
+            *Ótimo! Esse valor que você mencionou está alinhado com a renda que você possui, então temos boas chances de encontrar opções próximas do que você quer. O próximo passo é realizarmos a análise de crédito para termos a tua aprovação com essa parcela, tudo bem? São apenas 3 documentos para a análise*
+            
+        - Caso a parcela desejada seja inferior a 30% da renda (precisa alinhar expectativa)
+            
+            *[NOME DO CLIENTE], deixa eu só te explicar uma questão importante pra alinharmos expectativa: pelo programa Minha Casa Minha Vida, existe uma regra que estabelece que o valor da parcela mensal precisa ser de aproximadamente 30% da tua renda. Isso significa que, com base na renda que você me informou, a parcela mínima que o banco aprova ficaria em torno de [calcular valor aproximado]. Com isso em mente, ficaria viável pra você seguirmos buscando opções dentro desse valor?*
+            
+        - Caso o cliente diga que sim, que pode pagar o valor alinhado aos 30% da renda
+            
+            *Ótimo, [NOME DO CLIENTE]! Com isso definido, já conseguimos avançar com a tua análise de crédito e buscar as melhores opções disponíveis pra você. Vou te passar agora quais são os 3 documentos necessários pra gente avançar essa etapa, pode ser?*
+            
+        - Caso o cliente diga que o valor alinhado aos 30% da renda é inviável
+            
+            *Entendo, [NOME DO CLIENTE]. Realmente, para que o imóvel seja parcelado em até 100% pelo programa Minha Casa Minha Vida, o valor da parcela mensal precisa ficar em torno de 30% da renda familiar. A única maneira de diminuir esse valor da parcela seria oferecendo um valor maior de entrada à vista, reduzindo assim o valor financiado. Você teria algum valor disponível para entrada, que nos permita reduzir a parcela para algo mais confortável pra você? O ideal seria pelo menos R$ 10.000,00*
+            
+            - Caso o cliente não tenha o valor a vista e a renda dele seja acima de R$ 3.000,00
+                
+                *Entendi, [NOME DO CLIENTE]. Nesse caso, como você não tem o valor suficiente de entrada à vista, precisamos trabalhar com a realidade dos 30% da renda que o Minha Casa Minha Vida estabelece. O ideal, então, seria ajustarmos a localização ou o valor do imóvel para algo mais próximo do que você consegue pagar mensalmente. Posso buscar opções mais alinhadas à tua situação atual para você avaliar?*
+                
+                Nesse caso é possível levar opções de casa de 1 dormitório; regiões mais distantes; apartamentos mais em conta; tudo isso tu encontra na [planilha de empreendimentos](https://docs.google.com/spreadsheets/d/1qybVC2VOYI6QlKPSVorfvFuLJb95MxjitIrOVYbFA8s/edit?gid=469527213#gid=469527213)
+                
+            - Caso o cliente não tenha o valor a vista e a renda dele seja abaixo de R$ 3.000,00
+                
+                *Entendo, [NOME DO CLIENTE]. Nesse caso, considerando a renda que você possui hoje, essas realmente são as opções disponíveis dentro do Minha Casa Minha Vida. O valor da parcela de aproximadamente 30% da renda é uma regra fixa do programa, e infelizmente não há imóveis com parcelas mais baixas nesse momento. Com isso, ficamos com duas possibilidades: você verificar se existe a possibilidade de arcar com essa parcela em média, ou aguardar um momento melhor futuramente. Como você prefere seguir?*
+                
+        
+        **Caso o cliente queira seguir**
+        
+        *Ótimo, [NOME DO CLIENTE]! Com isso definido, já conseguimos avançar com a tua análise de crédito e buscar as melhores opções disponíveis pra você. Vou te passar agora quais são os 3 documentos necessários pra gente avançar essa etapa, pode ser?*
+        
+        **Caso o cliente ainda assim não queira seguir adiante**
+        
+        *Certo, [NOME DO CLIENTE]. Entendo que no momento não seja possível seguir dessa forma. Vou deixar teu contato salvo e, surgindo novas opções que possam se encaixar melhor no que você busca, te aviso imediatamente. Fico à disposição para ajudar sempre que precisar.*
+        
+    - Tempo de entrega muito longo
+        
+        **O primeiro passo é entender o motivo do porque ele quer se mudar tão rápido**
+        
+        *Entendi, [NOME DO CLIENTE], você gostaria de se mudar o quanto antes. Só pra eu conseguir te ajudar da melhor forma, posso te perguntar o que está fazendo você querer essa mudança tão rápida?*
+        
+        **O próximo passo é verificar no mapa da Movese e na tabela de empreendimentos se temos opções com entrega rápida na mesma cidade em que o cliente procura.** 
+        
+        - **Caso existam opções com entrega rápida (menos de 12 meses) na cidade dele**
+            
+            *Encontrei algumas opções na região que tu procura que possuem um tempo de entrega curto (menos de 12 meses), o que acha dessas opções?*
+            
+            [ENVIAR BOOK DAS OPÇÕES]
+            
+            - **Não gostou das opções**
+                
+                *Entendi. Nesse caso, temos algumas possibilidades pra te ajudar a resolver isso da melhor forma. Uma delas é buscar imóveis com prazo de entrega menor em cidades próximas, o que pode atender a tua urgência. Você teria flexibilidade pra mudar de região se isso garantisse um tempo de entrega mais rápido?*
+                
+                **Caso ele diga que sim, verifique em outras cidades opções com entrega rápida e envie o material pra ele.**
+                
+                - **Caso ele não goste das opções mesmo assim**
+                    
+                    *[NOME DO CLIENTE], dentro do Minha Casa Minha Vida, já te apresentei todas as opções com entrega rápida. A partir daqui, temos dois caminhos: ou você aguarda o prazo padrão de entrega (12 a 24 meses), ou continua na situação atual.*
+                    
+                    *Sei que não era o ideal, mas hoje é a única forma viável de conquistar um imóvel 100% parcelado, com subsídio e entrada facilitada. Caso queira, posso te mostrar novamente as melhores opções com prazos e valores atualizados.*
+                    
+                    - **Quer avançar com a compra**
+                        
+                        *Perfeito, [NOME DO CLIENTE]! Agora o próximo passo é rodar tua análise de crédito para confirmar a aprovação com base na tua renda. São apenas 3 documentos que preciso: documento de identidade com foto (RG ou CNH), comprovante de residência e comprovante de renda. Assim que me enviar, já inicio o processo por aqui.*
+                        
+                    - **Não quer avançar com a compra**
+                        
+                        *Entendo a tua decisão e agradeço pela conversa até aqui. Vou deixar teu contato salvo e, caso surjam novas opções que possam te atender melhor, te aviso imediatamente, combinado? Fico à disposição sempre que precisar.*
+                        
+                    
+                    - **Mesmo assim ele não quer avançar com as opções disponíveis**
+                        
+                        *Entendo, mas agora é o momento de escolher: ou a gente segue com uma solução real — mesmo que envolva um prazo de entrega um pouco maior — ou você acaba continuando na mesma situação em que está hoje, sem previsão de mudança.*
+                        
+                        *Dentro do Minha Casa Minha Vida, essa é a realidade do mercado: imóveis 100% parcelados, com entrada facilitada e subsídios, têm prazos de entrega maiores justamente por serem oportunidades acessíveis. Sei que não era o cenário que você esperava, mas hoje essa é a alternativa mais viável para resolver o seu problema.*
+                        
+                        - **Mesmo assim não quer seguir**
+                            
+                            *Entendo a tua decisão e agradeço pela conversa até aqui. Vou deixar teu contato salvo e, caso surjam novas opções que possam te atender melhor, te aviso imediatamente, combinado? Fico à disposição sempre que precisar.*
+                            
+                        - **Decidiu avançar com a compra do imóvel**
+                            
+                            *Ótimo, [NOME DO CLIENTE]! Agora o próximo passo é rodarmos a tua análise de crédito atualizada pra já garantirmos que você tem aprovação para esse empreendimento específico. Posso te passar quais são os documentos necessários? São apenas*
+                            
+                        
+                    
+                - **Decidiu que quer seguir com as opções com tempo de entrega maior**
+                    
+                    *Perfeito, [NOME DO CLIENTE]! Agora o próximo passo é rodar tua análise de crédito para confirmar a aprovação com base na tua renda. São apenas 3 documentos que preciso: documento de identidade com foto (RG ou CNH), comprovante de residência e comprovante de renda. Assim que me enviar, já inicio o processo por aqui.*
+                    
+            - **Gostou das opções**
+                
+                *Perfeito, [NOME DO CLIENTE]! Agora o próximo passo é rodar tua análise de crédito para confirmar a aprovação com base na tua renda. São apenas 3 documentos que preciso: documento de identidade com foto (RG ou CNH), comprovante de residência e comprovante de renda. Assim que me enviar, já inicio o processo por aqui.*
+                
+            
+        - **Caso NÃO existam opções com entrega rápida (menos de 12 meses) na cidade dele**
+            
+            *Entendi, [NOME DO CLIENTE]. Na região que você procura, infelizmente as opções com entrega rápida são bem limitadas no momento. A maioria dos imóveis ainda está na planta, com prazos de entrega entre 12 e 24 meses. Agora, se você tiver alguma flexibilidade pra mudar de região, posso te mostrar opções em cidades próximas que entregam mais rápido. Você acha que isso seria uma possibilidade pra resolver tua urgência?*
+            
+            - Sim, ele está disposto a ir a outra cidade
+                
+                [ENVIAR MATERIAL DOS EMPREENDIMENTOS]
+                
+                - **Caso ele não goste das opções mesmo assim**
+                    
+                    *[NOME DO CLIENTE], dentro do Minha Casa Minha Vida, já te apresentei todas as opções com entrega rápida. Agora é o momento de escolher: ou a gente segue com uma solução real — mesmo que envolva um prazo de entrega um pouco maior — ou você acaba continuando na mesma situação em que está hoje, sem previsão de mudança.*
+                    
+                    *Dentro do Minha Casa Minha Vida, essa é a realidade do mercado: imóveis 100% parcelados, com entrada facilitada e subsídios, têm prazos de entrega maiores justamente por serem oportunidades acessíveis. Sei que não era o cenário que você esperava, mas hoje essa é a alternativa mais viável, mas é a chance que você tem de conquistar o imóvel próprio. O que acha?*
+                    
+                    - **Quer avançar com a compra**
+                        
+                        *Perfeito, [NOME DO CLIENTE]! Agora o próximo passo é rodar tua análise de crédito para confirmar a aprovação com base na tua renda. São apenas 3 documentos que preciso: documento de identidade com foto (RG ou CNH), comprovante de residência e comprovante de renda. Assim que me enviar, já inicio o processo por aqui.*
+                        
+                    - **Não quer avançar com a compra**
+                        
+                        *Entendo a tua decisão e agradeço pela conversa até aqui. Vou deixar teu contato salvo e, caso surjam novas opções que possam te atender melhor, te aviso imediatamente, combinado? Fico à disposição sempre que precisar.*
+                        
+                - **Gostou das opções**
+                    
+                    *Perfeito, [NOME DO CLIENTE]! Agora o próximo passo é rodar tua análise de crédito para confirmar a aprovação com base na tua renda. São apenas 3 documentos que preciso: documento de identidade com foto (RG ou CNH), comprovante de residência e comprovante de renda. Assim que me enviar, já inicio o processo por aqui.*
+                    
+            - Não, ele não está disposto a ir a outra cidade
+                
+                *Entendo, mas agora é o momento de escolher: ou a gente segue com uma solução real — mesmo que envolva um prazo de entrega um pouco maior ou então uma outra cidade  — ou você acaba continuando na mesma situação em que está hoje, sem previsão de mudança.*
+                
+                *Dentro do Minha Casa Minha Vida, essa é a realidade do mercado: imóveis 100% parcelados, com entrada facilitada e subsídios, têm prazos de entrega maiores justamente por serem oportunidades acessíveis. Sei que não era o cenário que você esperava, mas hoje essa é a alternativa mais viável para resolver o seu problema.*
+                
+                - **Quer avançar com a compra**
+                    
+                    *Perfeito, [NOME DO CLIENTE]! Agora o próximo passo é rodar tua análise de crédito para confirmar a aprovação com base na tua renda. São apenas 3 documentos que preciso: documento de identidade com foto (RG ou CNH), comprovante de residência e comprovante de renda. Assim que me enviar, já inicio o processo por aqui.*
+                    
+                - **Não quer avançar com a compra**
+                    
+                    *Entendo a tua decisão e agradeço pela conversa até aqui. Vou deixar teu contato salvo e, caso surjam novas opções que possam te atender melhor, te aviso imediatamente, combinado? Fico à disposição sempre que precisar.*
+                    
+        
+    - Opções eram muito distantes de onde ele procura ou localização ruim
+        
+        **Nesse caso aqui, precisamos conversar com o cliente, primeiro tentando entender onde ele quer morar e em segundo lugar se ele tem capacidade financeira de morar nesse lugar.**
+        
+        *Poxa, entendi o seu caso perfeitamente, [NOME DO CLIENTE].Deixa eu tentar te ajudar, me diz uma coisa: qual é a região que você realmente gostaria de morar? Assim eu consigo buscar algo que faça sentido pra você, de verdade.*
+        
+        *Certo, e qual valor de parcela de financiamento seria o máximo que tu conseguiria pagar por mês hoje?*
+        
+        *E tu teria algum valor pra dar de entrada a vista?*
+        
+        *E qual o valor da tua renda mensal hoje?*
+        
+        **Após ter feito as perguntas, você deve verificar no mapa da Movese e na planilha de empreendimentos se tem opções próximas de onde ele quer e se são viáveis financeiramente para ele.**
+        
+        - **Existem opções na região que ele procura e estão dentro da faixa de renda dele**
+            
+            [ENVIAR MATERIAIS DAS OPÇÕES]
+            
+            - **Não gostou das opções**
+                
+                *[NOME DO CLIENTE], dentro do Minha Casa Minha Vida, essas são todas as opções dentro da região que tu me passou. A partir daqui, temos três caminhos: selecionamos alguma destas opções, vemos algumas opções em outras regiões, ou continua na situação atual.*
+                
+                *Sei que não era o ideal, mas hoje é a única forma viável de conquistar um imóvel 100% parcelado, com subsídio e entrada facilitada. O que acha?*
+                
+                - **Ele quer ver opções de outras regiões**
+                    
+                    [ENVIAR MATERIAIS DAS OPÇÕES]
+                    
+                    - **Não gostou das opções**
+                        
+                        *[NOME DO CLIENTE], dentro do Minha Casa Minha Vida, já te apresentei todas as opções disponíveis que se encaixam no seu perfil e na tua faixa de renda. Sei que nenhuma delas atendeu exatamente ao que você imaginava, mas dentro do que o programa permite hoje, essas são as alternativas reais pra conquistar um imóvel 100% parcelado, com subsídio e entrada facilitada.*
+                        
+                        *Agora é importante entender: você quer resolver de fato a tua situação e dar esse passo agora, dentro do que é possível? Ou prefere adiar essa decisão, mesmo sabendo que o tempo só tende a deixar tudo mais difícil? Digo isso porque realmente quero te ajudar.*
+                        
+                        - **Decidiu que quer seguir com a compra**
+                            
+                            *Perfeito, [NOME DO CLIENTE]! Agora o próximo passo é rodar tua análise de crédito para confirmar a aprovação com base na tua renda. São apenas 3 documentos que preciso: documento de identidade com foto (RG ou CNH), comprovante de residência e comprovante de renda. Assim que me enviar, já inicio o processo por aqui.*
+                            
+                        - **Não vai seguir com a compra**
+                            
+                            *Entendo a tua decisão e agradeço pela conversa até aqui. Vou deixar teu contato salvo e, caso surjam novas opções que possam te atender melhor, te aviso imediatamente, combinado? Fico à disposição sempre que precisar. Um abraço!*
+                            
+                - **Decidiu que quer seguir com a compra**
+                    
+                    *Perfeito, [NOME DO CLIENTE]! Agora o próximo passo é rodar tua análise de crédito para confirmar a aprovação com base na tua renda. São apenas 3 documentos que preciso: documento de identidade com foto (RG ou CNH), comprovante de residência e comprovante de renda. Assim que me enviar, já inicio o processo por aqui.*
+                    
+                - **Não quer seguir com a compra**
+                    
+                    *Entendo a tua decisão e agradeço pela conversa até aqui. Vou deixar teu contato salvo e, caso surjam novas opções que possam te atender melhor, te aviso imediatamente, combinado? Fico à disposição sempre que precisar. Um abraço!*
+                    
+            - **Gostou das opções**
+                
+                *Perfeito, [NOME DO CLIENTE]! Agora o próximo passo é rodar tua análise de crédito para confirmar a aprovação com base na tua renda. São apenas 3 documentos que preciso: documento de identidade com foto (RG ou CNH), comprovante de residência e comprovante de renda. Assim que me enviar, já inicio o processo por aqui.*
+                
+        - **Não existem opções na região que ele procura, considerando a faixa de renda dele**
+            
+            *NOME DO CLIENTE], dentro da região que você procura hoje, infelizmente não temos opções disponíveis que se encaixem dentro da tua expectativa de pagamento mensal.
+            Mas existem alternativas em outras cidades, como por exemplo [MENCIONAR AS CIDADES PRÓXIMAS QUE TEM OPÇÕES], com o mesmo padrão de qualidade e condições bem facilitadas. Você estaria aberto a avaliar as opções em quais destas cidades? Posso te enviar os materiais pra dar uma olhada e ver se faz sentido pra você.*
+            
+            - **Quer ver as opções**
+                
+                [ENVIAR OS MATERIAIS DA CIDADE QUE ELE MENCIONOU]
+                
+                - **Não gostou das opções**
+                    
+                    *[NOME DO CLIENTE], dentro do Minha Casa Minha Vida, essas são todas as opções possíveis, próximas a você. A partir daqui, temos três caminhos: selecionamos alguma destas opções, vemos algumas opções em outras regiões, ou continua na situação atual.*
+                    
+                    *Sei que não era o ideal, mas hoje é a única forma viável de conquistar um imóvel 100% parcelado, com subsídio e entrada facilitada. O que acha?*
+                    
+                    - **Ele quer ver opções de outras regiões**
+                        
+                        [ENVIAR MATERIAIS DAS OPÇÕES]
+                        
+                        - **Não gostou das opções**
+                            
+                            *[NOME DO CLIENTE], dentro do Minha Casa Minha Vida, já te apresentei todas as opções disponíveis que se encaixam no seu perfil e na tua faixa de renda. Sei que nenhuma delas atendeu exatamente ao que você imaginava, mas dentro do que o programa permite hoje, essas são as alternativas reais pra conquistar um imóvel 100% parcelado, com subsídio e entrada facilitada.*
+                            
+                            *Agora é importante entender: você quer resolver de fato a tua situação e dar esse passo agora, dentro do que é possível? Ou prefere adiar essa decisão, mesmo sabendo que o tempo só tende a deixar tudo mais difícil? Digo isso porque realmente quero te ajudar.*
+                            
+                            - **Decidiu que quer seguir com a compra**
+                                
+                                *Perfeito, [NOME DO CLIENTE]! Agora o próximo passo é rodar tua análise de crédito para confirmar a aprovação com base na tua renda. São apenas 3 documentos que preciso: documento de identidade com foto (RG ou CNH), comprovante de residência e comprovante de renda. Assim que me enviar, já inicio o processo por aqui.*
+                                
+                            - **Não vai seguir com a compra**
+                                
+                                *Entendo a tua decisão e agradeço pela conversa até aqui. Vou deixar teu contato salvo e, caso surjam novas opções que possam te atender melhor, te aviso imediatamente, combinado? Fico à disposição sempre que precisar. Um abraço!*
+                                
+                    - **Decidiu que quer seguir com a compra**
+                        
+                        *Perfeito, [NOME DO CLIENTE]! Agora o próximo passo é rodar tua análise de crédito para confirmar a aprovação com base na tua renda. São apenas 3 documentos que preciso: documento de identidade com foto (RG ou CNH), comprovante de residência e comprovante de renda. Assim que me enviar, já inicio o processo por aqui.*
+                        
+                    - **Não quer seguir com a compra**
+                        
+                        *Entendo a tua decisão e agradeço pela conversa até aqui. Vou deixar teu contato salvo e, caso surjam novas opções que possam te atender melhor, te aviso imediatamente, combinado? Fico à disposição sempre que precisar. Um abraço!*
+                        
+                - **Gostou das opções**
+                    
+                    *Perfeito, [NOME DO CLIENTE]! Agora o próximo passo é rodar tua análise de crédito para confirmar a aprovação com base na tua renda. São apenas 3 documentos que preciso: documento de identidade com foto (RG ou CNH), comprovante de residência e comprovante de renda. Assim que me enviar, já inicio o processo por aqui.*
+                    
+            - **Não quer seguir o atendimento**
+                
+                *Entendo a tua decisão e agradeço pela conversa até aqui. Vou deixar teu contato salvo e, caso surjam novas opções que possam te atender melhor, te aviso imediatamente, combinado? Fico à disposição sempre que precisar. Um abraço!*
+                
+            
+    - Precisava dar um valor de entrada muito alto
+    
+
+### 4. CONTEXTUALIZAÇÃO
+
+Aqui vamos contextualizar o cliente, explicar o Programa Minha Casa Minha Vida.
+
+*E hoje você está procurando um imóvel somente pra ti ou mais alguém vai morar junto nele?*
+
+- Somente a pessoa vai morar
+    
+    *Certo! Agora vou te explicar como funciona para comprar um imóvel que pode ser até 100% parcelado dentro do programa Minha Casa Minha Vida.*
+    
+    *No programa é possível conseguir até 80% de financiamento do imóvel escolhido. Se vamos chegar nesses 80% vai depender totalmente da renda utilizada e do valor que o banco vai aprovar pra ti.*
+    
+    *O valor que fica além do que o banco financia, se torna a entrada, que na maioria dos casos pode ser parcelada 100%. ✅*
+    
+    *O principal é que a gente consiga comprovar a tua renda de forma que o banco aceite. Hoje tu trabalha de carteira assinada ou de forma autônoma?*
+    
+    - CLT
+        
+        Após o cliente informar que é CLT:
+        
+        *Certo, e qual o valor mensal da tua renda bruta?*
+        
+        - Renda abaixo de R$ 2.400,00
+            
+            **Confirme se ele tem dependente, caso ele ainda não tenha informado**
+            
+            *Hoje você tem alguém que dependa de você financeiramente? Como um filho ou algum outro parente próximo que não tenha renda?*
+            
+            Para entender quem pode ser dependente [clique aqui](https://www.notion.so/Playbook-de-Vendas-1bd5afa648ec8090b706ecd289847c1f?pvs=21)
+            
+            **Confirme se ele é cotista**
+            
+            *E me diz uma coisa, somando todos os anos em que tu trabalhou de carteira assinada, fecha 3 anos?*
+            
+            Se ele não souber, peça para te mandar a Carteira de Trabalho Digital.
+            
+            - Tem fator e é cotista
+                
+                *Certo, vou te explicar os próximos passos então!*
+                
+                *Hoje nós temos todas as opções que podem ser até 100% parceladas da região, temos parceria com todas as construtoras do programa Minha Casa Minha Vida.*
+                
+                *O próximo passo que precisamos dar antes de sentar, olhar as opções de imóveis, saber o valor das parcelas… A gente precisa realizar uma análise de crédito. Como funciona: eu envio 3 documentos teus para os correspondentes bancários da Caixa e em até 48h eles retornam informando qual o valor de financiamento tem liberado pra ti. E aí então sentamos e vemos as opções de imóvel e qual valor de parcela ficaria em cada opção!*
+                
+                *Neste caso temos duas opções:*
+                
+                *Tu pode me enviar a documentação por WhatsApp ou e-mail para ter um retorno mais rápido.*
+                
+                *Sobre a segunda opção, eu tenho alguns clientes que são receosos de mandar por aqui a documentação, e por isso você pode ir até a nossa imobiliária onde o meu gerente vai te atender presencialmente e receber a tua documentação. Ele vai tirar todas as suas dúvidas e depois disso voltamos a ver os empreendimentos.*
+                
+                *Qual dos caminhos você acha que faz mais sentido pra ti nesse momento?*
+                
+                - Cliente quer ir presencialmente
+                    
+                    Marcar com o gerente e enviar o contato do cliente para ele
+                    
+                - Cliente prefere enviar pelo whatsapp ou e-mail
+                    
+                    *Para análise eu vou precisar dos seguintes documentos:*
+                    
+                    1. *Contracheque do último mês;*
+                    2. *RG e CPF ou CNH;*
+                    3. *Comprovante de residência;*
+                    4. *E-mail.*
+                
+            - É cotista mas não tem fator
+                
+                *Entendi e hoje tu teria capacidade de pagar uma parcela mensal R$ 900,00?*
+                
+                - Sim
+                    
+                    *Certo, vou te explicar os próximos passos então!*
+                    
+                    *Hoje nós temos todas as opções que podem ser até 100% parceladas da região, temos parceria com todas as construtoras do programa Minha Casa Minha Vida.*
+                    
+                    *O próximo passo que precisamos dar antes de sentar, olhar as opções de imóveis, saber o valor das parcelas… A gente precisa realizar uma análise de crédito. Como funciona: eu envio 3 documentos teus para os correspondentes bancários da Caixa e em até 48h eles retornam informando qual o valor de financiamento tem liberado pra ti. E aí então sentamos e vemos as opções de imóvel e qual valor de parcela ficaria em cada opção!*
+                    
+                    *Neste caso temos duas opções:*
+                    
+                    *Tu pode me enviar a documentação por WhatsApp ou e-mail para ter um retorno mais rápido.*
+                    
+                    *Sobre a segunda opção, eu tenho alguns clientes que são receosos de mandar por aqui a documentação, e por isso você pode ir até a nossa imobiliária onde o meu gerente vai te atender presencialmente e receber a tua documentação. Ele vai tirar todas as suas dúvidas e depois disso voltamos a ver os empreendimentos.*
+                    
+                    *Qual dos caminhos você acha que faz mais sentido pra ti nesse momento?*
+                    
+                    - Cliente quer ir presencialmente
+                        
+                        Marcar com o gerente e enviar o contato do cliente para ele
+                        
+                    - Cliente prefere enviar pelo whatsapp ou e-mail
+                        
+                        *Para análise eu vou precisar dos seguintes documentos:*
+                        
+                        1. *Contracheque do último mês;*
+                        2. *RG e CPF ou CNH;*
+                        3. *Comprovante de residência;*
+                        4. *E-mail.*
+                - Não
+                    
+                    *E você não teria nenhum valor de entrada ou alguém para comprar o imóvel junto com você?*
+                    
+                    Caso diga que não, informe que infelizmente não consegue ajudar, porque com essa renda não vai liberar financiamento suficiente para financiar o 100% o imóvel mais barato
+                    
+            - Não é cotista e não tem fator
+                
+                *Entendi e hoje tu teria capacidade de pagar uma parcela mensal R$ 900,00?*
+                
+                - Sim
+                    
+                    *Certo, vou te explicar os próximos passos então!*
+                    
+                    *Hoje nós temos todas as opções que podem ser até 100% parceladas da região, temos parceria com todas as construtoras do programa Minha Casa Minha Vida.*
+                    
+                    *O próximo passo que precisamos dar antes de sentar, olhar as opções de imóveis, saber o valor das parcelas… A gente precisa realizar uma análise de crédito. Como funciona: eu envio 3 documentos teus para os correspondentes bancários da Caixa e em até 48h eles retornam informando qual o valor de financiamento tem liberado pra ti. E aí então sentamos e vemos as opções de imóvel e qual valor de parcela ficaria em cada opção!*
+                    
+                    *Neste caso temos duas opções:*
+                    
+                    *Tu pode me enviar a documentação por WhatsApp ou e-mail para ter um retorno mais rápido.*
+                    
+                    *Sobre a segunda opção, eu tenho alguns clientes que são receosos de mandar por aqui a documentação, e por isso você pode ir até a nossa imobiliária onde o meu gerente vai te atender presencialmente e receber a tua documentação. Ele vai tirar todas as suas dúvidas e depois disso voltamos a ver os empreendimentos.*
+                    
+                    *Qual dos caminhos você acha que faz mais sentido pra ti nesse momento?*
+                    
+                    - Cliente quer ir presencialmente
+                        
+                        Marcar com o gerente e enviar o contato do cliente para ele
+                        
+                    - Cliente prefere enviar pelo whatsapp ou e-mail
+                        
+                        *Para análise eu vou precisar dos seguintes documentos:*
+                        
+                        1. *Contracheque do último mês;*
+                        2. *RG e CPF ou CNH;*
+                        3. *Comprovante de residência;*
+                        4. *E-mail.*
+                - Não
+                    
+                    *E você não teria nenhum valor de entrada ou alguém para comprar o imóvel junto com você?*
+                    
+                    Caso diga que não, informe que infelizmente não consegue ajudar, porque com essa renda não vai liberar financiamento suficiente para financiar o 100% o imóvel mais barato
+                    
+            
+        - Renda abaixo de R$ 2.400,00 e com fator
+            
+            *Certo, vou te explicar os próximos passos então!*
+            
+            *Hoje nós temos todas as opções que podem ser até 100% parceladas da região, temos parceria com todas as construtoras do programa Minha Casa Minha Vida.*
+            
+            *O próximo passo que precisamos dar antes de sentar, olhar as opções de imóveis, saber o valor das parcelas… A gente precisa realizar uma análise de crédito. Como funciona: eu envio 3 documentos teus para os correspondentes bancários da Caixa e em até 48h eles retornam informando qual o valor de financiamento tem liberado pra ti. E aí então sentamos e vemos as opções de imóvel e qual valor de parcela ficaria em cada opção!*
+            
+            *Neste caso temos duas opções:*
+            
+            *Tu pode me enviar a documentação por WhatsApp ou e-mail para ter um retorno mais rápido.*
+            
+            *Sobre a segunda opção, eu tenho alguns clientes que são receosos de mandar por aqui a documentação, e por isso você pode ir até a nossa imobiliária onde o meu gerente vai te atender presencialmente e receber a tua documentação. Ele vai tirar todas as suas dúvidas e depois disso voltamos a ver os empreendimentos.*
+            
+            *Qual dos caminhos você acha que faz mais sentido pra ti nesse momento?*
+            
+            - Cliente quer ir presencialmente
+                
+                Marcar com o gerente e enviar o contato do cliente para ele
+                
+            - Cliente prefere enviar pelo whatsapp ou e-mail
+                
+                *Para análise eu vou precisar dos seguintes documentos:*
+                
+                1. *Contracheque do último mês;*
+                2. *RG e CPF ou CNH;*
+                3. *Comprovante de residência;*
+                4. *E-mail.*
+            
+        - Renda acima de R$ 2.400,00
+            
+            *Certo, vou te explicar os próximos passos então!*
+            
+            *Hoje nós temos todas as opções que podem ser até 100% parceladas da região, temos parceria com todas as construtoras do programa Minha Casa Minha Vida.*
+            
+            *O próximo passo que precisamos dar antes de sentar, olhar as opções de imóveis, saber o valor das parcelas… A gente precisa realizar uma análise de crédito. Como funciona: eu envio 3 documentos teus para os correspondentes bancários da Caixa e em até 48h eles retornam informando qual o valor de financiamento tem liberado pra ti. E aí então sentamos e vemos as opções de imóvel e qual valor de parcela ficaria em cada opção!*
+            
+            *Neste caso temos duas opções:*
+            
+            *Tu pode me enviar a documentação por WhatsApp ou e-mail para ter um retorno mais rápido.*
+            
+            *Sobre a segunda opção, eu tenho alguns clientes que são receosos de mandar por aqui a documentação, e por isso você pode ir até a nossa imobiliária onde o meu gerente vai te atender presencialmente e receber a tua documentação. Ele vai tirar todas as suas dúvidas e depois disso voltamos a ver os empreendimentos.*
+            
+            *Qual dos caminhos você acha que faz mais sentido pra ti nesse momento?*
+            
+            - Cliente quer ir presencialmente
+                
+                Marcar com o gerente e enviar o contato do cliente para ele
+                
+            - Cliente prefere enviar pelo whatsapp ou e-mail
+                
+                *Para análise eu vou precisar dos seguintes documentos:*
+                
+                1. *Contracheque do último mês;*
+                2. *RG e CPF ou CNH;*
+                3. *Comprovante de residência;*
+                4. *E-mail.*
+    - Autônomo
+        
+        Vá para esse [link aqui](https://www.notion.so/Playbook-de-Vendas-1bd5afa648ec8090b706ecd289847c1f?pvs=21)
+        
+- A pessoa e o conjugue
+    
+    *Entendi, agora vou explicar como funciona para comprar um imóvel que pode ser até 100% parcelado dentro do programa Minha Casa Minha Vida.*
+    
+    *No programa é possível conseguir até 80% de financiamento do imóvel escolhido. Se vamos chegar nesses 80% vai depender totalmente da renda utilizada e do valor que o banco vai aprovar pra ti.*
+    
+    *O valor que fica além do que o banco financia, se torna a entrada, que na maioria dos casos pode ser parcelada 100%. ✅*
+    
+    *O principal é que a gente consiga comprovar a tua renda de forma que o banco aceite. Hoje tu e a tua **esposa/marido** trabalham de carteira assinada ou de forma autônoma?*
+    
+    *Entendi, e qual é a renda mensal de cada um de vocês?*
+    
+    *Certo! E vocês são casados no civil?*
+    
+    - São casados no civil
+        
+        **Nesse caso é obrigatoriamente necessário pegar a documentação dos dois. Porque como eles são casados no civil, é como se eles fossem uma pessoa só.**
+        
+        - CLT
+            
+            *Certo, vou te explicar os próximos passos então!*
+            
+            *Hoje nós temos todas as opções que podem ser até 100% parceladas da região, temos parceria com todas as construtoras do programa Minha Casa Minha Vida.*
+            
+            *O próximo passo que precisamos dar antes de sentar, olhar as opções de imóveis, saber o valor das parcelas… A gente precisa realizar uma análise de crédito. Como funciona: eu envio 3 documentos teus para os correspondentes bancários da Caixa e em até 48h eles retornam informando qual o valor de financiamento tem liberado pra ti. E aí então sentamos e vemos as opções de imóvel e qual valor de parcela ficaria em cada opção!*
+            
+            *Neste caso temos duas opções:*
+            
+            *Tu pode me enviar a documentação por WhatsApp ou e-mail para ter um retorno mais rápido.*
+            
+            *Sobre a segunda opção, eu tenho alguns clientes que são receosos de mandar por aqui a documentação, e por isso você pode ir até a nossa imobiliária onde o meu gerente vai te atender presencialmente e receber a tua documentação. Ele vai tirar todas as suas dúvidas e depois disso voltamos a ver os empreendimentos.*
+            
+            *Qual dos caminhos você acha que faz mais sentido pra ti nesse momento?*
+            
+            - Cliente quer ir presencialmente
+                
+                Marcar com o gerente e enviar o contato do cliente para ele
+                
+            - Cliente prefere enviar pelo whatsapp ou e-mail
+                
+                *Para análise eu vou precisar dos seguintes documentos:*
+                
+                1. *Contracheque do último mês;*
+                2. *RG e CPF ou CNH;*
+                3. *Comprovante de residência;*
+                4. *E-mail.*
+        - Autônomo
+            
+            Vá para esse [link aqui](https://www.notion.so/Playbook-de-Vendas-1bd5afa648ec8090b706ecd289847c1f?pvs=21)
+            
+    - Não são casados no civil
+        
+        Vamos perguntar qual o valor máximo que eles conseguiriam pagar por mês, pra entender se faz sentido juntar a renda dos dois, ou se faz sentido realizar uma análise de crédito separada. Caso o cliente informe que quer realizar a análise no nome de um deles em específico porque o outro tem restrição no nome, pode seguir dessa forma, fazendo a análise no nome de quem não tem restrição, mas se ele não mencionar nada sobre isso pode continuar seguindo o passo a passo abaixo.
+        
+        *E qual o valor máximo que vocês conseguiriam pagar por mês em uma parcela de financiamento?*
+        
+        - Resposta que eles deram bate com em média 30% da renda dos dois somadas
+            
+            **Nesse caso tu vai pegar a documentação dos dois.**
+            
+            *Certo, vou te explicar os próximos passos então!*
+            
+            *Hoje nós temos todas as opções que podem ser até 100% parceladas da região, temos parceria com todas as construtoras do programa Minha Casa Minha Vida.*
+            
+            *O próximo passo que precisamos dar antes de sentar, olhar as opções de imóveis, saber o valor das parcelas… A gente precisa realizar uma análise de crédito. Como funciona: eu envio 3 documentos teus para os correspondentes bancários da Caixa e em até 48h eles retornam informando qual o valor de financiamento tem liberado pra ti. E aí então sentamos e vemos as opções de imóvel e qual valor de parcela ficaria em cada opção!*
+            
+            *Neste caso temos duas opções:*
+            
+            *Tu pode me enviar a documentação de vocês dois por WhatsApp ou e-mail para ter um retorno mais rápido.*
+            
+            *Sobre a segunda opção, eu tenho alguns clientes que são receosos de mandar por aqui a documentação, e por isso você pode ir até a nossa imobiliária onde o meu gerente vai te atender presencialmente e receber a tua documentação. Ele vai tirar todas as suas dúvidas e depois disso voltamos a ver os empreendimentos.*
+            
+            *Qual dos caminhos você acha que faz mais sentido pra ti nesse momento?*
+            
+            - Cliente quer ir presencialmente
+                
+                Marcar com o gerente e enviar o contato do cliente para ele
+                
+            - Cliente prefere enviar pelo whatsapp ou e-mail
+                
+                *Para análise eu vou precisar dos seguintes documentos de vocês:*
+                
+                1. *Contracheque do último mês;*
+                2. *RG e CPF ou CNH;*
+                3. *Comprovante de residência;*
+                4. *E-mail.*
+        - Resposta que eles deram bate com em média 30% da renda de apenas de um deles
+            
+            **Nesse caso tu vai pegar a documentação de apenas de um deles, de preferência do que tem uma renda que possibilite eles pagarem a parcela que eles desejam, desde que dentro da [Planilha de Empreendimentos](https://docs.google.com/spreadsheets/d/1qybVC2VOYI6QlKPSVorfvFuLJb95MxjitIrOVYbFA8s/edit?gid=469527213#gid=469527213) existam opções para a renda deles.**
+            
+            *Certo, vou te explicar os próximos passos então!*
+            
+            *Hoje nós temos todas as opções que podem ser até 100% parceladas da região, temos parceria com todas as construtoras do programa Minha Casa Minha Vida.*
+            
+            *O próximo passo que precisamos dar antes de sentar, olhar as opções de imóveis, saber o valor das parcelas… A gente precisa realizar uma análise de crédito. Como funciona: eu envio 3 documentos teus para os correspondentes bancários da Caixa e em até 48h eles retornam informando qual o valor de financiamento tem liberado pra ti. E aí então sentamos e vemos as opções de imóvel e qual valor de parcela ficaria em cada opção!*
+            
+            *Neste caso temos duas opções:*
+            
+            *Tu pode me enviar a documentação por WhatsApp ou e-mail para ter um retorno mais rápido.*
+            
+            *Sobre a segunda opção, eu tenho alguns clientes que são receosos de mandar por aqui a documentação, e por isso você pode ir até a nossa imobiliária onde o meu gerente vai te atender presencialmente e receber a tua documentação. Ele vai tirar todas as suas dúvidas e depois disso voltamos a ver os empreendimentos.*
+            
+            *Qual dos caminhos você acha que faz mais sentido pra ti nesse momento?*
+            
+            - Cliente quer ir presencialmente
+                
+                Marcar com o gerente e enviar o contato do cliente para ele
+                
+            - Cliente prefere enviar pelo whatsapp ou e-mail
+                
+                *Para análise eu vou precisar dos seguintes documentos:*
+                
+                1. *Contracheque do último mês;*
+                2. *RG e CPF ou CNH;*
+                3. *Comprovante de residência;*
+                4. *E-mail.*
+        
+    - União estável
+        
+        *Certo, e essa união estável foi feita no tabelionato ou no cartório?*
+        
+        - Tabelionato
+            
+            Nesse caso, é como se eles não fossem casados no civil, só seguir o tutorial abaixo
+            
+            Vamos perguntar qual o valor máximo que eles conseguiriam pagar por mês, pra entender se faz sentido juntar a renda dos dois, ou se faz sentido realizar uma análise de crédito separada. Caso o cliente informe que quer realizar a análise no nome de um deles em específico porque o outro tem restrição no nome, pode seguir dessa forma, fazendo a análise no nome de quem não tem restrição, mas se ele não mencionar nada sobre isso pode continuar seguindo o passo a passo abaixo.
+            
+            *E qual o valor máximo que vocês conseguiriam pagar por mês em uma parcela de financiamento?*
+            
+            - Resposta que eles deram bate com em média 30% da renda dos dois somadas
+                
+                **Nesse caso tu vai pegar a documentação dos dois.**
+                
+                *Certo, vou te explicar os próximos passos então!*
+                
+                *Hoje nós temos todas as opções que podem ser até 100% parceladas da região, temos parceria com todas as construtoras do programa Minha Casa Minha Vida.*
+                
+                *O próximo passo que precisamos dar antes de sentar, olhar as opções de imóveis, saber o valor das parcelas… A gente precisa realizar uma análise de crédito. Como funciona: eu envio 3 documentos teus para os correspondentes bancários da Caixa e em até 48h eles retornam informando qual o valor de financiamento tem liberado pra ti. E aí então sentamos e vemos as opções de imóvel e qual valor de parcela ficaria em cada opção!*
+                
+                *Neste caso temos duas opções:*
+                
+                *Tu pode me enviar a documentação de vocês dois por WhatsApp ou e-mail para ter um retorno mais rápido.*
+                
+                *Sobre a segunda opção, eu tenho alguns clientes que são receosos de mandar por aqui a documentação, e por isso você pode ir até a nossa imobiliária onde o meu gerente vai te atender presencialmente e receber a tua documentação. Ele vai tirar todas as suas dúvidas e depois disso voltamos a ver os empreendimentos.*
+                
+                *Qual dos caminhos você acha que faz mais sentido pra ti nesse momento?*
+                
+                - Cliente quer ir presencialmente
+                    
+                    Marcar com o gerente e enviar o contato do cliente para ele
+                    
+                - Cliente prefere enviar pelo whatsapp ou e-mail
+                    
+                    *Para análise eu vou precisar dos seguintes documentos de vocês:*
+                    
+                    1. *Contracheque do último mês;*
+                    2. *RG e CPF ou CNH;*
+                    3. *Comprovante de residência;*
+                    4. *E-mail.*
+            - Resposta que eles deram bate com em média 30% da renda de apenas de um deles
+                
+                **Nesse caso tu vai pegar a documentação de apenas de um deles, de preferência do que tem uma renda que possibilite eles pagarem a parcela que eles desejam, desde que dentro da [Planilha de Empreendimentos](https://docs.google.com/spreadsheets/d/1qybVC2VOYI6QlKPSVorfvFuLJb95MxjitIrOVYbFA8s/edit?gid=469527213#gid=469527213) existam opções para a renda deles.**
+                
+                *Certo, vou te explicar os próximos passos então!*
+                
+                *Hoje nós temos todas as opções que podem ser até 100% parceladas da região, temos parceria com todas as construtoras do programa Minha Casa Minha Vida.*
+                
+                *O próximo passo que precisamos dar antes de sentar, olhar as opções de imóveis, saber o valor das parcelas… A gente precisa realizar uma análise de crédito. Como funciona: eu envio 3 documentos teus para os correspondentes bancários da Caixa e em até 48h eles retornam informando qual o valor de financiamento tem liberado pra ti. E aí então sentamos e vemos as opções de imóvel e qual valor de parcela ficaria em cada opção!*
+                
+                *Neste caso temos duas opções:*
+                
+                *Tu pode me enviar a documentação por WhatsApp ou e-mail para ter um retorno mais rápido.*
+                
+                *Sobre a segunda opção, eu tenho alguns clientes que são receosos de mandar por aqui a documentação, e por isso você pode ir até a nossa imobiliária onde o meu gerente vai te atender presencialmente e receber a tua documentação. Ele vai tirar todas as suas dúvidas e depois disso voltamos a ver os empreendimentos.*
+                
+                *Qual dos caminhos você acha que faz mais sentido pra ti nesse momento?*
+                
+                - Cliente quer ir presencialmente
+                    
+                    Marcar com o gerente e enviar o contato do cliente para ele
+                    
+                - Cliente prefere enviar pelo whatsapp ou e-mail
+                    
+                    *Para análise eu vou precisar dos seguintes documentos:*
+                    
+                    1. *Contracheque do último mês;*
+                    2. *RG e CPF ou CNH;*
+                    3. *Comprovante de residência;*
+                    4. *E-mail.*
+            
+        - Cartório
+            
+            Nesse caso é como se eles fossem casados no civíl, só seguir o passo a passo abaixo.
+            
+            **Nesse caso é obrigatoriamente necessário pegar a documentação dos dois. Porque como eles são casados no civil, é como se eles fossem uma pessoa só.**
+            
+            - CLT
+                
+                *Certo, vou te explicar os próximos passos então!*
+                
+                *Hoje nós temos todas as opções que podem ser até 100% parceladas da região, temos parceria com todas as construtoras do programa Minha Casa Minha Vida.*
+                
+                *O próximo passo que precisamos dar antes de sentar, olhar as opções de imóveis, saber o valor das parcelas… A gente precisa realizar uma análise de crédito. Como funciona: eu envio 3 documentos teus para os correspondentes bancários da Caixa e em até 48h eles retornam informando qual o valor de financiamento tem liberado pra ti. E aí então sentamos e vemos as opções de imóvel e qual valor de parcela ficaria em cada opção!*
+                
+                *Neste caso temos duas opções:*
+                
+                *Tu pode me enviar a documentação por WhatsApp ou e-mail para ter um retorno mais rápido.*
+                
+                *Sobre a segunda opção, eu tenho alguns clientes que são receosos de mandar por aqui a documentação, e por isso você pode ir até a nossa imobiliária onde o meu gerente vai te atender presencialmente e receber a tua documentação. Ele vai tirar todas as suas dúvidas e depois disso voltamos a ver os empreendimentos.*
+                
+                *Qual dos caminhos você acha que faz mais sentido pra ti nesse momento?*
+                
+                - Cliente quer ir presencialmente
+                    
+                    Marcar com o gerente e enviar o contato do cliente para ele
+                    
+                - Cliente prefere enviar pelo whatsapp ou e-mail
+                    
+                    *Para análise eu vou precisar dos seguintes documentos:*
+                    
+                    1. *Contracheque do último mês;*
+                    2. *RG e CPF ou CNH;*
+                    3. *Comprovante de residência;*
+                    4. *E-mail.*
+            - Autônomo
+                
+                Vá para esse [link aqui](https://www.notion.so/Playbook-de-Vendas-1bd5afa648ec8090b706ecd289847c1f?pvs=21)
+
+                

@@ -19,7 +19,8 @@ from config import HIGH, MED, TOPK, PORT
 import kb
 from llm import ask_chatgpt
 from whatsapp import bp as whatsapp_bp
-from playbook import build_snippet, proxima_etapa, BOAS
+from playbook import build_snippet, proxima_etapa, BOAS, FILTRAR, cidade_valida
+
 
 app = Flask(__name__)
 app.register_blueprint(whatsapp_bp)
@@ -127,16 +128,45 @@ def chat():
         stage = get_stage(user_id)
         stage_for_this_turn = "CONTEXTUALIZACAO" if wants_contextualizacao(pergunta) else stage
 
+        # --- regra determinística para cidades na etapa FILTRAR ---
+        cidade_status = None
+        if stage_for_this_turn == FILTRAR:
+            if cidade_valida(pergunta):
+                cidade_status = "VALIDA"
+            else:
+                cidade_status = "INVALIDA"
+
+
+
         # playbook snippet
         snippet = build_snippet(stage_for_this_turn)
 
-        # status de documentos (opcional; se não existir, ignora)
         try:
-            snippet_docs = docs_snippet(user_id)  # ex.: status_docs: rg_cnh/residencia/renda/email
+            snippet_docs = docs_snippet(user_id)
         except Exception:
             snippet_docs = ""
 
-        combined_snippet = snippet + (("\n\n" + snippet_docs) if snippet_docs else "")
+        combined_snippet = snippet
+        if snippet_docs:
+            combined_snippet += "\n\n" + snippet_docs
+
+        if cidade_status == "VALIDA":
+            combined_snippet += "\n\nregra extra: o lead mencionou uma cidade da lista de atendimento. Confirme positivamente e siga perguntando se é o primeiro imóvel."
+        elif cidade_status == "INVALIDA":
+            combined_snippet += "\n\nregra extra: o lead mencionou uma cidade FORA da lista de atendimento. Responda educadamente que não atendemos essa cidade."
+
+
+
+        # status de documentos (opcional; se não existir, ignora)
+        # status de documentos (opcional; se não existir, ignora)
+        try:
+            snippet_docs = docs_snippet(user_id)
+        except Exception:
+            snippet_docs = ""
+
+        if snippet_docs:
+            combined_snippet += "\n\n" + snippet_docs
+
 
         # --- busca semântica ---
         q_emb = kb.encode_query(pergunta)

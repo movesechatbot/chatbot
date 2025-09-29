@@ -1,0 +1,106 @@
+[
+  {
+    "pergunta": "Quais cidades vocês atendem?",
+    "resposta": "Atendemos na região metropolitana de Porto Alegre:\n\nNovo Hamburgo\nEstância Velha\nSão Leopoldo\nNova Hartz\nEsteio\nSapucaia do Sul\nCanoas\nCachoeirinha\nGravataí\nPorto Alegre\nViamão\nAlvorada e Guaíba."
+  },
+  {
+    "pergunta": "Quais imóveis estão disponíveis?",
+    "resposta": "Temos imóveis em toda a região metropolitana de Porto Alegre\n\nPara garantir que eu te envie opções dentro da tua realidade financeira, você pode me envie os seguintes documentos:\n\n1. Contracheque do último mês;\n2. RG e CPF ou CNH;\n3. Comprovante de residência;\n4. E-mail."
+  },
+  {
+    "pergunta": "Tem opções sem entrada?",
+    "resposta": "Verificamos a viabilidade durante a análise de crédito.\n\nAlguns imóveis permitem entrada facilitada ou subsídio que cobre parte dela.\n\nPor isso preciso que me envie os seguintes documentos:\n\n1. Contracheque do último mês;\n2. RG e CPF ou CNH;\n3. Comprovante de residência;\n4. E-mail."
+  },
+  {
+    "pergunta": "Tem imóvel com garagem?",
+    "resposta": "Sim. Assim que souber sua renda e localização desejada, envio opções com esse diferencial."
+  },
+  {
+    "pergunta": "Vocês têm planta ou fotos do imóvel?",
+    "resposta": "Claro, mas antes de prosseguirmos eu preciso que você me envie os seguintes documentos:\n\n1. Contracheque do último mês;\n2. RG e CPF ou CNH;\n3. Comprovante de residência;\n4. E-mail."
+  },
+  {
+    "pergunta": "Esse imóvel é pelo Minha Casa Minha Vida?",
+    "resposta": "Sim, trabalhamos com imóveis dentro do programa. para conferirmos sua viabilidade me envie os seguintes documentos:\n\n1. Contracheque do último mês;\n2. RG e CPF ou CNH;\n3. Comprovante de residência;\n4. E-mail."
+  },
+  {
+    "pergunta": "Qual o valor do imóvel?",
+    "resposta": "Pra garantir que eu te envie opções que caibam no seu orçamento, você pode me envie os seguintes documentos:\n\n1. Contracheque do último mês;\n2. RG e CPF ou CNH;\n3. Comprovante de residência;\n4. E-mail."
+  },
+  {
+    "pergunta": "Preciso dar entrada?",
+    "resposta": "Se for o primeiro imóvel e sua renda for compatível, é possível conseguir 100% financiado. Se não for o primeiro, pode precisar de entrada."
+  },
+  {
+    "pergunta": "Qual valor mínimo de entrada?",
+    "resposta": "Se não for o primeiro imóvel, geralmente é necessário pelo menos R$ 10.000,00 de entrada."
+  },
+  {
+    "pergunta": "Qual o valor da parcela?",
+    "resposta": "Depende da sua renda. Após simulação, conseguimos estimar o valor das parcelas com mais precisão.\n\npor isso preciso que me envie os seguintes documentos:\n\n1. Contracheque do último mês;\n2. RG e CPF ou CNH;\n3. Comprovante de residência;\n4. E-mail."
+  },
+  {
+    "pergunta": "O imóvel é financiado pela Caixa?",
+    "resposta": "Sim, trabalhamos com financiamento pela Caixa Econômica."
+  },
+  {
+    "pergunta": "Posso usar o FGTS?",
+    "resposta": "Sim, é possível usar o FGTS para entrada ou amortização, dentro das regras da Caixa."
+  },
+  {
+    "pergunta": "Qual a taxa de juros?",
+    "resposta": "Variável conforme o perfil e programa, mas dentro das condições do Minha Casa Minha Vida são as menores do mercado."
+  },
+  {
+    "pergunta": "Qual o prazo do financiamento?",
+    "resposta": "Até 35 anos, dependendo da idade e aprovação da Caixa."
+  },
+  {
+    "pergunta": "Tenho score baixo, posso financiar?",
+    "resposta": "Verificamos na análise de crédito. Existem casos de aprovação mesmo com score baixo, especialmente se for o primeiro imóvel.\n\nPra gente descobrir o seu caso preciso que me envie os seguintes documentos:\n\n1. Contracheque do último mês;\n2. RG e CPF ou CNH;\n3. Comprovante de residência;\n4. E-mail."
+  },
+  {
+    "pergunta": "Já fui reprovado, posso tentar de novo?",
+    "resposta": "Você chegou a entender o motivo da sua reprovação? O corretor explicou exatamente o que faltou ou o que precisa ajustar?"
+  },
+  {
+    "pergunta": "Quais documentos preciso enviar?",
+    "resposta": "Me envie os seguintes documentos:\n\n1. Contracheque do último mês;\n2. RG e CPF ou CNH;\n3. Comprovante de residência;\n4. E-mail."
+  },
+  {
+    "pergunta": "Como sei se fui aprovado?",
+    "resposta": "Após envio dos documentos, o retorno da análise sai em até 48h úteis."
+  },
+  {
+    "pergunta": "Tem custo para fazer a análise?",
+    "resposta": "Não. A análise de crédito é gratuita."
+  },
+  {
+    "pergunta": "Com nome sujo posso financiar?",
+    "resposta": "Depende do valor e tipo da restrição. Dívidas menores que R$ 1.000,00 ainda permitem análise."
+  },
+  {
+    "pergunta": "Como assino a MO?",
+    "resposta": "Você pode assinar pelo aplicativo gov.br. Vou te mandar um tutorial rapidinho pra isso."
+  },
+  {
+    "pergunta": "Não tenho comprovante de renda, posso financiar?",
+    "resposta": "Verificamos outras formas de comprovação. Precisa ser analisado caso a caso."
+  },
+  {
+    "pergunta": "Já tenho um imóvel, posso financiar outro?",
+    "resposta": "Se estiver no nome e com escritura registrada, não. Caso contrário, pode ter direito ao programa.\n\nMe envie os seguintes documentos:\n\n1. Contracheque do último mês;\n2. RG e CPF ou CNH;\n3. Comprovante de residência;\n4. E-mail."
+  },
+  {
+    "pergunta": "Quanto tempo demora para aprovar?",
+    "resposta": "Aproximadamente 48h úteis após envio completo da documentação."
+  },
+  {
+    "pergunta": "Preciso abrir conta na Caixa?",
+    "resposta": "Em alguns casos sim, especialmente se o motivo de reprovação anterior foi rating mínimo."
+  },
+  {
+    "pergunta": "Tenho dívida com desconto, posso financiar?",
+    "resposta": "Se fez acordo, precisa aguardar até 90 dias para sair do BACEN. Você lembra quando foi que fez o acordo com essa instituição financeira?"
+  }
+]

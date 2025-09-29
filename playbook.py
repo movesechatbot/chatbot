@@ -2,14 +2,35 @@
 
 from __future__ import annotations
 import json, pathlib
+import unicodedata
+import re
 
 PB_PATH = pathlib.Path("playbook.json")
 
-# etapas suportadas (use estas strings no estado da sessão)
+# etapas principais
 BOAS = "BOAS_VINDAS"
 FILTRAR = "FILTRAR_CLIENTE"
 NIVEL = "NIVEL_DE_CONSCIENCIA"
 CONTEXT = "CONTEXTUALIZACAO"
+
+# subetapas do FILTRAR
+FILTRAR_CIDADE = "FILTRAR_CIDADE"
+FILTRAR_PRIMEIRO = "FILTRAR_PRIMEIRO_IMOVEL"
+FILTRAR_ESCRITURA = "FILTRAR_ESCRITURA"
+FILTRAR_RENDA = "FILTRAR_RENDA"
+FILTRAR_ENTRADA = "FILTRAR_ENTRADA"
+
+ETAPAS = (
+    BOAS,
+    FILTRAR_CIDADE,
+    FILTRAR_PRIMEIRO,
+    FILTRAR_ESCRITURA,
+    FILTRAR_RENDA,
+    FILTRAR_ENTRADA,
+    NIVEL,
+    CONTEXT
+)
+
 
 ETAPAS = (BOAS, FILTRAR, NIVEL, CONTEXT)
 
@@ -47,7 +68,7 @@ CIDADES = set(lista_cidades())
 # máx ~1200 chars pra economizar token
 MAX_SNIPPET = 1200
 
-def build_snippet(etapa: str) -> str:
+def build_snippet(etapa: str) -> str:  
     etapa = (etapa or BOAS).upper()
     if etapa not in ETAPAS:
         etapa = BOAS
@@ -58,7 +79,7 @@ def build_snippet(etapa: str) -> str:
         fala = _safe(node.get("fala"))
         txt = (
             "cartilha (boas-vindas):\n"
-            "- objetivo: abordar lead de tráfego pago, dizer quem somos e por que o contato.\n"
+            "- objetivo: abordar lead, dizer quem somos e por que o contato.\n"
             f"- regra: {_truncate(instr)}\n"
             "- tom: curto, humano, direto; avance a conversa após cumprimentos.\n"
             f"- exemplo:\n{fala}"
@@ -80,8 +101,8 @@ def build_snippet(etapa: str) -> str:
             "- objetivo: qualificar rápido; atuar só RM de Porto Alegre.\n"
             f"- cidades válidas: {', '.join(sorted(CIDADES))}\n"
             "- fluxo:\n"
-            "  1) perguntar cidade; 2) se fora, encerrar; 3) se dentro, perguntar se é 1º imóvel;\n"
-            "  4) se não for 1º, checar escritura; 5) se escriturado, perguntar renda;\n"
+            "  1) perguntar a cidade antes de tudo; 2) encerre se a cidade não estiver na lista; 3) caso o lead responda uma cidade da lista, pergunte se é o 1º(primeiro) imóvel;\n"
+            "  4) se não for 1º(primeiro), checar se ele possui escritura; 5) se possuir a escritura, aí você pergunta a renda dele;\n"
             "  6) se renda <= 6500, perguntar se tem entrada > 10 mil.\n"
             "- exemplos:\n"
             f"  • {fala_cidade}\n"
@@ -136,6 +157,38 @@ def build_snippet(etapa: str) -> str:
     return _truncate(txt, MAX_SNIPPET)
 
 # -------- heurística simples de avanço de etapa --------
+def normalize(text):
+    text = text.lower()
+    text = ''.join(
+        c for c in unicodedata.normalize('NFD', text)
+        if unicodedata.category(c) != 'Mn'
+    )
+    text = re.sub(r'[^a-z\s]', '', text)  # remove pontuação/números
+    return text.strip()
+
+def cidade_valida(user_msg: str) -> bool:
+    m = normalize(user_msg)
+    tokens = m.split()
+
+    for c in CIDADES:
+        norm_c = normalize(c)
+        c_tokens = norm_c.split()
+
+        # cidade de 1 palavra → checa se está nos tokens
+        if len(c_tokens) == 1:
+            if c_tokens[0] in tokens:
+                return True
+
+        # cidade de 2+ palavras → checa sequência exata nos tokens
+        else:
+            for i in range(len(tokens) - len(c_tokens) + 1):
+                if tokens[i:i+len(c_tokens)] == c_tokens:
+                    return True
+
+    return False
+
+
+
 def proxima_etapa(user_msg: str, etapa_atual: str) -> str:
     """
     heurística barata. segura e previsível.
@@ -144,16 +197,17 @@ def proxima_etapa(user_msg: str, etapa_atual: str) -> str:
     - nivel -> contextualização
     - contextualização -> permanece (última etapa)
     """
-    m = (user_msg or "").lower()
+    m = normalize(user_msg or "")
     if etapa_atual == BOAS:
         return FILTRAR
     if etapa_atual == FILTRAR:
-        if any(c.lower() in m for c in CIDADES) or "primeiro imóvel" in m or "renda" in m or "escritura" in m:
+        if cidade_valida(user_msg) or "primeiro imovel" in m or "renda" in m or "escritura" in m:
             return NIVEL
         return FILTRAR
     if etapa_atual == NIVEL:
         return CONTEXT
     return CONTEXT  # mantém
+
 
 # -------- util --------
 def _truncate(s: str, n: int = 300) -> str:

@@ -58,3 +58,17 @@ O sistema combina **IA semântica** e **integração com APIs externas (OpenAI e
 
 
 [produção](https://movesechatbot.github.io/chatbot/)
+
+Acionamento local
+
+
+### Intrução de acionamento local
+
+py app.py
+Abrir template/index.html no live server
+
+arquivos de refinamento são:
+
+app.py
+playbook.json
+playbook.py
