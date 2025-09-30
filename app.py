@@ -19,7 +19,8 @@ from config import HIGH, MED, TOPK, PORT
 import kb
 from llm import ask_chatgpt
 from whatsapp import bp as whatsapp_bp
-from playbook import build_snippet, proxima_etapa, BOAS, FILTRAR, cidade_valida
+from playbook import build_snippet, proxima_etapa, BOAS, FILTRAR_CIDADE, cidade_valida
+
 
 
 app = Flask(__name__)
@@ -109,6 +110,8 @@ def docs_update():
 # logica de chatbot
 @app.post("/chat")
 def chat():
+    topk_idx = None
+
     try:
         data = request.get_json(force=True) or {}
         pergunta = (data.get("pergunta") or "").strip()
@@ -120,17 +123,22 @@ def chat():
         hist = SESSIONS.get(user_id, [])
 
         # --- etapa atual + overrides simples ---
-        def wants_contextualizacao(txt: str) -> bool:
-            m = (txt or "").lower()
-            gatilhos = ("explica", "como funciona", "programa", "minha casa minha vida", "mcmv")
-            return any(g in m for g in gatilhos)
-
+        # etapa atual do lead
         stage = get_stage(user_id)
-        stage_for_this_turn = "CONTEXTUALIZACAO" if wants_contextualizacao(pergunta) else stage
+
+        # calcula próxima etapa com base no que o usuário respondeu
+        nova_etapa = proxima_etapa(pergunta, stage)
+
+        # snippet da etapa nova (é ela que será usada como system message)
+        snippet = build_snippet(nova_etapa)
+
+        # já atualiza o estágio para a nova etapa
+        set_stage(user_id, nova_etapa)
+
 
         # --- regra determinística para cidades na etapa FILTRAR ---
         cidade_status = None
-        if stage_for_this_turn == FILTRAR:
+        if nova_etapa == FILTRAR_CIDADE:
             if cidade_valida(pergunta):
                 cidade_status = "VALIDA"
             else:
@@ -139,16 +147,22 @@ def chat():
 
 
         # playbook snippet
-        snippet = build_snippet(stage_for_this_turn)
+        snippet = build_snippet(nova_etapa)
 
         try:
             snippet_docs = docs_snippet(user_id)
         except Exception:
             snippet_docs = ""
 
-        combined_snippet = snippet
-        if snippet_docs:
-            combined_snippet += "\n\n" + snippet_docs
+        combined_snippet = (
+            "INSTRUÇÕES DE ESTILO: "
+            "Responda de forma objetiva e curta, "
+            "sem emojis, sem parabéns, sem elogios. "
+            "Sempre siga apenas a próxima pergunta da etapa definida, "
+            "sem pular ou antecipar outras etapas.\n\n"
+            + snippet
+        )
+
 
         if cidade_status == "VALIDA":
             combined_snippet += "\n\nregra extra: o lead mencionou uma cidade da lista de atendimento. Confirme positivamente e siga perguntando se é o primeiro imóvel."
@@ -157,23 +171,15 @@ def chat():
 
 
 
-        # status de documentos (opcional; se não existir, ignora)
-        # status de documentos (opcional; se não existir, ignora)
-        try:
-            snippet_docs = docs_snippet(user_id)
-        except Exception:
-            snippet_docs = ""
-
-        if snippet_docs:
-            combined_snippet += "\n\n" + snippet_docs
-
 
         # --- busca semântica ---
+        # só usar semântica se ainda estamos na etapa BOAS_VINDAS
+        use_semantic = (stage == BOAS)
         q_emb = kb.encode_query(pergunta)
         best_idx, best_score = kb.top_match(q_emb)
 
         # confiança alta: responde direto do FAQ
-        if best_score >= HIGH:
+        if use_semantic and best_score >= HIGH:
             ans = kb.get_answer(best_idx)
 
             # histórico
@@ -183,16 +189,15 @@ def chat():
             ]
             SESSIONS[user_id] = hist[-MAX_MSGS:]
 
-            # avança etapa
-            new_stage = proxima_etapa(pergunta, stage_for_this_turn)
-            set_stage(user_id, new_stage)
-
             return jsonify({
-                "source": "local",
+                "source": "chatgpt_ctx",
                 "similaridade": round(best_score, 4),
                 "resposta": ans,
-                "match_index": best_idx
+                "match_index": best_idx,
+                "topk": topk_idx if topk_idx else [],
+                "etapa": nova_etapa
             }), 200
+
 
         # confiança média/baixa: monta ctx e consulta GPT
         topk_idx, _ = kb.topk(q_emb, TOPK)
@@ -223,16 +228,13 @@ def chat():
         ]
         SESSIONS[user_id] = hist[-MAX_MSGS:]
 
-        # avança etapa
-        new_stage = proxima_etapa(pergunta, stage_for_this_turn)
-        set_stage(user_id, new_stage)
-
         return jsonify({
             "source": "chatgpt_ctx",
             "similaridade": round(best_score, 4),
             "resposta": ans,
             "match_index": best_idx,
-            "topk": topk_idx
+            "topk": topk_idx if topk_idx else [],
+            "etapa": nova_etapa
         }), 200
 
     except Exception as e:

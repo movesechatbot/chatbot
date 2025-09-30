@@ -90,6 +90,11 @@
       similaridade: typeof json.similaridade === 'number' ? json.similaridade : undefined
     });
 
+    // NOVO: mostrar etapa atual
+    if (json.etapa) {
+      adicionarMensagem(`(Etapa atual: ${json.etapa})`, 'bot');
+    }
+
     } 
     catch (err) {
       clearTimeout(t);

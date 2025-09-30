@@ -9,7 +9,6 @@ PB_PATH = pathlib.Path("playbook.json")
 
 # etapas principais
 BOAS = "BOAS_VINDAS"
-FILTRAR = "FILTRAR_CLIENTE"
 NIVEL = "NIVEL_DE_CONSCIENCIA"
 CONTEXT = "CONTEXTUALIZACAO"
 
@@ -31,9 +30,6 @@ ETAPAS = (
     CONTEXT
 )
 
-
-ETAPAS = (BOAS, FILTRAR, NIVEL, CONTEXT)
-
 # -------- carregamento básico --------
 def _load() -> list:
     with PB_PATH.open("r", encoding="utf-8") as f:
@@ -41,7 +37,7 @@ def _load() -> list:
 
 PLAYBOOK = _load()
 
-# helpers pra achar blocos do json original (sem mudar teu formato)
+# helpers pra achar blocos do json
 def _find(etapa_nome_pt: str) -> dict | None:
     for item in PLAYBOOK:
         if item.get("etapa", "").strip().upper().replace(" ", "_") == etapa_nome_pt:
@@ -51,21 +47,16 @@ def _find(etapa_nome_pt: str) -> dict | None:
 def _safe(s: str | None) -> str:
     return (s or "").strip()
 
-# cidades (usadas em FILTRAR_CLIENTE)
+# cidades (usadas em FILTRAR_CIDADE)
 def lista_cidades() -> list[str]:
-    filtrar = _find(FILTRAR)
-    if not filtrar:
+    node = _find(FILTRAR_CIDADE)
+    if not node:
         return []
-    blocos = filtrar.get("blocos", [])
-    for b in blocos:
-        if "cidades" in b:
-            return b.get("cidades", [])
-    return []
+    return node.get("cidades", [])
 
 CIDADES = set(lista_cidades())
 
 # -------- geração de snippet curto por etapa --------
-# máx ~1200 chars pra economizar token
 MAX_SNIPPET = 1200
 
 def build_snippet(etapa: str) -> str:  
@@ -73,87 +64,32 @@ def build_snippet(etapa: str) -> str:
     if etapa not in ETAPAS:
         etapa = BOAS
 
-    if etapa == BOAS:
-        node = _find(BOAS)
-        instr = _safe(node.get("instrução"))
-        fala = _safe(node.get("fala"))
-        txt = (
-            "cartilha (boas-vindas):\n"
-            "- objetivo: abordar lead, dizer quem somos e por que o contato.\n"
-            f"- regra: {_truncate(instr)}\n"
-            "- tom: curto, humano, direto; avance a conversa após cumprimentos.\n"
-            f"- exemplo:\n{fala}"
-        )
-        return _truncate(txt, MAX_SNIPPET)
+    node = _find(etapa)
+    if not node:
+        return ""
 
-    if etapa == FILTRAR:
-        node = _find(FILTRAR) or {}
-        blocos = node.get("blocos", [])
-        fala_cidade = next((b.get("fala") for b in blocos if _safe(b.get("fala","")).lower().startswith("hoje tu procura")), "")
-        fala_fora = next((b.get("fala") for b in blocos if "infelizmente" in _safe(b.get("fala","")).lower()), "")
-        fala_primeiro = next((b.get("fala") for b in blocos if "primeiro imóvel" in _safe(b.get("fala","")).lower()), "")
-        fala_escritura = next((b.get("fala") for b in blocos if "escritura" in _safe(b.get("fala","")).lower()), "")
-        fala_renda = next((b.get("fala") for b in blocos if _safe(b.get("fala","")).lower().startswith("qual a sua renda")), "")
-        fala_entrada = next((b.get("fala") for b in blocos if "entrada acima de 10 mil" in _safe(b.get("fala","")).lower()), "")
-
-        txt = (
-            "cartilha (filtro inicial):\n"
-            "- objetivo: qualificar rápido; atuar só RM de Porto Alegre.\n"
-            f"- cidades válidas: {', '.join(sorted(CIDADES))}\n"
-            "- fluxo:\n"
-            "  1) perguntar a cidade antes de tudo; 2) encerre se a cidade não estiver na lista; 3) caso o lead responda uma cidade da lista, pergunte se é o 1º(primeiro) imóvel;\n"
-            "  4) se não for 1º(primeiro), checar se ele possui escritura; 5) se possuir a escritura, aí você pergunta a renda dele;\n"
-            "  6) se renda <= 6500, perguntar se tem entrada > 10 mil.\n"
-            "- exemplos:\n"
-            f"  • {fala_cidade}\n"
-            f"  • {fala_fora}\n"
-            f"  • {fala_primeiro}\n"
-            f"  • {fala_escritura}\n"
-            f"  • {fala_renda}\n"
-            f"  • {fala_entrada}"
-        )
-        return _truncate(txt, MAX_SNIPPET)
-
-    if etapa == NIVEL:
-        node = _find("NÍVEL_DE_CONSCIÊNCIA") or _find(NIVEL) or {}
-        instr = ""
-        fala_base = ""
-        fala_reprov = ""
-        fala_aprov = ""
-        for b in node.get("blocos", []):
-            t = _safe(b.get("instrução"))
-            if "nível de consciência" in t.lower():
-                instr = t
-            f = _safe(b.get("fala"))
-            if f and not fala_base:
-                fala_base = f
-            if "reprovação" in f.lower():
-                fala_reprov = f
-            if "não seguir com a compra" in f.lower():
-                fala_aprov = f
-
-        txt = (
-            "cartilha (nível de consciência):\n"
-            "- objetivo: entender maturidade do cliente (já falou com corretor? análise feita? reprovado? por quê?).\n"
-            f"- regra: {_truncate(instr)}\n"
-            "- exemplos:\n"
-            f"  • {fala_base}\n"
-            f"  • {fala_reprov}\n"
-            f"  • {fala_aprov}"
-        )
-        return _truncate(txt, MAX_SNIPPET)
-
-    # CONTEXTUALIZACAO
-    node = _find(CONTEXT) or {}
     instr = _safe(node.get("instrução"))
     fala = _safe(node.get("fala"))
+
+    # caso especial: nível de consciência tem blocos
+    if etapa == NIVEL:
+        blocos = node.get("blocos", [])
+        exemplos = [ _safe(b.get("fala")) for b in blocos if b.get("fala") ]
+        txt = (
+            f"cartilha ({etapa}):\n"
+            f"- objetivo: {_truncate(instr)}\n"
+        )
+        if exemplos:
+            txt += "- exemplos:\n" + "\n".join(f"  • {e}" for e in exemplos if e)
+        return _truncate(txt, MAX_SNIPPET)
+
+    # demais etapas
     txt = (
-        "cartilha (contextualização + coleta de docs):\n"
-        "- objetivo: explicar Minha Casa Minha Vida (até ~80% financiamento; resto = entrada, geralmente parcelável) e coletar documentos.\n"
-        f"- regra: {_truncate(instr)}\n"
-        "- documentos: contracheque do último mês; RG/CPF ou CNH; comprovante de residência; e-mail.\n"
-        f"- exemplo:\n{fala}"
+        f"cartilha ({etapa}):\n"
+        f"- objetivo: {_truncate(instr)}\n"
     )
+    if fala:
+        txt += f"- exemplo:\n{fala}"
     return _truncate(txt, MAX_SNIPPET)
 
 # -------- heurística simples de avanço de etapa --------
@@ -166,6 +102,8 @@ def normalize(text):
     text = re.sub(r'[^a-z\s]', '', text)  # remove pontuação/números
     return text.strip()
 
+
+
 def cidade_valida(user_msg: str) -> bool:
     m = normalize(user_msg)
     tokens = m.split()
@@ -174,39 +112,78 @@ def cidade_valida(user_msg: str) -> bool:
         norm_c = normalize(c)
         c_tokens = norm_c.split()
 
-        # cidade de 1 palavra → checa se está nos tokens
         if len(c_tokens) == 1:
             if c_tokens[0] in tokens:
                 return True
-
-        # cidade de 2+ palavras → checa sequência exata nos tokens
         else:
             for i in range(len(tokens) - len(c_tokens) + 1):
                 if tokens[i:i+len(c_tokens)] == c_tokens:
                     return True
-
     return False
 
+def respondeu_primeiro_imovel(msg: str) -> bool:
+    m = normalize(msg)
+    return any(p in m for p in ["sim", "primeiro", "não", "nao", "nao é", "não é"])
+
+def respondeu_escritura(msg: str) -> bool:
+    m = normalize(msg)
+    return any(p in m for p in ["sim", "não", "nao", "escriturado", "sem escritura"])
+
+def respondeu_renda(msg: str) -> bool:
+    nums = [int(n) for n in re.findall(r"\d+", normalize(msg))]
+    return bool(nums)
+
+def respondeu_entrada(msg: str) -> bool:
+    m = normalize(msg)
+    return any(p in m for p in ["sim", "nao", "não", "entrada", "consigo", "tenho"])
 
 
 def proxima_etapa(user_msg: str, etapa_atual: str) -> str:
-    """
-    heurística barata. segura e previsível.
-    - boas-vindas -> filtrar
-    - filtrar -> nivel quando detectar cidade válida OU já discutiu 1º imóvel/escritura/renda
-    - nivel -> contextualização
-    - contextualização -> permanece (última etapa)
-    """
     m = normalize(user_msg or "")
+
     if etapa_atual == BOAS:
-        return FILTRAR
-    if etapa_atual == FILTRAR:
-        if cidade_valida(user_msg) or "primeiro imovel" in m or "renda" in m or "escritura" in m:
+        return FILTRAR_CIDADE
+
+    if etapa_atual == FILTRAR_CIDADE:
+        return FILTRAR_PRIMEIRO if cidade_valida(user_msg) else FILTRAR_CIDADE
+
+    if etapa_atual == FILTRAR_PRIMEIRO:
+        if respondeu_primeiro_imovel(user_msg):
+            if "sim" in m:
+                return NIVEL  # primeiro imóvel → vai direto pro nível de consciência
+            return FILTRAR_ESCRITURA
+        return FILTRAR_PRIMEIRO
+
+    if etapa_atual == FILTRAR_ESCRITURA:
+        if respondeu_escritura(user_msg):
+            if "nao" in m or "não" in m:
+                return NIVEL
+            return FILTRAR_RENDA
+        return FILTRAR_ESCRITURA
+
+    if etapa_atual == FILTRAR_RENDA:
+        if respondeu_renda(user_msg):
+            nums = [int(x) for x in re.findall(r"\d+", m)]
+            renda = max(nums) if nums else 0
+            return NIVEL if renda > 6500 else FILTRAR_ENTRADA
+        return FILTRAR_RENDA
+
+    if etapa_atual == FILTRAR_ENTRADA:
+        if respondeu_entrada(user_msg):
             return NIVEL
-        return FILTRAR
+        return FILTRAR_ENTRADA
+
+    # NIVEL — agora mantém até classificar a resposta
     if etapa_atual == NIVEL:
-        return CONTEXT
-    return CONTEXT  # mantém
+        if any(p in m for p in ["primeira", "nunca", "não", "nao"]):
+            return CONTEXT
+        if any(p in m for p in ["reprovei", "reprovado", "negado"]):
+            return CONTEXT
+        if any(p in m for p in ["aprovado", "aprovou", "sim", "ok"]):
+            return CONTEXT
+        return NIVEL  # fica pedindo até entender
+
+    return CONTEXT
 
 
 # -------- util --------
