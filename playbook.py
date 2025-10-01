@@ -39,27 +39,33 @@ PLAYBOOK = _load()
 
 # helpers pra achar blocos do json
 def _find(etapa_nome_pt: str) -> dict | None:
-    for item in PLAYBOOK:
-        if item.get("etapa", "").strip().upper().replace(" ", "_") == etapa_nome_pt:
-            return item
-    return None
+    return PLAYBOOK.get(etapa_nome_pt)
+
 
 def _safe(s: str | None) -> str:
     return (s or "").strip()
 
 # cidades (usadas em FILTRAR_CIDADE)
+def _find_filtrar_cidade_node() -> dict | None:
+    return _find(FILTRAR_CIDADE)
+
 def lista_cidades() -> list[str]:
-    node = _find(FILTRAR_CIDADE)
+    """
+    Retorna a lista CANÔNICA de cidades do playbook.json (campo 'lista_cidades').
+    """
+    node = _find_filtrar_cidade_node()
     if not node:
         return []
-    return node.get("cidades", [])
+    return node.get("lista_cidades", [])  # <- antes estava 'cidades'
+
+
 
 CIDADES = set(lista_cidades())
 
 # -------- geração de snippet curto por etapa --------
 MAX_SNIPPET = 1200
 
-def build_snippet(etapa: str) -> str:  
+def build_snippet(etapa: str) -> str:
     etapa = (etapa or BOAS).upper()
     if etapa not in ETAPAS:
         etapa = BOAS
@@ -68,29 +74,8 @@ def build_snippet(etapa: str) -> str:
     if not node:
         return ""
 
-    instr = _safe(node.get("instrução"))
-    fala = _safe(node.get("fala"))
-
-    # caso especial: nível de consciência tem blocos
-    if etapa == NIVEL:
-        blocos = node.get("blocos", [])
-        exemplos = [ _safe(b.get("fala")) for b in blocos if b.get("fala") ]
-        txt = (
-            f"cartilha ({etapa}):\n"
-            f"- objetivo: {_truncate(instr)}\n"
-        )
-        if exemplos:
-            txt += "- exemplos:\n" + "\n".join(f"  • {e}" for e in exemplos if e)
-        return _truncate(txt, MAX_SNIPPET)
-
-    # demais etapas
-    txt = (
-        f"cartilha ({etapa}):\n"
-        f"- objetivo: {_truncate(instr)}\n"
-    )
-    if fala:
-        txt += f"- exemplo:\n{fala}"
-    return _truncate(txt, MAX_SNIPPET)
+    # devolve o bloco completo em JSON (sem estilo)
+    return json.dumps(node, ensure_ascii=False, indent=2)
 
 # -------- heurística simples de avanço de etapa --------
 def normalize(text):
@@ -133,6 +118,21 @@ def respondeu_renda(msg: str) -> bool:
     nums = [int(n) for n in re.findall(r"\d+", normalize(msg))]
     return bool(nums)
 
+def extrair_renda(m: str) -> int:
+    # normaliza
+    m = m.replace(".", "").replace(",", "")
+    nums = re.findall(r"\d+", m)
+    if not nums:
+        return 0
+    valor = max(int(n) for n in nums)
+
+    if "mil" in m and valor < 100:  # "7 mil" vira 7000
+        valor *= 1000
+    if "k" in m:
+        valor *= 1000
+    return valor
+
+
 def respondeu_entrada(msg: str) -> bool:
     m = normalize(msg)
     return any(p in m for p in ["sim", "nao", "não", "entrada", "consigo", "tenho"])
@@ -140,6 +140,9 @@ def respondeu_entrada(msg: str) -> bool:
 
 def proxima_etapa(user_msg: str, etapa_atual: str) -> str:
     m = normalize(user_msg or "")
+    renda = extrair_renda(m)
+
+
 
     if etapa_atual == BOAS:
         return FILTRAR_CIDADE
@@ -163,10 +166,10 @@ def proxima_etapa(user_msg: str, etapa_atual: str) -> str:
 
     if etapa_atual == FILTRAR_RENDA:
         if respondeu_renda(user_msg):
-            nums = [int(x) for x in re.findall(r"\d+", m)]
-            renda = max(nums) if nums else 0
+            renda = extrair_renda(user_msg.lower())
             return NIVEL if renda > 6500 else FILTRAR_ENTRADA
         return FILTRAR_RENDA
+
 
     if etapa_atual == FILTRAR_ENTRADA:
         if respondeu_entrada(user_msg):

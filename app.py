@@ -12,6 +12,7 @@ def set_stage(user_id: str, etapa: str) -> None:
 
 MAX_MSGS = 40
 
+import os, json, time
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import logging
@@ -34,6 +35,10 @@ CORS(app,
 ########
 
 logging.basicConfig(level=logging.INFO)
+
+def _trunc(s, n=2000):
+    if not isinstance(s, str): return s
+    return s if len(s) <= n else s[:n] + "…"
 
 # remover na prod
 @app.route("/chat", methods=["OPTIONS"])
@@ -111,10 +116,13 @@ def docs_update():
 @app.post("/chat")
 def chat():
     topk_idx = None
+    t0 = time.time()
+    ctx = None 
 
     try:
         data = request.get_json(force=True) or {}
         pergunta = (data.get("pergunta") or "").strip()
+        debug = bool(data.get("debug") or os.getenv("DEBUG_LLM") == "1")
         if not pergunta:
             return jsonify({"erro": "Pergunta não fornecida"}), 400
 
@@ -155,19 +163,17 @@ def chat():
             snippet_docs = ""
 
         combined_snippet = (
-            "INSTRUÇÕES DE ESTILO: "
-            "Responda de forma objetiva e curta, "
-            "sem emojis, sem parabéns, sem elogios. "
-            "Sempre siga apenas a próxima pergunta da etapa definida, "
-            "sem pular ou antecipar outras etapas.\n\n"
-            + snippet
+            snippet
         )
 
-
+        snippet_dict = json.loads(build_snippet(nova_etapa))
         if cidade_status == "VALIDA":
-            combined_snippet += "\n\nregra extra: o lead mencionou uma cidade da lista de atendimento. Confirme positivamente e siga perguntando se é o primeiro imóvel."
+            snippet_dict["regra_extra"] = "Confirme positivamente e pergunte se é o primeiro imóvel."
         elif cidade_status == "INVALIDA":
-            combined_snippet += "\n\nregra extra: o lead mencionou uma cidade FORA da lista de atendimento. Responda educadamente que não atendemos essa cidade."
+            snippet_dict["regra_extra"] = "Explique que não atendemos essa cidade."
+
+        combined_snippet = json.dumps(snippet_dict, ensure_ascii=False, indent=2)
+
 
 
 
@@ -189,14 +195,35 @@ def chat():
             ]
             SESSIONS[user_id] = hist[-MAX_MSGS:]
 
-            return jsonify({
+            # LOG do lado do app (o que FOI MONTADO ANTES do LLM)
+            app.logger.info("[APP TRACE] %s", json.dumps({
+                "user_id": user_id,
+                "pergunta": pergunta,
+                "stage_before": stage,
+                "nova_etapa": nova_etapa,
+                "cidade_status": cidade_status,
+                "combined_snippet": _trunc(combined_snippet, 2000),  # helper já existe
+                "use_semantic": use_semantic,
+                "best_idx": best_idx,
+                "best_score": best_score,
+                "topk_idx": topk_idx,
+                "ctx_preview": (ctx[:2] if isinstance(ctx, list) else None),
+            }, ensure_ascii=False))
+
+            resp = {
                 "source": "chatgpt_ctx",
                 "similaridade": round(best_score, 4),
                 "resposta": ans,
                 "match_index": best_idx,
                 "topk": topk_idx if topk_idx else [],
                 "etapa": nova_etapa
-            }), 200
+            }
+
+            # Se debug=true E o LLM retornou trace, devolve também no JSON
+            if debug and llm_trace:
+                resp["trace"] = llm_trace  # <- aqui você enxerga final_messages (todos os prompts)
+
+            return jsonify(resp), 200
 
 
         # confiança média/baixa: monta ctx e consulta GPT
@@ -204,15 +231,20 @@ def chat():
         ctx = kb.get_ctx(topk_idx) if best_score >= MED else None
 
         try:
-            ans = ask_chatgpt(
+            res = ask_chatgpt(
                 pergunta,
                 ctx,
                 history=hist,
-                playbook_snippet=combined_snippet  # playbook + status_docs
+                playbook_snippet=combined_snippet,  # playbook + status_docs
+                debug=debug  # <<< LIGA O TRACE POR REQUISIÇÃO
             )
+            if isinstance(res, tuple):
+                ans, llm_trace = res
+            else:
+                ans, llm_trace = res, None
         except Exception as e:
             app.logger.warning(f"llm falhou: {e}")
-            ans = ""
+            ans, llm_trace = "", None
 
         # fallback se vier vazio
         if not ans or not ans.strip():

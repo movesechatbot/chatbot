@@ -1,65 +1,125 @@
-[
-  {
-    "etapa": "BOAS VINDAS",
-    "instrução": "Leads, que foram distribuídos pelo C2S, você deve abordá-los dando contexto a ele, explicando quem é você e avançar para a etapa de filtragem rapidamente.",
-    "fala": "Oi, tudo bem?, Sou a Movelina, atendente virtual Movese, especialista em primeiro imóvel aqui na Imobiliária Movese. 🏠\n\nRecebi o seu cadastro através do nosso anúncio e estou aqui para te ajudar a comprar um imóvel"
+{
+  "BOAS_VINDAS": {
+    "etapa": "BOAS_VINDAS",
+    "objetivo": "Dar contexto inicial e avançar rapidamente para a filtragem.",
+    "pergunta": "Oi, tudo bem?\n\nSou a Movelina, atendente virtual Movese, especialista em primeiro imóvel aqui na Imobiliária Movese.\n\nRecebi o seu cadastro através do nosso anúncio e estou aqui para te ajudar. Posso te fazer uma pergunta rápida para começar?",
+    "quando_valida": "",
+    "quando_invalida": "",
+    "exemplos_resposta_esperada": [],
+    "observacoes": ""
   },
 
-  {
+  "FILTRAR_CIDADE": {
     "etapa": "FILTRAR_CIDADE",
-    "instrução": "Pergunte em qual cidade o lead procura imóvel e verifique se está na lista de cidades atendidas.",
-    "fala": "Hoje tu procura imóvel em qual cidade?",
-    "cidades": [
-      "Novo Hamburgo", "NH",
+    "objetivo": "Perguntar em qual cidade o lead procura imóvel e validar se está na lista de cidades atendidas.",
+    "pergunta": "Hoje tu procura imóvel em qual cidade?",
+    "quando_valida": "Confirme positivamente e avance para FILTRAR_PRIMEIRO.",
+    "quando_invalida": "Explique educadamente que ainda não atendemos essa cidade e encerre pedindo outra cidade atendida, mantendo o fluxo na mesma etapa.",
+    "lista_cidades": [
+      "Novo Hamburgo",
       "Estância Velha",
-      "São Leopoldo", "Sao Leo",
+      "São Leopoldo",
       "Nova Hartz",
       "Esteio",
       "Sapucaia do Sul",
       "Canoas",
       "Cachoeirinha",
       "Gravataí",
-      "Porto Alegre", "PoA",
+      "Porto Alegre",
       "Viamão",
       "Alvorada",
       "Guaíba"
-    ]
+    ],
+    "sinonimos_cidades": {
+      "Novo Hamburgo": ["NH"],
+      "São Leopoldo": ["Sao Leo", "S. Leopoldo"],
+      "Porto Alegre": ["PoA", "POA"]
+    },
+    "exemplos_resposta_esperada": [
+      "São Leopoldo",
+      "Gravataí",
+      "Porto Alegre"
+    ],
+    "observacoes": ""
   },
 
-  {
+  "FILTRAR_PRIMEIRO_IMOVEL": {
     "etapa": "FILTRAR_PRIMEIRO_IMOVEL",
-    "instrução": "Pergunte se esse será o primeiro imóvel no nome do lead.",
-    "fala": "Perfeito, sou especialista nessa região!\n\nE me diz uma coisa, esse vai ser o teu primeiro imóvel?"
+    "objetivo": "Verificar se será o primeiro imóvel no nome do lead.",
+    "pergunta": "Perfeito!\n\nEsse vai ser o teu primeiro imóvel no teu nome?",
+    "quando_valida": "Se SIM: avance para NIVEL.",
+    "quando_invalida": "Se NÃO: avance para FILTRAR_ESCRITURA.",
+    "exemplos_resposta_esperada": [
+      "Sim, é o primeiro.",
+      "Não, já tenho um."
+    ],
+    "observacoes": ""
   },
 
-  {
+  "FILTRAR_ESCRITURA": {
     "etapa": "FILTRAR_ESCRITURA",
-    "instrução": "Descubra se o lead já possui um imóvel próprio no nome com escritura registrada. Essa informação serve para saber se ele se encaixa nas condições de financiamento.",
-    "fala": "Entendi, mas me diz uma coisa, você já tem um imóvel no seu nome com escritura registrada?"
+    "objetivo": "Descobrir se o lead já possui imóvel no nome com escritura registrada.",
+    "pergunta": "Entendi. Seu imóvel atual está com escritura registrada no teu nome?",
+    "quando_valida": "Se TEM escritura: avance para FILTRAR_RENDA.",
+    "quando_invalida": "Se NÃO tem escritura: avance para NIVEL.",
+    "exemplos_resposta_esperada": [
+      "Sim, tem escritura.",
+      "Não, ainda não está escriturado."
+    ],
+    "observacoes": ""
   },
 
-  {
+  "FILTRAR_RENDA": {
     "etapa": "FILTRAR_RENDA",
-    "instrução": "Se o lead der a entender que o imóvel dele já tiver escritura, pergunte a renda do lead.",
-    "fala": "Qual a sua renda?"
+    "objetivo": "Coletar a renda do lead para estimar enquadramento.",
+    "pergunta": "Certo! Qual é a tua renda mensal aproximada?",
+    "quando_valida": "Se renda informada for maior que 6500, avance para NIVEL_DE_CONSCIENCIA.",
+    "quando_invalida": "Se renda informada for menor ou igual a 6500, avance para FILTRAR_ENTRADA.",
+    "exemplos_resposta_esperada": [
+      "R$ 4.000",
+      "Uns 7 mil reais",
+      "12 K"
+    ],
+    "observacoes": ""
   },
 
-  {
+  "FILTRAR_ENTRADA": {
     "etapa": "FILTRAR_ENTRADA",
-    "instrução": "Se a renda do lead for menor ou igual a 6500 reais, pergunte se consegue dar uma entrada acima de 10 mil reais.",
-    "fala": "Você consegue dar uma entrada acima de 10 mil reais?"
+    "objetivo": "Checar se o lead consegue dar entrada acima de R$ 10.000 quando renda ≤ 6500.",
+    "pergunta": "Show. Você consegue dar uma entrada acima de 10 mil reais?",
+    "quando_valida": "Independente de SIM/NÃO, avance para NIVEL.",
+    "quando_invalida": "",
+    "exemplos_resposta_esperada": [
+      "Consigo",
+      "Não consigo"
+    ],
+    "observacoes": ""
   },
 
-{
-  "etapa": "NÍVEL DE CONSCIÊNCIA",
-  "instrução": "Entenda se o lead já conversou com corretor, se já fez análise de crédito e foi aprovado ou reprovado, ou se é a primeira vez que busca entender o processo. Não peça para o Lead enviar documentos ainda. peça para ele explicar sua história",  "fala": "Para que eu consiga te atender da melhor forma, preciso entender o seguinte:\n\nVocê já chegou a conversar com algum corretor, chegou a fazer alguma análise de crédito, ou é a primeira vez que está buscando entender como funciona para comprar um imóvel?"
-},
+  "NIVEL_DE_CONSCIENCIA": {
+    "etapa": "NIVEL_DE_CONSCIENCIA",
+    "objetivo": "Entender o nível de consciência do lead: se já falou com corretor, já fez análise de crédito e se foi aprovado/reprovado, ou se é a primeira vez.",
+    "pergunta": "Para eu te atender da melhor forma, me conta:\n\nVocê já conversou com algum corretor ou chegou a fazer análise de crédito (aprovado/reprovado), ou é a primeira vez que está buscando entender como funciona para comprar um imóvel?",
+    "quando_valida": "Depois de entender o nível, avance para CONTEXTUALIZACAO.",
+    "quando_invalida": "",
+    "exemplos_resposta_esperada": [
+      "Nunca fiz análise",
+      "Já fiz e fui aprovado",
+      "Já falei com corretor mas não fiz análise"
+    ],
+    "observacoes": "Não pedir documentos ainda nesta etapa."
+  },
 
-
-{
-  "etapa": "CONTEXTUALIZAÇÃO",
-  "instrução": "primeiro Explique de forma breve o programa Minha Casa Minha Vida só depois peça os documentos necessários para a análise de crédito. NÃO pergunte preferências adicionais de imóvel nesta etapa. O objetivo aqui é exclusivamente contextualizar o programa e coletar documentos.",
-  "fala": "Certo! Agora vou te explicar como funciona para comprar um imóvel que pode ser até 100% parcelado dentro do programa Minha Casa Minha Vida.\n\nNo programa é possível conseguir até 80% de financiamento do imóvel escolhido.\n\nSe vamos chegar nesses 80% vai depender totalmente da renda utilizada e do valor que o banco vai aprovar pra ti.\n\nO valor que fica além do que o banco financia, se torna a entrada, que na maioria dos casos pode ser parcelada 100%.\n\nO principal é que a gente consiga comprovar a tua renda de forma que o banco aceite.\n\nPor isso vou precisar dos seguintes documentos:\n\n1. Contracheque do último mês;\n2. RG e CPF ou CNH;\n3. Comprovante de residência;\n4. E-mail."
+  "CONTEXTUALIZACAO": {
+    "etapa": "CONTEXTUALIZACAO",
+    "objetivo": "Explicar brevemente o programa MCMV e pedir os documentos necessários para análise. Não perguntar preferências de imóvel.",
+    "pergunta": "Certo! Vou te explicar rapidinho como funciona para comprar um imóvel pelo MCMV.\n\n[EXPLICACAO_RESUMIDA_AQUI]\n\nPara avançarmos com a análise, preciso dos seguintes documentos:\n1) Contracheque do último mês;\n2) RG e CPF ou CNH;\n3) Comprovante de residência;\n4) E-mail para contato.\n\nPode me enviar aqui mesmo?",
+    "quando_valida": "Se o lead enviar docs ou confirmar que vai enviar: registrar status_docs e manter follow-up humano.",
+    "quando_invalida": "Se o lead hesitar: reforçar brevidade/segurança e repetir a lista.",
+    "exemplos_resposta_esperada": [
+      "Consigo enviar agora",
+      "Tenho CNH e comprovante de residência"
+    ],
+    "observacoes": ""
+  }
 }
-
-] 
