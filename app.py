@@ -13,7 +13,7 @@ def set_stage(user_id: str, etapa: str) -> None:
 MAX_MSGS = 40
 
 import os, json, time
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import logging
 from config import HIGH, MED, TOPK, PORT
@@ -21,6 +21,7 @@ import kb
 from llm import ask_chatgpt
 from whatsapp import bp as whatsapp_bp
 from playbook import build_snippet, proxima_etapa, BOAS, FILTRAR_CIDADE, cidade_valida
+
 
 
 
@@ -51,9 +52,9 @@ def chat_preflight():
     })
 #######
 
-@app.get("/ping")
-def ping():
-    return f"API ativa! base={kb.size()}"
+@app.get("/")
+def home():
+    return render_template("index.html")
 
 # resetar sessão e etapa de um user_id - REMOVER NA PROD
 @app.post("/reset")
@@ -115,6 +116,7 @@ def docs_update():
 # logica de chatbot
 @app.post("/chat")
 def chat():
+    llm_trace = None
     topk_idx = None
     t0 = time.time()
     ctx = None 

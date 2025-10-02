@@ -2,7 +2,7 @@
   const isLocal = ['localhost','127.0.0.1'].includes(location.hostname);
   const API_BASE = isLocal
     ? 'http://localhost:10000'                // dev: app.py rodando local
-    : 'https://chatbotmovese-v2.onrender.com' // prod: Render
+    : 'https://chatbot-pfee.onrender.com' // prod: Render
   const ENDPOINT = `${API_BASE}/chat`;
   const TIMEOUT_MS = 12000;
 
