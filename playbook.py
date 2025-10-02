@@ -84,7 +84,7 @@ def normalize(text):
         c for c in unicodedata.normalize('NFD', text)
         if unicodedata.category(c) != 'Mn'
     )
-    text = re.sub(r'[^a-z\s]', '', text)  # remove pontuação/números
+    text = re.sub(r'[^a-z0-9\s]', '', text)  # mantém letras e números
     return text.strip()
 
 
@@ -119,19 +119,46 @@ def respondeu_renda(msg: str) -> bool:
     return bool(nums)
 
 def extrair_renda(m: str) -> int:
-    # normaliza
-    m = m.replace(".", "").replace(",", "")
-    nums = re.findall(r"\d+", m)
-    if not nums:
-        return 0
-    valor = max(int(n) for n in nums)
+    """
+    Extrai a renda informada no texto, considerando formatos brasileiros:
+    - "R$ 12.000,00" → 12000
+    - "7 mil" → 7000
+    - "12k" ou "12 K" → 12000
+    - "750,00" → 750
+    """
+    m = m.lower().strip()
 
-    if "mil" in m and valor < 100:  # "7 mil" vira 7000
-        valor *= 1000
-    if "k" in m:
-        valor *= 1000
-    return valor
+    # 1) Detecta formato com vírgula decimal (brasileiro: 12.000,00)
+    match = re.search(r'(\d{1,3}(\.\d{3})+,\d{2})', m)
+    if match:
+        num = match.group(1)
+        num = num.replace(".", "").replace(",", ".")  # vira "12000.00"
+        return int(float(num))
 
+    # 2) Detecta número com vírgula como decimal simples (ex: 750,00)
+    match = re.search(r'(\d+,\d{2})', m)
+    if match:
+        num = match.group(1).replace(",", ".")
+        return int(float(num))
+
+    # 3) Detecta número com milhar em ponto (ex: "12.000")
+    match = re.search(r'(\d{1,3}(\.\d{3})+)', m)
+    if match:
+        num = match.group(1).replace(".", "")
+        return int(num)
+
+    # 4) Detecta número simples (ex: "12000")
+    match = re.search(r'(\d+)', m)
+    if match:
+        valor = int(match.group(1))
+        # ajuste para "mil" ou "k"
+        if "mil" in m and valor < 100:
+            valor *= 1000
+        if "k" in m:
+            valor *= 1000
+        return valor
+
+    return 0
 
 def respondeu_entrada(msg: str) -> bool:
     m = normalize(msg)
@@ -165,10 +192,12 @@ def proxima_etapa(user_msg: str, etapa_atual: str) -> str:
         return FILTRAR_ESCRITURA
 
     if etapa_atual == FILTRAR_RENDA:
-        if respondeu_renda(user_msg):
-            renda = extrair_renda(user_msg.lower())
+        renda = extrair_renda(user_msg.lower())
+        if renda > 0:
+            print(f"[DEBUG] Renda detectada: {renda}")
             return NIVEL if renda > 6500 else FILTRAR_ENTRADA
         return FILTRAR_RENDA
+
 
 
     if etapa_atual == FILTRAR_ENTRADA:

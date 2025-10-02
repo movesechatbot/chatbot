@@ -71,7 +71,7 @@
 
   "FILTRAR_RENDA": {
     "etapa": "FILTRAR_RENDA",
-    "objetivo": "Coletar a renda do lead para estimar enquadramento.",
+    "objetivo": "Coletar e verificar a renda do lead.",
     "pergunta": "Certo! Qual é a tua renda mensal aproximada?",
     "quando_valida": "Se renda informada for maior que 6500, avance para NIVEL_DE_CONSCIENCIA.",
     "quando_invalida": "Se renda informada for menor ou igual a 6500, avance para FILTRAR_ENTRADA.",
@@ -113,7 +113,7 @@
   "CONTEXTUALIZACAO": {
     "etapa": "CONTEXTUALIZACAO",
     "objetivo": "Explicar brevemente o programa MCMV e pedir os documentos necessários para análise. Não perguntar preferências de imóvel.",
-    "pergunta": "Certo! Vou te explicar rapidinho como funciona para comprar um imóvel pelo MCMV.\n\n[EXPLICACAO_RESUMIDA_AQUI]\n\nPara avançarmos com a análise, preciso dos seguintes documentos:\n1) Contracheque do último mês;\n2) RG e CPF ou CNH;\n3) Comprovante de residência;\n4) E-mail para contato.\n\nPode me enviar aqui mesmo?",
+    "pergunta": "Certo! Vou te explicar rapidinho como funciona para comprar um imóvel pelo programaMinha Casa Minha Vida.\n\n[EXPLICACAO_RESUMIDA_AQUI]\n\nPara avançarmos com a análise, preciso dos seguintes documentos:\n1) Contracheque do último mês;\n2) RG e CPF ou CNH;\n3) Comprovante de residência;\n4) E-mail para contato.\n\nPode me enviar aqui mesmo?",
     "quando_valida": "Se o lead enviar docs ou confirmar que vai enviar: registrar status_docs e manter follow-up humano.",
     "quando_invalida": "Se o lead hesitar: reforçar brevidade/segurança e repetir a lista.",
     "exemplos_resposta_esperada": [
