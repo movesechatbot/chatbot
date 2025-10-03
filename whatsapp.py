@@ -60,7 +60,7 @@ def incoming():
                     if txt.lower() == "/reset":
                         try:
                             requests.post(
-                                f"http://localhost:{PORT}/reset",
+                                f"http://127.0.0.1:{PORT}/reset",
                                 json={"user_id": user},
                                 timeout=5
                             )
@@ -165,7 +165,7 @@ def _humanize_error(payload: Any, status: int, where: str) -> str:
 
 def _pipeline(texto: str, user_id: str) -> str:
     """Chama teu fluxo já pronto do /chat mantendo histórico por usuário."""
-    url = f"http://localhost:{PORT}/chat"
+    url = f"http://127.0.0.1:{PORT}/chat"
     try:
         resp = requests.post(
             url,
