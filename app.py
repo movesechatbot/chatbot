@@ -1,7 +1,7 @@
 # exemplo: memória em RAM (troque por Redis/DB no prod)
 SESSIONS = {}
 STAGE = {}  # NEW: dict[user_id] = etapa atual (string)
-DOCS = {}
+# DOCS = {}
 
 def get_stage(user_id: str) -> str:
     return STAGE.get(user_id, BOAS)
@@ -10,7 +10,7 @@ def set_stage(user_id: str, etapa: str) -> None:
     STAGE[user_id] = etapa
   # dict[user_id] = List[Message]
 
-MAX_MSGS = 40
+MAX_MSGS = 16
 
 import os, json, time
 from flask import Flask, request, jsonify, render_template
@@ -73,45 +73,45 @@ def reset():
         app.logger.exception("erro no /reset")
         return jsonify({"erro": "falha ao resetar", "detalhe": str(e)}), 500
 
-def get_docs(user_id: str):
-    return DOCS.setdefault(user_id, {"rg_cnh": False, "residencia": False, "renda": False, "email": ""})
+# def get_docs(user_id: str):
+#     return DOCS.setdefault(user_id, {"rg_cnh": False, "residencia": False, "renda": False, "email": ""})
 
-def docs_snippet(user_id: str) -> str:
-    d = get_docs(user_id)
-    faltando = []
-    if not d["rg_cnh"]: faltando.append("RG/CNH")
-    if not d["residencia"]: faltando.append("comprovante de residência")
-    if not d["renda"]: faltando.append("comprovante de renda")
-    email_status = d["email"] or "não informado"
-    return (
-        "status_docs:\n"
-        f"- rg_cnh: {d['rg_cnh']}\n- residencia: {d['residencia']}\n- renda: {d['renda']}\n- email: {email_status}\n"
-        f"- faltando: {', '.join(faltando) if faltando else 'nenhum'}"
-    )
+# def docs_snippet(user_id: str) -> str:
+#     d = get_docs(user_id)
+#     faltando = []
+#     if not d["rg_cnh"]: faltando.append("RG/CNH")
+#     if not d["residencia"]: faltando.append("comprovante de residência")
+#     if not d["renda"]: faltando.append("comprovante de renda")
+#     email_status = d["email"] or "não informado"
+#     return (
+#         "status_docs:\n"
+#         f"- rg_cnh: {d['rg_cnh']}\n- residencia: {d['residencia']}\n- renda: {d['renda']}\n- email: {email_status}\n"
+#         f"- faltando: {', '.join(faltando) if faltando else 'nenhum'}"
+#     )
 
-@app.post("/docs")
-def docs_update():
-    try:
-        data = request.get_json(force=True) or {}
-        user_id = (data.get("user_id") or "anon").strip()
-        kind = (data.get("kind") or "").lower()
-        label = (data.get("label") or "").lower()
-        email = (data.get("email") or "").strip()
+# @app.post("/docs")
+# def docs_update():
+#     try:
+#         data = request.get_json(force=True) or {}
+#         user_id = (data.get("user_id") or "anon").strip()
+#         kind = (data.get("kind") or "").lower()
+#         label = (data.get("label") or "").lower()
+#         email = (data.get("email") or "").strip()
 
-        d = get_docs(user_id)
-        if kind == "rg_cnh":
-            d["rg_cnh"] = True
-        elif kind == "residencia":
-            d["residencia"] = True
-        elif kind == "renda":
-            d["renda"] = True
-        elif kind == "email" and email:
-            d["email"] = email
+#         d = get_docs(user_id)
+#         if kind == "rg_cnh":
+#             d["rg_cnh"] = True
+#         elif kind == "residencia":
+#             d["residencia"] = True
+#         elif kind == "renda":
+#             d["renda"] = True
+#         elif kind == "email" and email:
+#             d["email"] = email
 
-        return jsonify({"ok": True, "docs": d}), 200
-    except Exception as e:
-        app.logger.exception("erro no /docs")
-        return jsonify({"ok": False, "erro": str(e)}), 500
+#         return jsonify({"ok": True, "docs": d}), 200
+#     except Exception as e:
+#         app.logger.exception("erro no /docs")
+#         return jsonify({"ok": False, "erro": str(e)}), 500
 
 # logica de chatbot
 @app.post("/chat")
@@ -159,10 +159,10 @@ def chat():
         # playbook snippet
         snippet = build_snippet(nova_etapa)
 
-        try:
-            snippet_docs = docs_snippet(user_id)
-        except Exception:
-            snippet_docs = ""
+        # try:
+        #     snippet_docs = docs_snippet(user_id)
+        # except Exception:
+        #     snippet_docs = ""
 
         combined_snippet = (
             snippet
