@@ -20,13 +20,13 @@ _client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 #     return hmac.compare_digest(sig, f"sha256={digest}")
 EMAIL_RE = re.compile(r"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}", re.I)
 
-def _notify_doc(kind: str, user: str, label: str = "", email: str = ""):
-    try:
-        requests.post(f"http://localhost:{PORT}/docs",
-                      json={"user_id": user, "kind": kind, "label": label, "email": email},
-                      timeout=5)
-    except Exception:
-        pass
+# def _notify_doc(kind: str, user: str, label: str = "", email: str = ""):
+#     try:
+#         requests.post(f"http://localhost:{PORT}/docs",
+#                       json={"user_id": user, "kind": kind, "label": label, "email": email},
+#                       timeout=5)
+#     except Exception:
+#         pass
 
 
 @bp.get("/whatsapp")
@@ -72,11 +72,11 @@ def incoming():
                     reply = _pipeline(txt, user)
                     _send_text(user, reply)
 
-                    m = EMAIL_RE.search(txt)
-                    if m:
-                        _notify_doc("email", user, email=m.group(0))
-                    reply = _pipeline(txt, user)
-                    _send_text(user, reply)
+                    # m = EMAIL_RE.search(txt)
+                    # if m:
+                    #     _notify_doc("email", user, email=m.group(0))
+                    #     reply = _pipeline(txt, user)
+                    #     _send_text(user, reply)
 
                 elif t in ("document", "image"):
                     caption = (msg.get(t, {}).get("caption") or "").lower()
