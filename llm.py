@@ -2,7 +2,7 @@ from typing import Optional, List, Dict, Tuple, Any
 import json, logging
 from openai import OpenAI
 from config import OPENAI_API_KEY, OPENAI_MODEL
-from playbook import build_snippet, proxima_etapa
+# from playbook import build_snippet, proxima_etapa
 import re
 
 _logger = logging.getLogger(__name__)
@@ -119,11 +119,6 @@ def ask_chatgpt(
         )
         answer = (r.choices[0].message.content or "").strip()
         trace["answer"] = answer
-                # LOG estruturado (um por chamada)
-        _logger.info("[LLM TRACE] %s", json.dumps({
-            "ok": True,
-            **{k: (v if k != "final_messages" else v) for k, v in trace.items()}
-        }, ensure_ascii=False))
 
         return (answer, trace) if debug else answer
 

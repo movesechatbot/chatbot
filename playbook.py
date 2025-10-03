@@ -4,9 +4,10 @@ from __future__ import annotations
 import json, pathlib
 import unicodedata
 import re
+from difflib import SequenceMatcher
 
 PB_PATH = pathlib.Path("playbook.json")
-
+FUZZY_THRESHOLD = 0.75
 # etapas principais
 BOAS = "BOAS_VINDAS"
 NIVEL = "NIVEL_DE_CONSCIENCIA"
@@ -98,11 +99,18 @@ def cidade_valida(user_msg: str) -> bool:
         c_tokens = norm_c.split()
 
         if len(c_tokens) == 1:
-            if c_tokens[0] in tokens:
-                return True
+            target = c_tokens[0]
+            for tok in tokens:
+                if tok == target or SequenceMatcher(None, tok, target).ratio() >= FUZZY_THRESHOLD:
+                    return True
         else:
+            target = norm_c
             for i in range(len(tokens) - len(c_tokens) + 1):
-                if tokens[i:i+len(c_tokens)] == c_tokens:
+                window_tokens = tokens[i:i+len(c_tokens)]
+                if window_tokens == c_tokens:
+                    return True
+                window = " ".join(window_tokens)
+                if SequenceMatcher(None, window, target).ratio() >= FUZZY_THRESHOLD:
                     return True
     return False
 
@@ -218,7 +226,7 @@ def proxima_etapa(user_msg: str, etapa_atual: str) -> str:
     return CONTEXT
 
 
-# -------- util --------
-def _truncate(s: str, n: int = 300) -> str:
-    s = _safe(s)
-    return (s if len(s) <= n else (s[: max(0, n - 1)] + "…"))
+# # -------- util --------
+# def _truncate(s: str, n: int = 300) -> str:
+#     s = _safe(s)
+#     return (s if len(s) <= n else (s[: max(0, n - 1)] + "…"))

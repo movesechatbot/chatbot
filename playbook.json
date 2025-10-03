@@ -1,14 +1,4 @@
 {
-  "BOAS_VINDAS": {
-    "etapa": "BOAS_VINDAS",
-    "objetivo": "Dar contexto inicial e avançar rapidamente para a filtragem.",
-    "pergunta": "Oi, tudo bem?\n\nSou a Movelina, atendente virtual Movese, especialista em primeiro imóvel aqui na Imobiliária Movese.\n\nRecebi o seu cadastro através do nosso anúncio e estou aqui para te ajudar. Posso te fazer uma pergunta rápida para começar?",
-    "quando_valida": "",
-    "quando_invalida": "",
-    "exemplos_resposta_esperada": [],
-    "observacoes": ""
-  },
-
   "FILTRAR_CIDADE": {
     "etapa": "FILTRAR_CIDADE",
     "objetivo": "Perguntar em qual cidade o lead procura imóvel e validar se está na lista de cidades atendidas.",
