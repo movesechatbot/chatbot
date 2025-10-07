@@ -144,6 +144,13 @@ def chat():
         # calcula próxima etapa com base no que o usuário respondeu
         nova_etapa = proxima_etapa(pergunta, stage)
 
+        mensagem_extra = None
+        if "|lista_cidades:" in nova_etapa:
+            partes = nova_etapa.split("|lista_cidades:")
+            nova_etapa = partes[0].strip()
+            mensagem_extra = partes[1].strip()
+
+
         # snippet da etapa nova (é ela que será usada como system message)
         snippet = build_snippet(nova_etapa)
 
@@ -259,6 +266,11 @@ def chat():
                 ans = kb.get_answer(best_idx)
             except Exception:
                 ans = "tive um problema para responder. pode reformular em uma frase?"
+        
+        # adiciona lista de cidades se a etapa pediu
+        if mensagem_extra:
+            ans = (ans or "") + "\n\n" + mensagem_extra
+
 
         # histórico
         hist += [

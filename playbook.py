@@ -10,8 +10,9 @@ PB_PATH = pathlib.Path("playbook.json")
 FUZZY_THRESHOLD = 0.75
 # etapas principais
 BOAS = "BOAS_VINDAS"
-NIVEL = "NIVEL_DE_CONSCIENCIA"
 CONTEXT = "CONTEXTUALIZACAO"
+INDICA = "INDICACAO"
+SUGES = "SUGESTAO"
 
 # subetapas do FILTRAR
 FILTRAR_CIDADE = "FILTRAR_CIDADE"
@@ -23,11 +24,12 @@ FILTRAR_ENTRADA = "FILTRAR_ENTRADA"
 ETAPAS = (
     BOAS,
     FILTRAR_CIDADE,
+    SUGES,
     FILTRAR_PRIMEIRO,
     FILTRAR_ESCRITURA,
     FILTRAR_RENDA,
     FILTRAR_ENTRADA,
-    NIVEL,
+    INDICA,
     CONTEXT
 )
 
@@ -39,6 +41,13 @@ def _load() -> list:
 PLAYBOOK = _load()
 
 # helpers pra achar blocos do json
+def palavras_positivas() -> list[str]:
+    return PLAYBOOK.get("palavras_chave", {}).get("positivo", [])
+
+def palavras_negativas() -> list[str]:
+    return PLAYBOOK.get("palavras_chave", {}).get("negativo", [])
+
+
 def _find(etapa_nome_pt: str) -> dict | None:
     return PLAYBOOK.get(etapa_nome_pt)
 
@@ -59,7 +68,15 @@ def lista_cidades() -> list[str]:
         return []
     return node.get("lista_cidades", [])  # <- antes estava 'cidades'
 
-
+def gerar_lista_cidades_texto() -> str:
+    """
+    Lê automaticamente a lista de cidades do playbook.json e devolve texto formatado com quebras de linha.
+    """
+    cidades = lista_cidades()
+    if not cidades:
+        return "(nenhuma cidade cadastrada no playbook.json)"
+    corpo = "\n".join(cidades)
+    return f"{corpo}."
 
 CIDADES = set(lista_cidades())
 
@@ -88,6 +105,13 @@ def normalize(text):
     text = re.sub(r'[^a-z0-9\s]', '', text)  # mantém letras e números
     return text.strip()
 
+def resposta_positiva(msg: str) -> bool:
+    m = normalize(msg)
+    return any(p in m for p in palavras_positivas())
+
+def resposta_negativa(msg: str) -> bool:
+    m = normalize(msg)
+    return any(p in m for p in palavras_negativas())
 
 
 def cidade_valida(user_msg: str) -> bool:
@@ -115,12 +139,23 @@ def cidade_valida(user_msg: str) -> bool:
     return False
 
 def respondeu_primeiro_imovel(msg: str) -> bool:
-    m = normalize(msg)
-    return any(p in m for p in ["sim", "primeiro", "não", "nao", "nao é", "não é"])
+    """
+    Considera que o lead respondeu à pergunta 'é o primeiro imóvel?'
+    se a mensagem contiver qualquer sinal de resposta positiva ou negativa.
+    """
+    return resposta_positiva(msg) or resposta_negativa(msg)
 
 def respondeu_escritura(msg: str) -> bool:
+    """
+    Considera que o lead respondeu à pergunta sobre escritura
+    se a mensagem contiver sinais de sim/não ou menções diretas à escritura.
+    """
     m = normalize(msg)
-    return any(p in m for p in ["sim", "não", "nao", "escriturado", "sem escritura"])
+    return (
+        resposta_positiva(msg)
+        or resposta_negativa(msg)
+        or any(p in m for p in ["escriturado", "sem escritura"])
+    )
 
 def respondeu_renda(msg: str) -> bool:
     nums = [int(n) for n in re.findall(r"\d+", normalize(msg))]
@@ -176,26 +211,50 @@ def respondeu_entrada(msg: str) -> bool:
 def proxima_etapa(user_msg: str, etapa_atual: str) -> str:
     m = normalize(user_msg or "")
     renda = extrair_renda(m)
-
+    lista_cidades_texto = gerar_lista_cidades_texto()
 
 
     if etapa_atual == BOAS:
         return FILTRAR_CIDADE
 
+    # Se o lead disser uma cidade
     if etapa_atual == FILTRAR_CIDADE:
-        return FILTRAR_PRIMEIRO if cidade_valida(user_msg) else FILTRAR_CIDADE
+        if cidade_valida(user_msg):
+            return FILTRAR_PRIMEIRO
+
+        # cidade inválida → envia lista e muda pra SUGESTAO
+        if re.search(r"\b(cidade|porto|novo|são|paulo|leopoldo|hamburgo|canoas|viamão|alvorada|gravataí|esteio|sapucaia|guaíba|nova)\b", m):
+            print("[DEBUG] Cidade inválida detectada, enviando lista de cidades.")
+            return SUGES + "|lista_cidades:" + lista_cidades_texto
+
+        # se não mencionou cidade → permanece na etapa
+        return FILTRAR_CIDADE
+    
+    # sugestões
+    if etapa_atual == SUGES:
+
+        if resposta_positiva(user_msg):
+            return FILTRAR_CIDADE
+
+        if cidade_valida(user_msg):
+            return FILTRAR_PRIMEIRO
+
+        if re.search(r"\b(cidade|porto|novo|são|paulo|leopoldo|hamburgo|canoas|viamão|alvorada|gravataí|esteio|sapucaia|guaíba|nova)\b", m):
+            return SUGES + "|lista_cidades:" + lista_cidades_texto
+
+        return INDICA
 
     if etapa_atual == FILTRAR_PRIMEIRO:
         if respondeu_primeiro_imovel(user_msg):
-            if "sim" in m:
-                return NIVEL  # primeiro imóvel → vai direto pro nível de consciência
+            if resposta_positiva(user_msg):
+                return CONTEXT  # primeiro imóvel → vai direto pro nível de consciência
             return FILTRAR_ESCRITURA
         return FILTRAR_PRIMEIRO
 
     if etapa_atual == FILTRAR_ESCRITURA:
         if respondeu_escritura(user_msg):
-            if "nao" in m or "não" in m:
-                return NIVEL
+            if resposta_negativa(user_msg):
+                return CONTEXT
             return FILTRAR_RENDA
         return FILTRAR_ESCRITURA
 
@@ -203,27 +262,17 @@ def proxima_etapa(user_msg: str, etapa_atual: str) -> str:
         renda = extrair_renda(user_msg.lower())
         if renda > 0:
             print(f"[DEBUG] Renda detectada: {renda}")
-            return NIVEL if renda > 6500 else FILTRAR_ENTRADA
+            return CONTEXT if renda > 6500 else FILTRAR_ENTRADA
         return FILTRAR_RENDA
-
-
 
     if etapa_atual == FILTRAR_ENTRADA:
         if respondeu_entrada(user_msg):
-            return NIVEL
+            return CONTEXT
         return FILTRAR_ENTRADA
 
-    # NIVEL — agora mantém até classificar a resposta
-    if etapa_atual == NIVEL:
-        if any(p in m for p in ["primeira", "nunca", "não", "nao"]):
-            return CONTEXT
-        if any(p in m for p in ["reprovei", "reprovado", "negado"]):
-            return CONTEXT
-        if any(p in m for p in ["aprovado", "aprovou", "sim", "ok"]):
-            return CONTEXT
-        return NIVEL  # fica pedindo até entender
-
     return CONTEXT
+
+
 
 
 # # -------- util --------

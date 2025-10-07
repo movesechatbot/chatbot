@@ -1,10 +1,21 @@
-{
+{ 
+  "palavras_chave": {
+    "positivo": [
+      "sim", "ok", "beleza", "blz", "massa", "issaê", "positivo",
+      "fechou", "bora", "com certeza", "excelente", "claro",
+      "pode", "manda", "chama", "ss", "filé", "show", "yup"
+    ],
+    "negativo": [
+      "não", "nao", "nop", "nops", "nunca", "ainda não", "negativo", "n"
+    ]
+  },
+
   "FILTRAR_CIDADE": {
     "etapa": "FILTRAR_CIDADE",
     "objetivo": "Perguntar em qual cidade o lead procura imóvel e validar se está na lista de cidades atendidas.",
     "pergunta": "Hoje tu procura imóvel em qual cidade?",
     "quando_valida": "Confirme positivamente e avance para FILTRAR_PRIMEIRO.",
-    "quando_invalida": "Explique educadamente que ainda não atendemos essa cidade e encerre pedindo outra cidade atendida, mantendo o fluxo na mesma etapa.",
+    "quando_invalida": "Explique educadamente que ainda não atendemos essa cidade e avance para SUGESTAO.",
     "lista_cidades": [
       "Novo Hamburgo",
       "Estância Velha",
@@ -30,7 +41,46 @@
       "Gravataí",
       "Porto Alegre"
     ],
-    "observacoes": ""
+    "observacoes": ["se o lead falar mais de uma cidade válida, nunca repita elas",
+      "se o lead falar mais de uma cidade e uma delas for válida e as outras não, evite repetir, mas se for repetir só fale da válida",
+      "se o lead falar mais de uma cidade e as duas forem inválidas, vá para a etapa de SUGESTAO"
+    ]
+  },
+
+    "SUGESTAO": {
+    "etapa": "SUGESTAO",
+    "objetivo": "Recomendar cidades que estão na nossa lista e tentar manter o lead no fluxo.",
+    "pergunta": "Posso te mostrar as cidades que atendemos, quem sabe uma delas te interessa?",
+    "lista_cidades": [
+      "Novo Hamburgo",
+      "Estância Velha",
+      "São Leopoldo",
+      "Nova Hartz",
+      "Esteio",
+      "Sapucaia do Sul",
+      "Canoas",
+      "Cachoeirinha",
+      "Gravataí",
+      "Porto Alegre",
+      "Viamão",
+      "Alvorada",
+      "Guaíba"
+    ],
+    "sinonimos_cidades": {
+      "Novo Hamburgo": ["NH"],
+      "São Leopoldo": ["Sao Leo", "S. Leopoldo"],
+      "Porto Alegre": ["PoA", "POA"]
+    },
+    "quando_valida": "Se o lead se interessar por alguma das cidades da lista, avance para FILTRAR_PRIMEIRO.",
+    "quando_invalida": "Se o lead não se interessar, avance para INDICACAO.",
+    "exemplos_resposta_esperada": [
+      "Sim",
+      "Quero ver",
+      "Pode mostrar",
+      "Não",
+      "Deixa pra lá",
+      "Obrigado"
+    ]
   },
 
   "FILTRAR_PRIMEIRO_IMOVEL": {
@@ -41,7 +91,10 @@
     "quando_invalida": "Se NÃO: avance para FILTRAR_ESCRITURA.",
     "exemplos_resposta_esperada": [
       "Sim, é o primeiro.",
-      "Não, já tenho um."
+      "isso",
+      "Não, já tenho um.",
+      "Negativo"
+
     ],
     "observacoes": ""
   },
@@ -86,18 +139,16 @@
     "observacoes": ""
   },
 
-  "NIVEL_DE_CONSCIENCIA": {
-    "etapa": "NIVEL_DE_CONSCIENCIA",
-    "objetivo": "Entender o nível de consciência do lead: se já falou com corretor, já fez análise de crédito e se foi aprovado/reprovado, ou se é a primeira vez.",
-    "pergunta": "Para eu te atender da melhor forma, me conta:\n\nVocê já conversou com algum corretor ou chegou a fazer análise de crédito (aprovado/reprovado), ou é a primeira vez que está buscando entender como funciona para comprar um imóvel?",
-    "quando_valida": "Depois de entender o nível, avance para CONTEXTUALIZACAO.",
-    "quando_invalida": "",
+  "INDICACAO": {
+    "etapa": "INDICACAO",
+    "objetivo": "Pedir indicação de alguém que possa estar procurando imóvel nas cidades atendidas.",
+    "pergunta": "Tudo bem! 😊 Se lembrar de alguém que esteja procurando imóvel em uma dessas cidades, poderia me recomendar? Assim eu posso ajudar essa pessoa também.",
+    "quando_valida": "Agradece e encerra o atendimento.",
+    "quando_invalida": "Encerra o atendimento de forma cordial.",
     "exemplos_resposta_esperada": [
-      "Nunca fiz análise",
-      "Já fiz e fui aprovado",
-      "Já falei com corretor mas não fiz análise"
-    ],
-    "observacoes": "Não pedir documentos ainda nesta etapa."
+      "Vou indicar sim",
+      "Tenho um amigo procurando"
+    ]
   },
 
   "CONTEXTUALIZACAO": {
@@ -113,3 +164,4 @@
     "observacoes": ""
   }
 }
+
