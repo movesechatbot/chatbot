@@ -8,8 +8,8 @@ WHATSAPP_TOKEN = os.getenv("WHATSAPP_TOKEN", "")
 PHONE_NUMBER_ID = os.getenv("PHONE_NUMBER_ID", "")
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN", "")
 
-HIGH = float(os.getenv("HIGH", "0.97"))
-MED  = float(os.getenv("MED",  "0.89"))
+HIGH = float(os.getenv("HIGH", "0.83"))
+MED  = float(os.getenv("MED",  "0.82"))
 TOPK = int(os.getenv("TOPK", "3"))
 
 PORT = int(os.getenv("PORT", "10000"))
