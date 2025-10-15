@@ -47,6 +47,29 @@ def palavras_positivas() -> list[str]:
 def palavras_negativas() -> list[str]:
     return PLAYBOOK.get("palavras_chave", {}).get("negativo", [])
 
+def _gatilho_creci_node() -> dict:
+    return PLAYBOOK.get("gatilhos_globais", {}).get("creci", {})  # seguro se não existir
+
+def creci_padroes() -> list[str]:
+    return _gatilho_creci_node().get("padroes", [])
+
+def creci_resposta() -> str:
+    return _gatilho_creci_node().get("resposta", "").strip()
+
+def is_creci_question(msg: str) -> bool:
+    """
+    Detecta perguntas sobre CRECI de forma robusta, sem acento/caixa.
+    """
+    m = normalize(msg or "")
+    # heurística simples: presença explícita de 'creci'
+    if "creci" in m:
+        return True
+    # padrões adicionais vindos do playbook.json
+    for p in creci_padroes():
+        if normalize(p) in m:
+            return True
+    return False
+
 
 def _find(etapa_nome_pt: str) -> dict | None:
     return PLAYBOOK.get(etapa_nome_pt)

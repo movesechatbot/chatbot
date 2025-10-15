@@ -69,8 +69,6 @@ def ask_chatgpt(
         "sempre Separe frases com mais de 4 palavras pulando duas linhas para facilitar a leitura."
         "Nunca antecipe informações de outras etapas."
         "Nunca encerre o assunto e nunca prometa retorno futuro."
-        "caso o usuário pergunte sobre o Creci, responda em qualquer etapa"
-        "Esse é o nosso Creci:\n\n28339 J - Imobiliária Move.se Gênesis LTDA"
         "Sua única meta é conduzir o lead pelo fluxo de atendimento até a etapa CONTEXTUALIZAÇÃO."
         "Use o histórico apenas para manter coerência."
         "Nunca invente, nunca ofereça ajuda extra e nunca fale sobre equipe, valores ou horários"
@@ -101,7 +99,7 @@ def ask_chatgpt(
     trace = {
         "model": OPENAI_MODEL,
         "temperature": 0.5,
-        "max_tokens": 600,
+        "max_tokens": 1000,
         "system_base": sys[:2000],  # evita log gigante
         "playbook_snippet": (playbook_snippet or "")[:4000],
         "history_trimmed": trimmed_hist,
@@ -113,7 +111,7 @@ def ask_chatgpt(
         r = _client.chat.completions.create(
             model=OPENAI_MODEL,
             temperature=0.5,
-            max_tokens=600,
+            max_tokens=1000,
             response_format={"type": "text"},
             messages=messages,
             timeout=90

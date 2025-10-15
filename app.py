@@ -20,7 +20,7 @@ from config import HIGH, MED, TOPK, PORT
 import kb
 from llm import ask_chatgpt
 from whatsapp import bp as whatsapp_bp
-from playbook import build_snippet, proxima_etapa, BOAS, FILTRAR_CIDADE, cidade_valida
+from playbook import build_snippet, proxima_etapa, BOAS, FILTRAR_CIDADE, cidade_valida, is_creci_question, creci_resposta
 
 
 
@@ -202,6 +202,13 @@ def chat():
         if use_semantic and best_score >= HIGH:
             ans = kb.get_answer(best_idx)
 
+            # prefixo determinístico de CRECI
+            if is_creci_question(pergunta):
+                creci_txt = creci_resposta()
+                if creci_txt:
+                    ans = f"{creci_txt}\n\n{ans}"
+
+            
             # histórico
             hist += [
                 {"role": "user", "content": pergunta},
@@ -270,6 +277,12 @@ def chat():
         # adiciona lista de cidades se a etapa pediu
         if mensagem_extra:
             ans = (ans or "") + "\n\n" + mensagem_extra
+
+        # prefixo determinístico de CRECI (independente da etapa)
+        if is_creci_question(pergunta):
+            creci_txt = creci_resposta()
+            if creci_txt:
+                ans = f"{creci_txt}\n\n{ans}"
 
 
         # histórico

@@ -9,6 +9,22 @@
       "não", "nao", "nop", "nops", "nunca", "ainda não", "negativo", "n"
     ]
   },
+    "gatilhos_globais": {
+      "creci": {
+        "padroes": [
+          "creci",
+          "crêci",
+          "qual o creci",
+          "número do creci",
+          "numero do creci",
+          "creci da imobiliaria",
+          "creci da imobiliária",
+          "registro do creci"
+        ],
+        "resposta": "Esse é o nosso Creci:\n\n28339 J - Imobiliária Move.se Gênesis LTDA",
+        "comportamento": "prefixar_resposta_e_manter_fluxo"
+      }
+    },
 
   "FILTRAR_CIDADE": {
     "etapa": "FILTRAR_CIDADE",
@@ -154,7 +170,7 @@
   "CONTEXTUALIZACAO": {
     "etapa": "CONTEXTUALIZACAO",
     "objetivo": "Explicar brevemente o programa MCMV e pedir os documentos necessários para análise. Não perguntar preferências de imóvel.",
-    "pergunta": "Certo! Vou te explicar rapidinho como funciona para comprar um imóvel pelo programa Minha Casa Minha Vida.\n\n No programa é possível conseguir até 80% de financiamento do imóvel escolhido.\n\nSe vamos chegar nesses 80% vai depender totalmente da renda utilizada e do valor que o banco vai aprovar pra ti.\n\nO valor que fica além do que o banco financia, se torna a entrada, que na maioria dos casos pode ser parcelada 100%.\n\nO principal é que a gente consiga comprovar a tua renda de forma que o banco aceite.\n\nPara avançarmos com a análise, preciso dos seguintes documentos:\n1) Contracheque do último mês;\n2) RG e CPF ou CNH;\n3) Comprovante de residência;\n4) E-mail para contato.\n\nPode me enviar aqui mesmo?",
+    "pergunta": "Certo! Vou te explicar rapidinho como funciona para comprar um imóvel pelo programa Minha Casa Minha Vida.\n\n No programa é possível conseguir até 80% de financiamento do imóvel escolhido.\n\nSe vamos chegar nesses 80% vai depender totalmente da renda utilizada e do valor que o banco vai aprovar pra ti.\n\nO valor que fica além do que o banco financia, se torna a entrada, que na maioria dos casos pode ser parcelada 100%.\n\nO principal é que a gente consiga comprovar a tua renda de forma que o banco aceite.\n\nPara avançarmos com a análise, preciso dos seguintes documentos:\n1) Contracheque do último mês;\n2) RG ou CNH;\n3) Comprovante de residência;\n4) E-mail para contato.\n\nPode me enviar aqui mesmo?",
     "quando_valida": "Se o lead enviar docs ou confirmar que vai enviar: registrar status_docs e manter follow-up humano.",
     "quando_invalida": "Se o lead hesitar: reforçar brevidade/segurança e repetir a lista.",
     "exemplos_resposta_esperada": [
