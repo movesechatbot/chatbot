@@ -6,7 +6,7 @@
       "pode", "manda", "chama", "ss", "filé", "show", "yup"
     ],
     "negativo": [
-      "não", "nao", "nop", "nops", "nunca", "ainda não", "negativo", "n"
+      "não", "nao", "nop", "nops", "nunca", "ainda não", "negativo", "n" , "nn"
     ]
   },
     "gatilhos_globais": {
@@ -48,9 +48,9 @@
       "Guaíba"
     ],
     "sinonimos_cidades": {
-      "Novo Hamburgo": ["NH"],
-      "São Leopoldo": ["Sao Leo", "S. Leopoldo"],
-      "Porto Alegre": ["PoA", "POA"]
+      "Novo Hamburgo": ["NH", "nh", "Nh", "nH"],
+      "São Leopoldo": ["Sao Leo", "S. Leopoldo", "S Leopoldo", "S Leo"],
+      "Porto Alegre": ["PoA", "POA", "poa", "Poa"]
     },
     "exemplos_resposta_esperada": [
       "São Leopoldo",

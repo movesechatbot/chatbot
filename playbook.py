@@ -91,6 +91,13 @@ def lista_cidades() -> list[str]:
         return []
     return node.get("lista_cidades", [])  # <- antes estava 'cidades'
 
+def sinonimos_cidades() -> dict[str, list[str]]:
+    node = _find_filtrar_cidade_node()
+    if not node:
+        return {}
+    return node.get("sinonimos_cidades", {})
+
+
 def gerar_lista_cidades_texto() -> str:
     """
     Lê automaticamente a lista de cidades do playbook.json e devolve texto formatado com quebras de linha.
@@ -140,11 +147,13 @@ def resposta_negativa(msg: str) -> bool:
 def cidade_valida(user_msg: str) -> bool:
     m = normalize(user_msg)
     tokens = m.split()
+    sinons = sinonimos_cidades()
 
     for c in CIDADES:
         norm_c = normalize(c)
         c_tokens = norm_c.split()
 
+        # 1️⃣ verifica o nome oficial
         if len(c_tokens) == 1:
             target = c_tokens[0]
             for tok in tokens:
@@ -159,7 +168,14 @@ def cidade_valida(user_msg: str) -> bool:
                 window = " ".join(window_tokens)
                 if SequenceMatcher(None, window, target).ratio() >= FUZZY_THRESHOLD:
                     return True
+
+        # 2️⃣ verifica sinônimos daquela cidade
+        for sinon in sinons.get(c, []):
+            if normalize(sinon) in m:
+                return True
+
     return False
+
 
 def respondeu_primeiro_imovel(msg: str) -> bool:
     """
