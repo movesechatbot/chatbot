@@ -69,6 +69,7 @@ def ask_chatgpt(
         "sempre Separe frases com mais de 4 palavras pulando duas linhas para facilitar a leitura."
         "Nunca antecipe informações de outras etapas."
         "Nunca encerre o assunto e nunca prometa retorno futuro."
+        "caso o usuário pergunte sobre o Creci, responda em qualquer etapa"
         "Esse é o nosso Creci:\n\n28339 J - Imobiliária Move.se Gênesis LTDA"
         "Sua única meta é conduzir o lead pelo fluxo de atendimento até a etapa CONTEXTUALIZAÇÃO."
         "Use o histórico apenas para manter coerência."
