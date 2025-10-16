@@ -97,6 +97,13 @@ def sinonimos_cidades() -> dict[str, list[str]]:
         return {}
     return node.get("sinonimos_cidades", {})
 
+def canonizar_cidades_no_texto(msg: str) -> str:
+    txt = msg or ""
+    for cidade, alts in sinonimos_cidades().items():
+        for alt in alts:
+            txt = re.sub(rf"\b{re.escape(alt)}\b", cidade, txt, flags=re.IGNORECASE)
+    return txt
+
 
 def gerar_lista_cidades_texto() -> str:
     """
@@ -144,7 +151,11 @@ def resposta_negativa(msg: str) -> bool:
     return any(p in m for p in palavras_negativas())
 
 
-def cidade_valida(user_msg: str) -> bool:
+def cidade_valida(user_msg: str) -> str | None:
+    """
+    Retorna o NOME CANÔNICO da cidade se reconhecer (oficial ou sinônimo),
+    ou None se não reconhecer. Continua servindo como 'bool' no if.
+    """
     m = normalize(user_msg)
     tokens = m.split()
     sinons = sinonimos_cidades()
@@ -153,28 +164,28 @@ def cidade_valida(user_msg: str) -> bool:
         norm_c = normalize(c)
         c_tokens = norm_c.split()
 
-        # 1️⃣ verifica o nome oficial
+        # 1) nome oficial (exato/fuzzy)
         if len(c_tokens) == 1:
             target = c_tokens[0]
             for tok in tokens:
                 if tok == target or SequenceMatcher(None, tok, target).ratio() >= FUZZY_THRESHOLD:
-                    return True
+                    return c
         else:
             target = norm_c
             for i in range(len(tokens) - len(c_tokens) + 1):
                 window_tokens = tokens[i:i+len(c_tokens)]
                 if window_tokens == c_tokens:
-                    return True
+                    return c
                 window = " ".join(window_tokens)
                 if SequenceMatcher(None, window, target).ratio() >= FUZZY_THRESHOLD:
-                    return True
+                    return c
 
-        # 2️⃣ verifica sinônimos daquela cidade
+        # 2) sinônimos daquela cidade (ex.: NH → Novo Hamburgo)
         for sinon in sinons.get(c, []):
             if normalize(sinon) in m:
-                return True
+                return c
 
-    return False
+    return None
 
 
 def respondeu_primeiro_imovel(msg: str) -> bool:

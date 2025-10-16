@@ -20,9 +20,7 @@ from config import HIGH, MED, TOPK, PORT
 import kb
 from llm import ask_chatgpt
 from whatsapp import bp as whatsapp_bp
-from playbook import build_snippet, proxima_etapa, BOAS, FILTRAR_CIDADE, cidade_valida, is_creci_question, creci_resposta
-
-
+from playbook import build_snippet, proxima_etapa, BOAS, FILTRAR_CIDADE, cidade_valida, is_creci_question, creci_resposta, canonizar_cidades_no_texto
 
 
 app = Flask(__name__)
@@ -132,6 +130,8 @@ def chat():
         debug = bool(data.get("debug") or os.getenv("DEBUG_LLM") == "1")
         if not pergunta:
             return jsonify({"erro": "Pergunta não fornecida"}), 400
+
+        pergunta = canonizar_cidades_no_texto(pergunta)
 
         # identificação e histórico
         user_id = (data.get("user_id") or "anon").strip()
