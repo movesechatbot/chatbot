@@ -12,6 +12,7 @@ def set_stage(user_id: str, etapa: str) -> None:
 
 MAX_MSGS = 16
 
+import re
 import os, json, time
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
@@ -21,6 +22,41 @@ import kb
 from llm import ask_chatgpt
 from whatsapp import bp as whatsapp_bp
 from playbook import build_snippet, proxima_etapa, BOAS, FILTRAR_CIDADE, cidade_valida, is_creci_question, creci_resposta, canonizar_cidades_no_texto
+
+def limpa_negacoes_creci(txt: str) -> str:
+    if not txt:
+        return txt
+
+    linhas = txt.splitlines()
+    out = []
+    viu_bloco_creci = False
+
+    for linha in linhas:
+        s = linha.strip()
+
+        # --- manter o BLOCO OFICIAL ---
+        if re.search(r"(?i)esse é o nosso creci", s):
+            viu_bloco_creci = True
+            out.append(s)
+            continue
+        if "28339" in s or "Gênesis" in s:
+            viu_bloco_creci = True
+            out.append(s)
+            continue
+
+        # --- cortar qualquer outra menção a creci ---
+        if re.search(r"(?i)\bcreci\b", s):
+            continue
+
+        # --- logo após o bloco oficial, cortar reconduções tipo "desculpe, preciso..." ---
+        if viu_bloco_creci and re.search(r"(?i)(desculp|precis|para poder|me diga|infelizmente)", s):
+            continue
+
+        out.append(s)
+
+    t = "\n".join(out)
+    t = re.sub(r"\n{2,}", "\n\n", t).strip()
+    return t
 
 
 app = Flask(__name__)
@@ -207,6 +243,7 @@ def chat():
                 creci_txt = creci_resposta()
                 if creci_txt:
                     ans = f"{creci_txt}\n\n{ans}"
+                    ans = limpa_negacoes_creci(ans)
 
             
             # histórico
@@ -283,6 +320,7 @@ def chat():
             creci_txt = creci_resposta()
             if creci_txt:
                 ans = f"{creci_txt}\n\n{ans}"
+                ans = limpa_negacoes_creci(ans)
 
 
         # histórico
