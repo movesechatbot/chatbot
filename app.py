@@ -12,7 +12,7 @@ def set_stage(user_id: str, etapa: str) -> None:
 
 MAX_MSGS = 16
 
-import re
+import re, unicodedata
 import os, json, time
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
@@ -20,7 +20,7 @@ import logging
 from config import HIGH, MED, TOPK, PORT
 import kb
 from llm import ask_chatgpt
-from whatsapp import bp as whatsapp_bp
+from whatsapp import bp as whatsapp_bp, _send_document_email
 from playbook import build_snippet, proxima_etapa, BOAS, FILTRAR_CIDADE, cidade_valida, is_creci_question, creci_resposta, canonizar_cidades_no_texto
 
 def limpa_negacoes_creci(txt: str) -> str:
@@ -58,6 +58,53 @@ def limpa_negacoes_creci(txt: str) -> str:
     t = re.sub(r"\n{2,}", "\n\n", t).strip()
     return t
 
+
+DOC_ACK = "Perfeito!"
+_DOC_VERBS = (
+    "vou", "vamos", "envio", "enviar", "enviei", "enviarei", "enviando",
+    "mandei", "mandar", "mandando", "encaminho", "encaminhar", "encaminhei",
+    "subo", "subir", "subindo", "anexo", "anexei", "anexar", "segue", "seguirei",
+)
+_DOC_KEYWORDS = (
+    "doc", "documento", "documentos", "arquivo", "arquivos",
+    "rg", "cnh", "holerite", "contracheque", "comprovante", "comprovantes",
+    "extrato", "extratos", "foto", "fotos", "imagem", "imagens",
+    "residencia", "residência", "renda", "ft", "cpf"
+)
+_DOC_ALWAYS = (
+    "segue anexo", "segue doc", "segue documento", "segue os docs",
+    "anexo os documentos", "documentos em anexo",
+)
+
+def _normalize_for_docs(text: str) -> str:
+    if not text:
+        return ""
+    t = unicodedata.normalize("NFD", text)
+    t = "".join(c for c in t if unicodedata.category(c) != "Mn")
+    t = re.sub(r"\s+", " ", t).strip().lower()
+    return t
+
+def is_document_intent(msg: str) -> bool:
+    norm = _normalize_for_docs(msg)
+    if not norm:
+        return False
+
+    if any(token in norm for token in _DOC_ALWAYS):
+        return True
+
+    if "anexo" in norm or "anexei" in norm or "anexar" in norm:
+        return True
+
+    has_keyword = any(k in norm for k in _DOC_KEYWORDS)
+    has_verb = any(v in norm for v in _DOC_VERBS)
+
+    if has_keyword and has_verb:
+        return True
+
+    if norm.startswith(("enviei", "mandei", "segue")) and has_keyword:
+        return True
+
+    return False
 
 app = Flask(__name__)
 app.register_blueprint(whatsapp_bp)
@@ -112,45 +159,46 @@ def reset():
         app.logger.exception("erro no /reset")
         return jsonify({"erro": "falha ao resetar", "detalhe": str(e)}), 500
 
-# def get_docs(user_id: str):
-#     return DOCS.setdefault(user_id, {"rg_cnh": False, "residencia": False, "renda": False, "email": ""})
 
-# def docs_snippet(user_id: str) -> str:
-#     d = get_docs(user_id)
-#     faltando = []
-#     if not d["rg_cnh"]: faltando.append("RG/CNH")
-#     if not d["residencia"]: faltando.append("comprovante de residência")
-#     if not d["renda"]: faltando.append("comprovante de renda")
-#     email_status = d["email"] or "não informado"
-#     return (
-#         "status_docs:\n"
-#         f"- rg_cnh: {d['rg_cnh']}\n- residencia: {d['residencia']}\n- renda: {d['renda']}\n- email: {email_status}\n"
-#         f"- faltando: {', '.join(faltando) if faltando else 'nenhum'}"
-#     )
+@app.post("/upload-test")
+def upload_test():
+    if not request.files:
+        return jsonify({"ok": False, "erro": "nenhum arquivo recebido"}), 400
 
-# @app.post("/docs")
-# def docs_update():
-#     try:
-#         data = request.get_json(force=True) or {}
-#         user_id = (data.get("user_id") or "anon").strip()
-#         kind = (data.get("kind") or "").lower()
-#         label = (data.get("label") or "").lower()
-#         email = (data.get("email") or "").strip()
+    user_id = (request.form.get("user_id") or "webchat_teste").strip() or "webchat_teste"
+    caption = request.form.get("caption", "")
 
-#         d = get_docs(user_id)
-#         if kind == "rg_cnh":
-#             d["rg_cnh"] = True
-#         elif kind == "residencia":
-#             d["residencia"] = True
-#         elif kind == "renda":
-#             d["renda"] = True
-#         elif kind == "email" and email:
-#             d["email"] = email
+    results = []
+    for file in request.files.getlist("files"):
+        filename = file.filename or "anexo"
+        content_type = file.mimetype or "application/octet-stream"
+        try:
+            content_bytes = file.read()
+            if not content_bytes:
+                raise ValueError("arquivo vazio")
 
-#         return jsonify({"ok": True, "docs": d}), 200
-#     except Exception as e:
-#         app.logger.exception("erro no /docs")
-#         return jsonify({"ok": False, "erro": str(e)}), 500
+            sent = _send_document_email(
+                user_id=user_id,
+                attachment_name=filename,
+                content_type=content_type,
+                content_bytes=content_bytes,
+                caption=caption,
+                media_kind="web_upload",
+            )
+
+            status = "enviado" if sent else "ignorado"
+            detail = None if sent else "Resend não configurado (verifique variáveis RESEND_*)."
+        except Exception as e:
+            status = "erro"
+            detail = str(e)
+
+        entry = {"arquivo": filename, "status": status}
+        if detail:
+            entry["detalhe"] = detail
+        results.append(entry)
+
+    ok = all(item["status"] == "enviado" for item in results)
+    return jsonify({"ok": ok, "results": results, "user_id": user_id}), 200
 
 # logica de chatbot
 @app.post("/chat")
@@ -176,6 +224,27 @@ def chat():
         # --- etapa atual + overrides simples ---
         # etapa atual do lead
         stage = get_stage(user_id)
+
+        if is_document_intent(pergunta):
+            ack = DOC_ACK
+            hist += [
+                {"role": "user", "content": pergunta},
+                {"role": "assistant", "content": ack},
+            ]
+            SESSIONS[user_id] = hist[-MAX_MSGS:]
+            app.logger.info("[APP DOC ACK] %s", json.dumps({
+                "user_id": user_id,
+                "stage": stage,
+                "pergunta": pergunta,
+            }, ensure_ascii=False))
+            return jsonify({
+                "source": "doc_ack",
+                "similaridade": 0.0,
+                "resposta": ack,
+                "match_index": None,
+                "topk": [],
+                "etapa": stage,
+            }), 200
 
         # calcula próxima etapa com base no que o usuário respondeu
         nova_etapa = proxima_etapa(pergunta, stage)

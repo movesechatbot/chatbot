@@ -1,9 +1,20 @@
 # whatsapp.py
-import tempfile, os, mimetypes, requests # hmac, hashlib
+import base64
+import tempfile, os, mimetypes, requests  # hmac, hashlib
 from typing import Optional, Any
 from flask import Blueprint, request, abort
 from openai import OpenAI
-from config import WHATSAPP_TOKEN, PHONE_NUMBER_ID, VERIFY_TOKEN, PORT
+from pathlib import Path
+from config import (
+    WHATSAPP_TOKEN,
+    PHONE_NUMBER_ID,
+    VERIFY_TOKEN,
+    PORT,
+    RESEND_API_KEY,
+    RESEND_FROM_EMAIL,
+    RESEND_TO_EMAIL,
+    RESEND_SUBJECT,
+)
 import re, requests
 
 bp = Blueprint("whatsapp", __name__)
@@ -19,6 +30,11 @@ _client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 #     digest = hmac.new(APP_SECRET.encode(), raw, hashlib.sha256).hexdigest()
 #     return hmac.compare_digest(sig, f"sha256={digest}")
 EMAIL_RE = re.compile(r"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}", re.I)
+
+# limites de anexos (válido para web e WhatsApp)
+MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024  # 10 MB
+IMAGE_EXTS = {"jpg", "jpeg", "png", "gif", "bmp", "tif", "tiff", "webp", "heic", "heif"}
+ALLOWED_EXTS = IMAGE_EXTS | {"pdf", "docx"}
 
 # def _notify_doc(kind: str, user: str, label: str = "", email: str = ""):
 #     try:
@@ -79,16 +95,36 @@ def incoming():
                     #     _send_text(user, reply)
 
                 elif t in ("document", "image"):
-                    caption = (msg.get(t, {}).get("caption") or "").lower()
-                    filename = (msg.get(t, {}).get("filename") or "").lower()
-                    meta = f"{caption} {filename}"
+                    media_payload = msg.get(t, {}) or {}
+                    caption = (media_payload.get("caption") or "").strip()
+                    filename = media_payload.get("filename")
+                    media_id = media_payload.get("id")
+                    caption_lower = caption.lower()
+                    name_lower = (filename or "").lower()
+                    meta = f"{caption_lower} {name_lower}"
 
-                    if any(k in meta for k in ("rg", "cnh", "carteira de motorista", "identidade")):
-                        _notify_doc("rg_cnh", user)
-                    elif any(k in meta for k in ("comprovante de residencia", "residência", "luz", "agua", "água", "energia")):
-                        _notify_doc("residencia", user)
-                    elif any(k in meta for k in ("holerite", "contracheque", "renda", "pro labore", "decorrente renda")):
-                        _notify_doc("renda", user)
+                    if media_id:
+                        try:
+                            att_name, att_type, att_bytes = _download_media(media_id, filename)
+                            _send_document_email(
+                                user_id=user,
+                                attachment_name=att_name,
+                                content_type=att_type,
+                                content_bytes=att_bytes,
+                                caption=caption,
+                                media_kind=t,
+                            )
+                        except Exception as e:
+                            bp.logger.warning("falha ao enviar email via Resend: %s", e)
+
+                    notifier = globals().get("_notify_doc")
+                    if callable(notifier):
+                        if any(k in meta for k in ("rg", "cnh", "carteira de motorista", "identidade")):
+                            notifier("rg_cnh", user)
+                        elif any(k in meta for k in ("comprovante de residencia", "residência", "luz", "agua", "água", "energia")):
+                            notifier("residencia", user)
+                        elif any(k in meta for k in ("holerite", "contracheque", "renda", "pro labore", "decorrente renda")):
+                            notifier("renda", user)
                     else:
                         # se não souber, não marca; o GPT ainda verá a msg no histórico
                         pass
@@ -228,3 +264,96 @@ def _send_text(to: str, body: str):
     # opcional: levantar erro se não for 200
     if r.status_code >= 300:
         raise RuntimeError(f"send_text falhou: {r.status_code} {r.text}")
+
+
+def _download_media(media_id: str, preferred_name: Optional[str] = None) -> tuple[str, str, bytes]:
+    meta = requests.get(
+        f"https://graph.facebook.com/v22.0/{media_id}",
+        headers={"Authorization": f"Bearer {WHATSAPP_TOKEN}"},
+        timeout=15,
+    ).json()
+    url = meta.get("url")
+    if not url:
+        raise RuntimeError("media url ausente na resposta do Graph API.")
+
+    resp = requests.get(
+        url,
+        headers={"Authorization": f"Bearer {WHATSAPP_TOKEN}"},
+        timeout=30,
+    )
+    resp.raise_for_status()
+
+    content_type = resp.headers.get("Content-Type") or meta.get("mime_type") or "application/octet-stream"
+    filename = preferred_name or meta.get("filename") or meta.get("name")
+    if not filename:
+        ext = mimetypes.guess_extension(content_type) or ""
+        filename = f"{media_id}{ext}"
+
+    return filename, content_type, resp.content
+
+
+def _send_document_email(
+    user_id: str,
+    attachment_name: str,
+    content_type: str,
+    content_bytes: bytes,
+    caption: str,
+    media_kind: str,
+) -> bool:
+    if not (RESEND_API_KEY and RESEND_FROM_EMAIL and RESEND_TO_EMAIL):
+        bp.logger.debug("Resend não configurado; anexos não serão enviados por email.")
+        return False
+
+    size_bytes = len(content_bytes)
+    if size_bytes > MAX_ATTACHMENT_BYTES:
+        raise ValueError(f"arquivo excede limite de {MAX_ATTACHMENT_BYTES // (1024 * 1024)} MB")
+
+    suffix = Path(attachment_name).suffix.lower().lstrip(".")
+    content_type = (content_type or "").lower()
+
+    is_image = content_type.startswith("image/") or suffix in IMAGE_EXTS
+    is_pdf = suffix == "pdf" or content_type == "application/pdf"
+    is_docx = suffix == "docx" or content_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+    if not (is_image or is_pdf or is_docx):
+        raise ValueError("formato não permitido (somente imagens, PDF ou DOCX)")
+
+    attachment_b64 = base64.b64encode(content_bytes).decode("ascii")
+    body_lines = [
+        f"Documento recebido do usuário WhatsApp: {user_id}",
+        f"Tipo de mídia: {media_kind}",
+        f"Nome original: {attachment_name}",
+        f"Content-Type: {content_type}",
+    ]
+    if caption:
+        body_lines.append(f"Legenda: {caption}")
+
+    payload = {
+        "from": RESEND_FROM_EMAIL,
+        "to": [RESEND_TO_EMAIL],
+        "subject": RESEND_SUBJECT,
+        "text": "\n".join(body_lines),
+        "attachments": [
+            {
+                "filename": attachment_name,
+                "content": attachment_b64,
+            }
+        ],
+    }
+
+    headers = {
+        "Authorization": f"Bearer {RESEND_API_KEY}",
+        "Content-Type": "application/json",
+    }
+
+    resp = requests.post(
+        "https://api.resend.com/emails",
+        json=payload,
+        headers=headers,
+        timeout=15,
+    )
+
+    if resp.status_code >= 300:
+        raise RuntimeError(f"Resend retornou {resp.status_code}: {resp.text[:200]}")
+
+    return True

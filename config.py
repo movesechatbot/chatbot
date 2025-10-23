@@ -16,3 +16,8 @@ PORT = int(os.getenv("PORT", "10000"))
 
 MODEL_NAME = os.getenv("ST_MODEL", "intfloat/multilingual-e5-small")
 FAQ_PATH   = os.getenv("FAQ_PATH", "base_faq.json")
+
+RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
+RESEND_FROM_EMAIL = os.getenv("RESEND_FROM_EMAIL", "")
+RESEND_TO_EMAIL = os.getenv("RESEND_TO_EMAIL", "")
+RESEND_SUBJECT = os.getenv("RESEND_SUBJECT", "Novo documento recebido pelo WhatsApp")
