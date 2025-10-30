@@ -1,7 +1,7 @@
 # exemplo: memória em RAM (troque por Redis/DB no prod)
 SESSIONS = {}
 STAGE = {}  # NEW: dict[user_id] = etapa atual (string)
-# DOCS = {}
+DOCS = {}
 
 def get_stage(user_id: str) -> str:
     return STAGE.get(user_id, BOAS)
@@ -11,6 +11,17 @@ def set_stage(user_id: str, etapa: str) -> None:
   # dict[user_id] = List[Message]
 
 MAX_MSGS = 16
+
+def get_docs(user_id: str) -> dict:
+    return DOCS.setdefault(user_id, {
+        "rg_cnh": False,
+        "residencia": False,
+        "renda": False,
+        "email": "",
+    })
+
+def docs_completed(info: dict) -> bool:
+    return bool(info.get("rg_cnh") and info.get("residencia") and info.get("renda") and info.get("email"))
 
 import re, unicodedata
 import os, json, time
@@ -22,6 +33,7 @@ import kb
 from llm import ask_chatgpt
 from whatsapp import bp as whatsapp_bp, _send_document_email
 from playbook import build_snippet, proxima_etapa, BOAS, FILTRAR_CIDADE, cidade_valida, is_creci_question, creci_resposta, canonizar_cidades_no_texto
+import followup
 
 def limpa_negacoes_creci(txt: str) -> str:
     if not txt:
@@ -200,6 +212,38 @@ def upload_test():
     ok = all(item["status"] == "enviado" for item in results)
     return jsonify({"ok": ok, "results": results, "user_id": user_id}), 200
 
+@app.post("/docs")
+def docs_update():
+    try:
+        data = request.get_json(force=True) or {}
+        user_id = (data.get("user_id") or "anon").strip()
+        kind = (data.get("kind") or "").lower()
+        label = (data.get("label") or "").lower()
+        email = (data.get("email") or "").strip()
+
+        info = get_docs(user_id)
+
+        if kind == "rg_cnh":
+            info["rg_cnh"] = True
+        elif kind == "residencia":
+            info["residencia"] = True
+        elif kind == "renda":
+            info["renda"] = True
+        elif kind == "email" and email:
+            info["email"] = email
+        elif kind == "reset":
+            info.update({"rg_cnh": False, "residencia": False, "renda": False, "email": ""})
+
+        followup.update_docs_status(user_id, info)
+
+        goal_reached = docs_completed(info)
+        followup.mark_goal(user_id, goal_reached)
+
+        return jsonify({"ok": True, "docs": info, "goal_reached": goal_reached}), 200
+    except Exception as e:
+        app.logger.exception("erro no /docs")
+        return jsonify({"ok": False, "erro": str(e)}), 500
+
 # logica de chatbot
 @app.post("/chat")
 def chat():
@@ -221,6 +265,8 @@ def chat():
         user_id = (data.get("user_id") or "anon").strip()
         hist = SESSIONS.get(user_id, [])
 
+        followup.mark_user_reply(user_id)
+
         # --- etapa atual + overrides simples ---
         # etapa atual do lead
         stage = get_stage(user_id)
@@ -237,6 +283,7 @@ def chat():
                 "stage": stage,
                 "pergunta": pergunta,
             }, ensure_ascii=False))
+            followup.track_bot_reply(user_id)
             return jsonify({
                 "source": "doc_ack",
                 "similaridade": 0.0,
@@ -350,6 +397,7 @@ def chat():
             if debug and llm_trace:
                 resp["trace"] = llm_trace  # <- aqui você enxerga final_messages (todos os prompts)
 
+            followup.track_bot_reply(user_id)
             return jsonify(resp), 200
 
 
@@ -398,6 +446,7 @@ def chat():
             {"role": "assistant", "content": ans},
         ]
         SESSIONS[user_id] = hist[-MAX_MSGS:]
+        followup.track_bot_reply(user_id)
 
         return jsonify({
             "source": "chatgpt_ctx",

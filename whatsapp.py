@@ -17,6 +17,8 @@ from config import (
 )
 import re, requests
 
+import followup
+
 bp = Blueprint("whatsapp", __name__)
 
 _client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -36,13 +38,15 @@ MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024  # 10 MB
 IMAGE_EXTS = {"jpg", "jpeg", "png", "gif", "bmp", "tif", "tiff", "webp", "heic", "heif"}
 ALLOWED_EXTS = IMAGE_EXTS | {"pdf", "docx"}
 
-# def _notify_doc(kind: str, user: str, label: str = "", email: str = ""):
-#     try:
-#         requests.post(f"http://localhost:{PORT}/docs",
-#                       json={"user_id": user, "kind": kind, "label": label, "email": email},
-#                       timeout=5)
-#     except Exception:
-#         pass
+def _notify_doc(kind: str, user: str, label: str = "", email: str = ""):
+    try:
+        requests.post(
+            f"http://localhost:{PORT}/docs",
+            json={"user_id": user, "kind": kind, "label": label, "email": email},
+            timeout=5,
+        )
+    except Exception:
+        pass
 
 
 @bp.get("/whatsapp")
@@ -53,15 +57,18 @@ def verify():
 
 @bp.post("/whatsapp")
 def incoming():
-    raw = request.get_data()
-    # if not _verify_signature(raw):
-    #     return "invalid signature", 403
-
     data = request.get_json() or {}
     entries = data.get("entry", [])
     for entry in entries:
         for change in entry.get("changes", []):
             value = change.get("value", {})
+            contacts = value.get("contacts") or []
+            for c in contacts:
+                wid = (c.get("wa_id") or "").strip()
+                prof = c.get("profile") or {}
+                name = (prof.get("name") or "").strip()
+                if wid and name:
+                    followup.update_profile(wid, name)
             messages = value.get("messages") or []
             for msg in messages:
                 user = msg.get("from")
@@ -71,6 +78,7 @@ def incoming():
 
                 if t == "text":
                     txt = msg["text"]["body"].strip()
+                    followup.mark_user_reply(user)
 
                     # --- reset session --- (remover na PROD)
                     if txt.lower() == "/reset":
@@ -88,11 +96,9 @@ def incoming():
                     reply = _pipeline(txt, user)
                     _send_text(user, reply)
 
-                    # m = EMAIL_RE.search(txt)
-                    # if m:
-                    #     _notify_doc("email", user, email=m.group(0))
-                    #     reply = _pipeline(txt, user)
-                    #     _send_text(user, reply)
+                    m = EMAIL_RE.search(txt)
+                    if m:
+                        _notify_doc("email", user, email=m.group(0))
 
                 elif t in ("document", "image"):
                     media_payload = msg.get(t, {}) or {}
@@ -102,6 +108,8 @@ def incoming():
                     caption_lower = caption.lower()
                     name_lower = (filename or "").lower()
                     meta = f"{caption_lower} {name_lower}"
+
+                    followup.mark_user_reply(user)
 
                     if media_id:
                         try:
@@ -136,6 +144,7 @@ def incoming():
                 elif t in ("audio", "voice"):
                     media_id = msg[t]["id"]
                     txt = _transcribe_media(media_id)   # mp3/m4a/ogg/opus/wav ok
+                    followup.mark_user_reply(user)
                     reply = _pipeline(txt, user)
                     _send_text(user, reply)
 
@@ -264,6 +273,7 @@ def _send_text(to: str, body: str):
     # opcional: levantar erro se não for 200
     if r.status_code >= 300:
         raise RuntimeError(f"send_text falhou: {r.status_code} {r.text}")
+    followup.track_bot_reply(to)
 
 
 def _download_media(media_id: str, preferred_name: Optional[str] = None) -> tuple[str, str, bytes]:
@@ -357,3 +367,6 @@ def _send_document_email(
         raise RuntimeError(f"Resend retornou {resp.status_code}: {resp.text[:200]}")
 
     return True
+
+
+followup.init(_send_text)

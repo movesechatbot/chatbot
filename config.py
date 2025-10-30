@@ -12,6 +12,9 @@ HIGH = float(os.getenv("HIGH", "0.83"))
 MED  = float(os.getenv("MED",  "0.82"))
 TOPK = int(os.getenv("TOPK", "3"))
 
+TIMEZONE = os.getenv("TZ", "America/Sao_Paulo")
+SOCIAL_IG_URL = os.getenv("SOCIAL_IG_URL", "")
+
 PORT = int(os.getenv("PORT", "10000"))
 
 MODEL_NAME = os.getenv("ST_MODEL", "intfloat/multilingual-e5-small")
