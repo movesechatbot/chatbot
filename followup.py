@@ -9,7 +9,7 @@ from config import SOCIAL_IG_URL, TIMEZONE
 CFG = {
     # janela de envio (hora local)
     "tz": TIMEZONE,                 # ex: "America/Sao_Paulo"
-    "window_start_hour": 8,         # 08:00
+    "window_start_hour": 6,         # 08:00
     "window_end_hour": 24,          # 00:00 (do mesmo dia)
     # plano de tentativas
     "daily_plan": {1: 3, 2: 3},     # dias 1 e 2: 3 tentativas; demais: 1/dia
@@ -20,9 +20,9 @@ CFG = {
 
 # faixas de horário locais para distribuição (hora inteira)
 # dias com 3 tentativas → manhã, tarde, noite
-THREE_SLOTS = [(9, 11), (14, 16), (19, 21)]
+THREE_SLOTS = [(6, 9), (11, 14), (16, 19), (20, 22)]
 # dias com 1 tentativa → janela ampla “business”
-ONE_SLOT = [(9, 20)]
+ONE_SLOT = [(6, 22)]
 
 # sequência fixa (12) com placeholders
 FOLLOWUP_SCRIPT = [
