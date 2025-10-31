@@ -9,7 +9,7 @@ from config import SOCIAL_IG_URL, TIMEZONE
 CFG = {
     # janela de envio (hora local)
     "tz": TIMEZONE,                 # ex: "America/Sao_Paulo"
-    "window_start_hour": 0,         # 08:00
+    "window_start_hour": 8,         # 08:00
     "window_end_hour": 24,          # 00:00 (do mesmo dia)
     # plano de tentativas
     "daily_plan": {1: 3, 2: 3},     # dias 1 e 2: 3 tentativas; demais: 1/dia
@@ -20,14 +20,14 @@ CFG = {
 
 # faixas de horário locais para distribuição (hora inteira)
 # dias com 3 tentativas → manhã, tarde, noite
-THREE_SLOTS = [(23, 23)]
+THREE_SLOTS = [(9, 11), (14, 16), (19, 21)]
 # dias com 1 tentativa → janela ampla “business”
-ONE_SLOT = [(23, 23)]
+ONE_SLOT = [(9, 20)]
 
 # sequência fixa (12) com placeholders
 FOLLOWUP_SCRIPT = [
     # 1
-    "Vi que você ainda não conseguiu me responder. Fica tranquilo(a), estou por aqui para te ajudar e\nentendo que o dia a dia é corrido.\n\nQual melhor horário para conversarmos aqui?",
+    "Vi que você ainda não conseguiu me responder.\n\nFica tranquilo(a), estou por aqui para te ajudar e entendo que o dia a dia é corrido.\n\nQual melhor horário para conversarmos aqui?",
     # 2
     "Olá!, só reforçando: meu objetivo é facilitar ao máximo para você 🏡.\nSe puder me informar a cidade onde mora e onde trabalha, já consigo saber se tenho opções para você",
     # 3
@@ -273,7 +273,7 @@ def _pick_future_today(now_utc: datetime, bands: list[tuple[int,int]]) -> dateti
         if cand > now_utc and _in_window_local(cand):
             return cand
     # fallback: +15 min
-    return now_utc + timedelta(seconds=30)
+    return now_utc + timedelta(minutes=15)
 
 def _prepare_followup(st: State, now: datetime) -> Tuple[Optional[str], Optional[datetime]]:
     today = now.date()
