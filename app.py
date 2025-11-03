@@ -23,6 +23,7 @@ def get_docs(user_id: str) -> dict:
 def docs_completed(info: dict) -> bool:
     return bool(info.get("rg_cnh") and info.get("residencia") and info.get("renda") and info.get("email"))
 
+from datetime import datetime
 import re, unicodedata
 import os, json, time
 from flask import Flask, request, jsonify, render_template
@@ -134,6 +135,47 @@ def _trunc(s, n=2000):
     if not isinstance(s, str): return s
     return s if len(s) <= n else s[:n] + "…"
 
+# === Histórico completo de uma conversa ===
+@app.get("/admin/conversa/<user_id>")
+def admin_conversa(user_id):
+    hist = SESSIONS.get(user_id, [])
+    return jsonify({
+        "user_id": user_id,
+        "mensagens": hist,                 # [{role, content, ...}]
+        "stage": get_stage(user_id)
+    })
+
+
+@app.get("/admin/conversas")
+def listar_conversas():
+    out = []
+    for user_id, hist in SESSIONS.items():
+        ultima = hist[-1]["content"] if hist else ""
+        hora = time.strftime("%H:%M")
+        out.append({"user_id": user_id, "ultima": ultima, "hora": hora})
+    return jsonify(out)
+
+@app.post("/admin/enviar")
+def admin_enviar():
+    data = request.get_json(force=True)
+    user_id = data.get("user_id")
+    msg = data.get("mensagem", "").strip()
+    if not user_id or not msg:
+        return jsonify({"erro": "faltando dados"}), 400
+
+    hist = SESSIONS.get(user_id, [])
+    agora = datetime.now().strftime("%H:%M")
+
+    # ✅ o admin é o "assistant", pois é quem fala do lado da IA
+    hist.append({"role": "assistant", "content": msg, "hora": agora})
+    SESSIONS[user_id] = hist[-MAX_MSGS:]
+
+    # não dispara o chatbot
+    return jsonify({"ok": True, "mensagem": msg, "hora": agora}), 200
+
+
+
+
 # remover na prod
 @app.route("/chat", methods=["OPTIONS"])
 def chat_preflight():
@@ -153,6 +195,11 @@ def healthz():
 @app.get("/")
 def home():
     return render_template("index.html")
+
+@app.get("/teste")
+def teste():
+    # Página antiga de testes
+    return render_template("teste.html")
 
 # resetar sessão e etapa de um user_id - REMOVER NA PROD
 @app.post("/reset")
@@ -273,9 +320,10 @@ def chat():
 
         if is_document_intent(pergunta):
             ack = DOC_ACK
+            agora = datetime.now().strftime("%H:%M")
             hist += [
-                {"role": "user", "content": pergunta},
-                {"role": "assistant", "content": ack},
+                {"role": "user", "content": pergunta, "hora": agora},
+                {"role": "assistant", "content": ack, "hora": agora},
             ]
             SESSIONS[user_id] = hist[-MAX_MSGS:]
             app.logger.info("[APP DOC ACK] %s", json.dumps({
@@ -292,6 +340,7 @@ def chat():
                 "topk": [],
                 "etapa": stage,
             }), 200
+
 
         # calcula próxima etapa com base no que o usuário respondeu
         nova_etapa = proxima_etapa(pergunta, stage)
@@ -361,11 +410,11 @@ def chat():
                     ans = f"{creci_txt}\n\n{ans}"
                     ans = limpa_negacoes_creci(ans)
 
-            
+            agora = datetime.now().strftime("%H:%M")
             # histórico
             hist += [
-                {"role": "user", "content": pergunta},
-                {"role": "assistant", "content": ans},
+                {"role": "user", "content": pergunta, "hora": agora},
+                {"role": "assistant", "content": ans, "hora": agora},
             ]
             SESSIONS[user_id] = hist[-MAX_MSGS:]
 
@@ -441,10 +490,12 @@ def chat():
 
 
         # histórico
+        agora = datetime.now().strftime("%H:%M")
         hist += [
-            {"role": "user", "content": pergunta},
-            {"role": "assistant", "content": ans},
+            {"role": "user", "content": pergunta, "hora": agora},
+            {"role": "assistant", "content": ans, "hora": agora},
         ]
+
         SESSIONS[user_id] = hist[-MAX_MSGS:]
         followup.track_bot_reply(user_id)
 

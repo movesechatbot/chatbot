@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<title>Chatbot FAQ – Movese</title>
+<style>
+  body{font-family:Arial,sans-serif;background:#333;display:flex;align-items:center;flex-direction:column;width:100%;min-height:100dvh;padding:40px;overflow-x:hidden; overflow-y: hidden;}
+  h2{color:#fff}
+  #chat{width:100%;max-width:420px;background:#fff;border-radius:10px;padding:20px;box-shadow:0 0 10px #ccc}
+  #pergunta{width:97%}
+  .mensagem{margin:10px 0}
+  .user{text-align:right;color:#2a7ae2}
+  .bot{text-align:left;color:#222}
+  input,button{padding:10px;margin-top:10px;width:100%;border-radius:5px;border:1px solid #ccc}
+  button{background:#2a7ae2;color:#fff;border:none;cursor:pointer}
+  a{margin:16px;color:#eee;text-decoration:none;font-size:1.1rem}
+  #mensagens{max-height:50vh;overflow-y:auto}
+  .muted{color:#999;font-size:.9rem;text-align:center}
+  .meta{font-size:.85rem;color:#666;margin-top:4px}
+  .badge{display:inline-block;padding:2px 6px;border-radius:4px;background:#eee;margin-right:6px}
+  .badge.local{background:#d7ffd9}
+  .badge.chatgpt_ctx{background:#fff3c4}
+  .mensagem div {  white-space: pre-line;}
+  .badge.chatgpt_open{background:#ffd7d7}
+  .bar{height:6px;background:#eee;border-radius:4px;overflow:hidden;margin-top:6px}
+  .bar>span{display:block;height:100%;background:#2a7ae2;width:0%}
+  .thinking{opacity:.7;font-style:italic}
+  .controls{display:flex;gap:8px;align-items:center;margin-top:12px}
+  .controls button{flex:1}
+  .controls .round{background:#d9534f;color:#fff;border:none;border-radius:50%;width:42px;height:42px;cursor:pointer;font-weight:bold;padding:0}
+  .upload{margin-top:12px}
+  .upload input[type="file"]{padding:6px}
+  .upload button{margin-top:6px;background:#6c63ff}
+</style>
+</head>
+<body>
+  <h2>CHATBOT I.A PERSONALIZADO - Movese</h2>
+  <div id="chat">
+    <div id="mensagens"></div>
+    <input type="text" id="pergunta" placeholder="Digite sua pergunta..." />
+    <div class="controls">
+      <button id="btnEnviar">Enviar</button>
+      <button id="btnResetUid" class="round" title="Resetar sessão">⟲</button>
+    </div>
+    <div class="upload">
+      <label for="anexos">Anexar arquivos (simulação Resend)</label>
+      <input type="file" id="anexos" multiple />
+      <button id="btnEnviarAnexo" type="button">Enviar anexos simulados</button>
+    </div>
+    <div class="muted">dica: pergunte “quais cidades vocês atendem?”</div>
+  </div>
+
+<script src="../static/script.js"></script>
+
+</body>
+</html>
