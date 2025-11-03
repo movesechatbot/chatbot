@@ -145,6 +145,17 @@ def admin_conversa(user_id):
         "stage": get_stage(user_id)
     })
 
+@app.get("/admin/live/<user_id>")
+def admin_live(user_id):
+    """
+    Retorna o histórico recente (até MAX_MSGS) para exibição em tempo real na tela de testes.
+    """
+    hist = SESSIONS.get(user_id, [])
+    return jsonify({
+        "user_id": user_id,
+        "mensagens": hist[-MAX_MSGS:]
+    })
+
 
 @app.get("/admin/conversas")
 def listar_conversas():

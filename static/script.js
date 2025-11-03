@@ -120,6 +120,32 @@ async function enviarPergunta() {
 
 btn.addEventListener('click', enviarPergunta);
 
+// ======= LIVE UPDATES DO ADMIN =======
+const USER_ID = localStorage.uid || (localStorage.uid = crypto.randomUUID());
+const LIVE_ENDPOINT = `${API_BASE}/admin/live/${USER_ID}`;
+
+async function atualizarLive() {
+  try {
+    const res = await fetch(LIVE_ENDPOINT);
+    if (!res.ok) return;
+    const data = await res.json();
+    const mensagens = data.mensagens || [];
+
+    // limpa e redesenha o chat
+    mensagensEl.innerHTML = "";
+    mensagens.forEach(m => {
+      const classe = m.role === "assistant" ? "bot" : "user";
+      adicionarMensagem(`${m.content}`, classe);
+    });
+  } catch (e) {
+    console.warn("live update falhou:", e);
+  }
+}
+
+// atualiza a cada 3 segundos
+setInterval(atualizarLive, 3000);
+
+
 if (btnResetUid) {
   btnResetUid.addEventListener('click', () => {
     if (confirm('Apagar UID atual e iniciar nova sessão?')) {
