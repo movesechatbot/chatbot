@@ -2,15 +2,40 @@
 /**
  * Junta arquivos de texto/código do projeto em um único arquivo,
  * com separadores contendo caminho e tamanho do arquivo.
+ * Agora inclui suporte a lista de arquivos/padrões a serem ignorados manualmente.
  *
  * Uso:
  *   node bundle-text.js --root . --out TEXTAO.txt --maxKB 500
- *   (todos os parâmetros são opcionais)
  */
 
 const fs = require('fs');
 const fsp = fs.promises;
 const path = require('path');
+
+// === CONFIGURAÇÃO MANUAL DE ARQUIVOS A PULAR ===========================
+const SKIP_FILES = [
+  // Exemplos — altere conforme quiser:
+  'README.md',
+  '/chatbot/dev-utils/base_faq.json',
+  '.env',
+  'conversa_1.txt',
+  'conversa_2.txt',
+  'conversa_3.txt',
+  'conversa_4.txt',
+  'conversa_5.txt',
+  'conversa_6.txt',
+  'base_faq.json',
+  '__pycache__/app.cpython-313.pyc',
+  '__pycache__/config.cpython-313.pyc',
+  '__pycache__/kb.cpython-313.pyc',
+  '__pycache__/llm.cpython-313.pyc',
+  '__pycache__/playbook.cpython-313.pyc',
+  '__pycache__/whatsapp.cpython-313.pyc',
+  'Texto de treinamento/vendas.txt',
+  // pode ser apenas parte do caminho
+  // ou nome exato do arquivo
+];
+// =======================================================================
 
 const argv = (() => {
   const a = process.argv.slice(2);
@@ -19,7 +44,8 @@ const argv = (() => {
     const k = a[i];
     if (k.startsWith('--')) {
       const key = k.slice(2);
-      const val = (i + 1 < a.length && !a[i + 1].startsWith('--')) ? a[++i] : true;
+      const val =
+        i + 1 < a.length && !a[i + 1].startsWith('--') ? a[++i] : true;
       out[key] = val;
     }
   }
@@ -27,54 +53,134 @@ const argv = (() => {
 })();
 
 const ROOT = path.resolve(argv.root || '.');
-const OUT  = path.resolve(argv.out  || 'PROJECT_BUNDLE.txt');
-const MAX_KB = parseInt(argv.maxKB || '600', 10); // pula arquivos > MAX_KB
+const OUT = path.resolve(argv.out || 'PROJECT_BUNDLE.txt');
+const MAX_KB = parseInt(argv.maxKB || '600', 10);
 const MAX_BYTES = MAX_KB * 1024;
 
-// Whitelist de extensões consideradas texto/código
 const TEXT_EXT = new Set([
-  // web / node / php
-  '.js','.jsx','.ts','.tsx','.mjs','.cjs',
-  '.php','.html','.htm','.css','.scss','.sass',
-  '.json','.jsonc','.md','.markdown','.txt',
-  '.yaml','.yml','.env','.env.example',
-  '.gitignore','.gitattributes',
-  // outras linguagens comuns
-  '.py','.rb','.go','.rs','.java','.kt','.c','.h','.cpp','.hpp','.cs',
-  '.sql','.sh','.bat','.ps1','.ini','.conf','.toml',
-  // templates / views
-  '.twig','.blade.php','.ejs','.hbs'
+  '.js',
+  '.jsx',
+  '.ts',
+  '.tsx',
+  '.mjs',
+  '.cjs',
+  '.php',
+  '.html',
+  '.htm',
+  '.css',
+  '.scss',
+  '.sass',
+  '.json',
+  '.jsonc',
+  '.md',
+  '.markdown',
+  '.txt',
+  '.yaml',
+  '.yml',
+  '.env',
+  '.env.example',
+  '.gitignore',
+  '.gitattributes',
+  '.py',
+  '.rb',
+  '.go',
+  '.rs',
+  '.java',
+  '.kt',
+  '.c',
+  '.h',
+  '.cpp',
+  '.hpp',
+  '.cs',
+  '.sql',
+  '.sh',
+  '.bat',
+  '.ps1',
+  '.ini',
+  '.conf',
+  '.toml',
+  '.twig',
+  '.blade.php',
+  '.ejs',
+  '.hbs',
 ]);
 
-// Diretórios a ignorar
 const IGNORE_DIRS = new Set([
-  'node_modules','.git','vendor','dist','build','.next','.cache','.turbo',
-  '.parcel-cache','coverage','.idea','.vscode','storage','logs','tmp','.nuxt',
-  '.angular','out','.expo','.gradle','target'
+  'node_modules',
+  '.git',
+  'vendor',
+  'dist',
+  'build',
+  '.next',
+  '.cache',
+  '.turbo',
+  '.parcel-cache',
+  'coverage',
+  '.idea',
+  '.vscode',
+  'storage',
+  'logs',
+  'tmp',
+  '.nuxt',
+  '.angular',
+  'out',
+  '.expo',
+  '.gradle',
+  'target',
 ]);
 
-// Arquivos específicos a ignorar (grandes/ruidosos)
 const IGNORE_FILES = new Set([
-  'package-lock.json','yarn.lock','pnpm-lock.yaml','composer.lock',
-  '.DS_Store'
+  'package-lock.json',
+  'yarn.lock',
+  'pnpm-lock.yaml',
+  'composer.lock',
+  '.DS_Store',
 ]);
 
-// Extensões explicitamente ignoradas (binários)
 const IGNORE_EXT = new Set([
-  '.png','.jpg','.jpeg','.gif','.webp','.avif','.bmp','.ico',
-  '.pdf','.zip','.rar','.7z','.tar','.gz',
-  '.mp3','.wav','.flac','.mp4','.mov','.mkv',
-  '.woff','.woff2','.ttf','.eot',
-  '.obj','.fbx','.glb','.gltf'
+  '.png',
+  '.jpg',
+  '.jpeg',
+  '.gif',
+  '.webp',
+  '.avif',
+  '.bmp',
+  '.ico',
+  '.pdf',
+  '.zip',
+  '.rar',
+  '.7z',
+  '.tar',
+  '.gz',
+  '.mp3',
+  '.wav',
+  '.flac',
+  '.mp4',
+  '.mov',
+  '.mkv',
+  '.woff',
+  '.woff2',
+  '.ttf',
+  '.eot',
+  '.obj',
+  '.fbx',
+  '.glb',
+  '.gltf',
 ]);
 
 function looksTextByExt(file) {
   const ext = path.extname(file).toLowerCase();
   if (IGNORE_EXT.has(ext)) return false;
   if (TEXT_EXT.has(ext)) return true;
-  // fallback: trate sem extensão como texto pequeno
   return ext === '' ? true : false;
 }
+
+// === NOVA FUNÇÃO: checa se o arquivo deve ser pulado ===================
+function shouldSkip(filePath) {
+  const relPath = path.relative(ROOT, filePath).replace(/\\/g, '/');
+  return SKIP_FILES.some((pattern) => relPath.includes(pattern));
+}
+// =======================================================================
 
 async function* walk(dir) {
   let entries;
@@ -100,13 +206,13 @@ function rel(p) {
 }
 
 function nowISO() {
-  const d = new Date();
-  return d.toISOString();
+  return new Date().toISOString();
 }
 
 async function main() {
   const files = [];
   for await (const fp of walk(ROOT)) {
+    if (shouldSkip(fp)) continue; // 👈 nova verificação
     if (!looksTextByExt(fp)) continue;
     try {
       const st = await fsp.stat(fp);
@@ -115,8 +221,7 @@ async function main() {
     } catch {}
   }
 
-  // Ordena alfabeticamente para previsibilidade
-  files.sort((a,b) => rel(a.fp).localeCompare(rel(b.fp)));
+  files.sort((a, b) => rel(a.fp).localeCompare(rel(b.fp)));
 
   const lines = [];
   lines.push('# BUNDLE DO PROJETO');
@@ -126,7 +231,9 @@ async function main() {
   lines.push('');
   lines.push('## ÍNDICE');
   files.forEach((f, i) => {
-    lines.push(`${String(i+1).padStart(3,' ')}. ${rel(f.fp)} (${f.size} bytes)`);
+    lines.push(
+      `${String(i + 1).padStart(3, ' ')}. ${rel(f.fp)} (${f.size} bytes)`
+    );
   });
   lines.push('\n---\n');
 
@@ -134,14 +241,14 @@ async function main() {
     const relative = rel(f.fp);
     const ext = path.extname(relative).toLowerCase();
     const fenceLang = (() => {
-      if (['.js','.jsx','.mjs','.cjs'].includes(ext)) return 'javascript';
-      if (['.ts','.tsx'].includes(ext)) return 'typescript';
+      if (['.js', '.jsx', '.mjs', '.cjs'].includes(ext)) return 'javascript';
+      if (['.ts', '.tsx'].includes(ext)) return 'typescript';
       if (ext === '.php' || ext === '.blade.php') return 'php';
-      if (ext === '.css' || ext === '.scss' || ext === '.sass') return 'css';
-      if (ext === '.html' || ext === '.htm') return 'html';
-      if (ext === '.md' || ext === '.markdown') return 'md';
-      if (ext === '.json' || ext === '.jsonc') return 'json';
-      if (ext === '.yml' || ext === '.yaml') return 'yaml';
+      if (['.css', '.scss', '.sass'].includes(ext)) return 'css';
+      if (['.html', '.htm'].includes(ext)) return 'html';
+      if (['.md', '.markdown'].includes(ext)) return 'md';
+      if (['.json', '.jsonc'].includes(ext)) return 'json';
+      if (['.yml', '.yaml'].includes(ext)) return 'yaml';
       if (ext === '.sh') return 'bash';
       if (ext === '.ps1') return 'powershell';
       if (ext === '.py') return 'python';
@@ -161,11 +268,9 @@ async function main() {
       content = `<<ERRO AO LER ARQUIVO: ${e.message}>>`;
     }
 
-    // Cerca com fence para ficar legível quando colar aqui no chat
     lines.push('```' + fenceLang);
-    lines.push(content.replace(/\uFEFF/g, '')); // remove BOM se existir
+    lines.push(content.replace(/\uFEFF/g, ''));
     lines.push('```');
-
     lines.push(`\n/* ================================ END FILE ============================ */\n`);
   }
 
@@ -176,7 +281,7 @@ async function main() {
   console.log(`   Raiz: ${ROOT}`);
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Erro:', err);
   process.exit(1);
 });
