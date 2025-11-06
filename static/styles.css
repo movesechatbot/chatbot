@@ -781,3 +781,55 @@ input,
 textarea {
   transition-property: background-color, color, border-color, transform, box-shadow;
 }
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 4px;
+  color: #fff;
+  text-transform: capitalize;
+  letter-spacing: 0.3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Cores individuais por status */
+.status-novo {
+  background-color: #28a745; /* Verde */
+}
+
+.status-conversando {
+  background-color: #007bff; /* Azul */
+}
+
+.status-docs {
+  background-color: #ffc107; /* Amarelo */
+  color: #222; /* Texto escuro */
+}
+
+.status-analise {
+  background-color: #6f42c1; /* Roxo */
+}
+
+.status-aprovado {
+  background-color: #20c997; /* Verde água */
+}
+
+.status-reprovado {
+  background-color: #dc3545; /* Vermelho */
+}
+
+.status-repique {
+  background-color: #fd7e14; /* Laranja */
+}
+
+.status-frio {
+  background-color: #6c757d; /* Cinza */
+}
+
+.status-assinado {
+  background-color: #17a2b8; /* Azul piscina */
+}
+

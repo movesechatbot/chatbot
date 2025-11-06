@@ -21,6 +21,30 @@ const chatColumn        = document.getElementById("chatColumn");
 const DEFAULT_AVATAR = "/static/placeholder.svg"; // ajuste se precisar
 const bootstrap = window.bootstrap;
 
+// ==================== STATUS CONFIG ====================
+const STATUS_OPTIONS = [
+  { key: "novo", label: "Novo cliente" },
+  { key: "conversando", label: "Conversando" },
+  { key: "docs", label: "Aguardando documentação" },
+  { key: "analise", label: "Em análise" },
+  { key: "aprovado", label: "Aprovado" },
+  { key: "reprovado", label: "Reprovado" },
+  { key: "repique", label: "Repique potencial" },
+  { key: "frio", label: "Cliente Frio" },
+  { key: "assinado", label: "Assinado" }
+];
+
+function loadStatuses() {
+  return JSON.parse(localStorage.getItem("contactStatuses") || "{}");
+}
+
+function saveStatuses(map) {
+  localStorage.setItem("contactStatuses", JSON.stringify(map));
+}
+
+let contactStatuses = loadStatuses();
+
+
 // ==================== HELPERS ==================
 const roleToType = (role) => (role === "assistant" ? "outgoing" : role === "user" ? "incoming" : "system");
 
@@ -41,27 +65,36 @@ function setActiveInList(id) {
 
 // ==================== RENDER ===================
 function renderConversations() {
-  conversationList.innerHTML = contacts.map(c => `
-    <div class="conversation-item ${c.pinned ? "pinned" : ""}" data-id="${c.id}">
-      <div class="conversation-avatar ${c.online ? "online" : ""}">
-        <img src="${c.avatar || DEFAULT_AVATAR}" alt="${c.name}" class="avatar-img">
-      </div>
-      <div class="conversation-info">
-        <div class="conversation-header">
-          <span class="conversation-name">${c.name}</span>
-          <span class="conversation-time">${c.time || ""}</span>
+  conversationList.innerHTML = contacts.map(c => {
+    const statusKey = contactStatuses[c.id];
+    const statusObj = STATUS_OPTIONS.find(s => s.key === statusKey);
+    const statusHTML = statusObj
+      ? `<span class="status-badge status-${statusObj.key}">${statusObj.label}</span>`
+      : "";
+
+    return `
+      <div class="conversation-item ${c.pinned ? "pinned" : ""}" data-id="${c.id}">
+        <div class="conversation-avatar ${c.online ? "online" : ""}">
+          <img src="${c.avatar || DEFAULT_AVATAR}" alt="${c.name}" class="avatar-img">
         </div>
-        <div class="conversation-preview">
-          <span class="conversation-message">${c.lastMessage || ""}</span>
-          <div class="conversation-meta">
-            ${c.muted ? '<i class="bi bi-mic-mute-fill icon-muted"></i>' : ""}
-            ${c.pinned ? '<i class="bi bi-pin-fill icon-pinned"></i>' : ""}
-            ${c.unread > 0 ? `<span class="badge-unread">${c.unread}</span>` : ""}
+        <div class="conversation-info">
+          <div class="conversation-header">
+            <span class="conversation-name">${c.name}</span>
+            <span class="conversation-time">${c.time || ""}</span>
+          </div>
+          <div class="conversation-preview">
+            <span class="conversation-message">${c.lastMessage || ""}</span>
+            <div class="conversation-meta">
+              ${statusHTML}
+              ${c.muted ? '<i class="bi bi-mic-mute-fill icon-muted"></i>' : ""}
+              ${c.pinned ? '<i class="bi bi-pin-fill icon-pinned"></i>' : ""}
+              ${c.unread > 0 ? `<span class="badge-unread">${c.unread}</span>` : ""}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
   if (currentChatId) setActiveInList(currentChatId);
 }
 
@@ -177,6 +210,17 @@ async function loadConversations() {
   }
 }
 
+// 🟢 Move uma conversa para o topo da lista quando há nova interação
+function moveConversationToTop(contactId) {
+  const index = contacts.findIndex(c => c.id === contactId);
+  if (index > -1) {
+    const [updated] = contacts.splice(index, 1);
+    contacts.unshift(updated);
+    renderConversations();
+  }
+}
+
+
 async function refreshCurrentChat() {
   if (!currentChatId) return;
   try {
@@ -190,6 +234,9 @@ async function refreshCurrentChat() {
       status: "read",
     }));
 
+    const prevMsgs = cacheMessages[currentChatId] || [];
+    const hadNewMessage = msgs.length > prevMsgs.length; // 🔥 detecta nova mensagem real
+
     cacheMessages[currentChatId] = msgs;
     renderMessages(currentChatId);
     messagesArea.scrollTop = messagesArea.scrollHeight;
@@ -202,12 +249,16 @@ async function refreshCurrentChat() {
       chatName.textContent = c.name;
       chatAvatar.src = c.avatar || DEFAULT_AVATAR;
       chatStatus.textContent = "online";
-      renderConversations();
     }
+
+    // só move pro topo se realmente houver mensagem nova
+    if (hadNewMessage) moveConversationToTop(currentChatId);
+
   } catch (e) {
     console.error("Erro ao atualizar conversa:", e);
   }
 }
+
 
 // ==================== OPEN CHAT =====================
 async function openChat(contactId) {
@@ -326,6 +377,15 @@ function setupEventListeners() {
     openChat(id);
   });
 
+  // clique direito para mudar status
+  conversationList.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    const item = e.target.closest(".conversation-item");
+    if (!item) return;
+    showStatusMenu(e.pageX, e.pageY, item.dataset.id);
+  });
+
+
   // enviar
   sendBtn.addEventListener("click", sendMessage);
   messageInput.addEventListener("keydown", (e) => {
@@ -350,6 +410,39 @@ function setupEventListeners() {
     if (it) { console.log("Context:", it.textContent.trim()); hideContextMenu(); }
   });
 }
+
+function showStatusMenu(x, y, contactId) {
+  const menu = document.createElement("div");
+  menu.className = "status-menu";
+  menu.style.position = "absolute";
+  menu.style.left = x + "px";
+  menu.style.top = y + "px";
+  menu.style.background = "#222";
+  menu.style.border = "1px solid #444";
+  menu.style.borderRadius = "6px";
+  menu.style.zIndex = "9999";
+  menu.style.padding = "4px";
+  menu.innerHTML = STATUS_OPTIONS.map(opt => `
+    <div class="status-option" data-key="${opt.key}" 
+         style="cursor:pointer;padding:4px 8px;color:white">
+      ${opt.label}
+    </div>`).join("");
+
+  document.body.appendChild(menu);
+
+  menu.addEventListener("click", (e) => {
+    const opt = e.target.closest(".status-option");
+    if (opt) {
+      contactStatuses[contactId] = opt.dataset.key;
+      saveStatuses(contactStatuses);
+      renderConversations();
+    }
+    menu.remove();
+  });
+
+  document.addEventListener("click", () => menu.remove(), { once: true });
+}
+
 
 // ==================== POLLING ==================
 let chatsPoll = null;
