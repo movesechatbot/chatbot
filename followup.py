@@ -3,26 +3,50 @@ import logging, random, threading, time
 from datetime import datetime, timedelta, date, timezone
 from typing import Callable, Dict, Optional, Tuple
 from zoneinfo import ZoneInfo
-from config import SOCIAL_IG_URL, TIMEZONE 
+from config import SOCIAL_IG_URL, TIMEZONE
 
-# --- CONFIG NOVA ---
+# --- CONFIG PRODUÇÃO ---
 CFG = {
-    # janela de envio (hora local)
-    "tz": TIMEZONE,                 # ex: "America/Sao_Paulo"
-    "window_start_hour": 6,         # 08:00
-    "window_end_hour": 24,          # 00:00 (do mesmo dia)
-    # plano de tentativas
-    "daily_plan": {1: 3, 2: 3},     # dias 1 e 2: 3 tentativas; demais: 1/dia
-    "max_total_attempts": 12,       # teto absoluto
-    # agendamento
+    # fuso do cliente
+    "tz": TIMEZONE,          # ex: "America/Sao_Paulo"
+
+    # janela global de envio (hora local)
+    "window_start_hour": 6,  # 06:00
+    "window_end_hour": 24,   # 00:00 (do mesmo dia)
+
+    # plano de tentativas:
+    # dia 1: até 3
+    # dia 2: até 3
+    # dia 3+: 1 por dia (default)
+    "daily_plan": {1: 3, 2: 3},
+
+    # 3 + 3 + 1/dia até 12 contatos
+    "max_total_attempts": 12,
+
+    # intervalo do loop interno
     "loop_interval_secs": 5,
+
+    # gap mínimo entre resposta do bot e followup (em minutos)
+    "min_gap_minutes": 60,
 }
 
-# faixas de horário locais para distribuição (hora inteira)
-# dias com 3 tentativas → manhã, tarde, noite
-THREE_SLOTS = [(6, 9), (11, 14), (16, 19), (20, 22)]
-# dias com 1 tentativa → janela ampla “business”
-ONE_SLOT = [(6, 22)]
+# bandas de horário em MINUTOS a partir de 00:00
+# dias 1 e 2 → 3 repicks distribuídos nessas 4 janelas:
+#  06:00–09:00
+#  11:30–13:30
+#  16:30–18:30
+#  20:00–21:30
+DAY12_BANDS: list[tuple[int, int]] = [
+    (6 * 60, 9 * 60),                 # 06:00–09:00
+    (11 * 60 + 30, 13 * 60 + 30),     # 11:30–13:30
+    (16 * 60 + 30, 18 * 60 + 30),     # 16:30–18:30
+    (20 * 60, 21 * 60 + 30),          # 20:00–21:30
+]
+
+# a partir do 3º dia → 1 repick/dia entre 06:00 e 00:00
+LATE_BANDS: list[tuple[int, int]] = [
+    (6 * 60, 24 * 60),                # 06:00–24:00
+]
 
 # sequência fixa (12) com placeholders
 FOLLOWUP_SCRIPT = [
@@ -64,7 +88,6 @@ DEFAULT_NO_DOC_MSG = (
     "Estou aqui para ajudar com a documentação necessária."
 )
 
-
 State = Dict[str, object]
 
 _STATE: Dict[str, State] = {}
@@ -75,8 +98,9 @@ _THREAD: Optional[threading.Thread] = None
 _LOGGER = logging.getLogger("followup")
 
 
+# -------- helpers de tempo --------
+
 def _utcnow() -> datetime:
-    """Return the current UTC time as a timezone-aware datetime."""
     return datetime.now(timezone.utc)
 
 def _tz() -> ZoneInfo:
@@ -95,20 +119,34 @@ def _in_window_local(now_utc: datetime) -> bool:
     loc = _to_local(now_utc)
     start, end = int(CFG["window_start_hour"]), int(CFG["window_end_hour"])
     h = loc.hour
-    # janela [start, end). se end=24, aceita até 23:59
     return (h >= start) and (h < end)
 
-def _rand_time_in_band(base_day_local: date, band: tuple[int,int]) -> datetime:
-    h0, h1 = band
-    hour = random.randint(h0, h1)
-    minute = random.randint(0, 59)
+def _rand_time_in_band(base_day_local: date, band: tuple[int, int]) -> datetime:
+    start_min, end_min = band
+    if end_min <= start_min:
+        minute_of_day = start_min
+    else:
+        minute_of_day = random.randint(start_min, end_min - 1)
+    hour = minute_of_day // 60
+    minute = minute_of_day % 60
     second = random.randint(0, 59)
-    dt_local = datetime(base_day_local.year, base_day_local.month, base_day_local.day, hour, minute, second, tzinfo=_tz())
+    dt_local = datetime(
+        base_day_local.year,
+        base_day_local.month,
+        base_day_local.day,
+        hour,
+        minute,
+        second,
+        tzinfo=_tz(),
+    )
     return _to_utc(dt_local)
 
+
+# -------- lógica de dias / plano --------
+
 def _day_index(st: State, today: date) -> int:
-    start = st.get("started_on") or today
-    return max(1, (today - start).days + 1)
+    start_date = st.get("started_on") or today
+    return max(1, (today - start_date).days + 1)
 
 def _allowed_today(st: State, today: date) -> int:
     d = _day_index(st, today)
@@ -116,12 +154,28 @@ def _allowed_today(st: State, today: date) -> int:
     return plan.get(d, 1)
 
 def _script_index(st: State) -> int:
-    # 0-based para FOLLOWUP_SCRIPT
     return min(int(st.get("attempts_total", 0)), len(FOLLOWUP_SCRIPT) - 1)
 
+def _bands_for_day(st: State, today: date) -> list[tuple[int, int]]:
+    d = _day_index(st, today)
+    if d in (1, 2):
+        return DAY12_BANDS
+    return LATE_BANDS
+
+def _pick_band(st: State, bands: list[tuple[int, int]]) -> tuple[int, int]:
+    if not bands:
+        return (6 * 60, 22 * 60)
+    last_idx = st.get("_last_band_idx")
+    idx = random.randrange(len(bands))
+    if last_idx is not None and len(bands) > 1 and idx == last_idx:
+        idx = (idx + 1) % len(bands)
+    st["_last_band_idx"] = idx
+    return bands[idx]
+
+
+# -------- api pública --------
 
 def init(sender_fn: Callable[[str, str], None]) -> None:
-    """Register the sender function and start the scheduler thread."""
     global _SENDER, _THREAD
     with _LOCK:
         if _SENDER is None:
@@ -165,14 +219,14 @@ def track_bot_reply(user_id: str) -> None:
             st.pop("_pending_override", None)
             return
 
-        # agenda próxima janela mínima válida
         st["paused"] = False
-        st["next_due"] = _pick_future_today(now, THREE_SLOTS if _allowed_today(st, today) >= 3 else ONE_SLOT)
+        bands = _bands_for_day(st, today)
+        next_due = _pick_future_today(now, bands, st)
+        st["next_due"] = next_due
         st["_last_day_check"] = today
 
 
 def mark_goal(user_id: str, reached: bool = True) -> None:
-    """Stop follow-ups permanently when the lead hits the goal."""
     with _LOCK:
         st = _get_state(user_id)
         st["goal_reached"] = bool(reached)
@@ -185,7 +239,6 @@ def mark_goal(user_id: str, reached: bool = True) -> None:
 
 
 def update_docs_status(user_id: str, info: Dict[str, object]) -> None:
-    """Store the latest doc flags so follow-ups can adapt the messaging."""
     normalized = {key: bool(info.get(key)) for key in DOC_KEYS}
     with _LOCK:
         st = _get_state(user_id)
@@ -198,11 +251,13 @@ def update_profile(user_id: str, name: Optional[str] = None) -> None:
         st = _get_state(user_id)
         st["name"] = (name or "").strip()
 
+
+# -------- núcleo do scheduler --------
+
 def _eligible(st: State, now: datetime) -> bool:
     if st.get("goal_reached") or st.get("paused") or st.get("_sending"):
         return False
 
-    # janela local
     if not _in_window_local(now):
         return False
 
@@ -215,7 +270,12 @@ def _eligible(st: State, now: datetime) -> bool:
         return False
     st["last_bot_ts"] = last_bot_ts
 
-    # limites
+    min_gap = int(CFG.get("min_gap_minutes", 0))
+    if min_gap > 0:
+        gap = now - last_bot_ts
+        if gap < timedelta(minutes=min_gap):
+            return False
+
     if int(st.get("attempts_total", 0)) >= CFG["max_total_attempts"]:
         return False
 
@@ -250,35 +310,32 @@ def _loop() -> None:
                     continue
                 st["_sending"] = True
                 st["_pending_override"] = next_due
-                # não empilhe st_ref, só os 3 valores necessários
                 due.append((user_id, message, next_due))
 
         for user_id, message, next_due in due:
             _deliver_followup(user_id, message, next_due)
 
 
-def _pick_next_day(now_utc: datetime, bands: list[tuple[int,int]]) -> datetime:
+def _pick_next_day(now_utc: datetime, bands: list[tuple[int, int]], st: State) -> datetime:
     local_now = _to_local(now_utc)
     tomorrow = local_now.date() + timedelta(days=1)
-    band = random.choice(bands)
+    band = _pick_band(st, bands)
     return _rand_time_in_band(tomorrow, band)
 
-def _pick_future_today(now_utc: datetime, bands: list[tuple[int,int]]) -> datetime:
+def _pick_future_today(now_utc: datetime, bands: list[tuple[int, int]], st: State) -> datetime:
     local_now = _to_local(now_utc)
     today = local_now.date()
-    # tenta até achar um horário depois do agora
     for _ in range(8):
-        band = random.choice(bands)
+        band = _pick_band(st, bands)
         cand = _rand_time_in_band(today, band)
         if cand > now_utc and _in_window_local(cand):
             return cand
-    # fallback: +15 min
-    return now_utc + timedelta(minutes=15)
+    return _pick_next_day(now_utc, bands, st)
+
 
 def _prepare_followup(st: State, now: datetime) -> Tuple[Optional[str], Optional[datetime]]:
     today = now.date()
 
-    # zera por virada já é feito no housekeeping; só garante chave
     st.setdefault("attempts_today", 0)
     st.setdefault("attempts_total", 0)
 
@@ -291,17 +348,14 @@ def _prepare_followup(st: State, now: datetime) -> Tuple[Optional[str], Optional
         return None, None
 
     base_msg = FOLLOWUP_SCRIPT[script_idx]
-    message = _compose_followup_message(st, base_msg)  # aplica docs + placeholders
+    message = _compose_followup_message(st, base_msg)
 
-    bands = THREE_SLOTS if allowed >= 3 else ONE_SLOT
+    bands = _bands_for_day(st, today)
 
-    # se haverá mais mensagens hoje, escolhe um band plausível; caso contrário, próximo dia
     if st["attempts_today"] + 1 < allowed:
-        # ainda hoje, em um band aleatório
-        next_due = _pick_future_today(now, bands)
+        next_due = _pick_future_today(now, bands, st)
     else:
-        # amanhã (ou próximo dia útil), 1ª janela do dia
-        next_due = _pick_next_day(now, bands)
+        next_due = _pick_next_day(now, bands, st)
 
     st["_pending_next_due"] = next_due
     st["_pending_attempts_today"] = int(st["attempts_today"]) + 1
@@ -325,7 +379,7 @@ def _deliver_followup(user_id: str, message: str, next_due: datetime) -> None:
 
     try:
         _SENDER(user_id, message)
-    except Exception as exc:  # pragma: no cover - defensive
+    except Exception as exc:
         _LOGGER.warning("followup send failed for %s: %s", user_id, exc)
         with _LOCK:
             st = _STATE.get(user_id)
@@ -342,7 +396,8 @@ def _deliver_followup(user_id: str, message: str, next_due: datetime) -> None:
 
     with _LOCK:
         st = _STATE.get(user_id)
-        if not st: return
+        if not st:
+            return
 
         scheduled_due = _coerce_aware(st.pop("_pending_next_due", next_due)) or next_due
         st["attempts_today"] = int(st.pop("_pending_attempts_today", st.get("attempts_today", 0)))
@@ -394,29 +449,28 @@ def _daily_housekeeping(st: State, now: datetime) -> None:
     else:
         st["days_without_reply"] = int(st.get("days_without_reply", 0)) + days_passed
 
-    # NÃO pausar automaticamente por days_without_reply; régua de 12 controla o freio
-    # Ajusta next_due para a janela local se estiver fora dela
+    # se o próximo horário caiu fora da janela, realoca dentro da janela do dia
     next_due = _coerce_aware(st.get("next_due"))
     if next_due is not None and not _in_window_local(next_due):
         local_now = _to_local(now)
-        band = THREE_SLOTS[0] if _allowed_today(st, today) >= 3 else ONE_SLOT[0]
-        candidate = _rand_time_in_band(local_now.date(), band)
+        bands = _bands_for_day(st, local_now.date())
+        candidate = _pick_future_today(now, bands, st)
         if candidate <= now:
-            candidate = _pick_next_day(now, THREE_SLOTS if _allowed_today(st, today) >= 3 else ONE_SLOT)
+            candidate = _pick_next_day(now, bands, st)
         st["next_due"] = candidate
 
 
+# -------- helpers de mensagem / state --------
+
 def _compose_followup_message(st: State, base_script: str) -> str:
-    # prefixo simples com status de docs (quando pertinente)
     docs = st.get("docs") if isinstance(st.get("docs"), dict) else None
     prefix = ""
     if docs:
         missing = [DOC_LABELS[k] for k in DOC_KEYS if not docs.get(k)]
         received = [DOC_LABELS[k] for k in DOC_KEYS if docs.get(k)]
         if received and missing:
-            prefix = f"Recebi { _format_list(received) }. Ainda falta: { _format_list(missing) }.\n\n"
+            prefix = f"Recebi {_format_list(received)}. Ainda falta: {_format_list(missing)}.\n\n"
         elif missing and not received:
-            # nada recebido ainda → sem prefixo “cobrador”; deixa o script falar
             prefix = ""
         elif received and not missing:
             prefix = "Recebi toda a documentação. Obrigado!\n\n"
@@ -439,20 +493,23 @@ def _format_list(items: list[str]) -> str:
 
 def _get_state(user_id: str) -> State:
     if user_id not in _STATE:
+        now = _utcnow()
+        today = now.date()
         _STATE[user_id] = {
             "last_user_ts": None,
             "last_bot_ts": None,
             "next_due": None,
             "attempts_today": 0,
-            "attempts_total": 0,          # NEW
+            "attempts_total": 0,
             "last_attempt_day": None,
-            "started_on": _utcnow().date(),  # NEW: dia de início do funil
+            "started_on": today,
             "days_without_reply": 0,
             "paused": True,
             "goal_reached": False,
-            "_last_day_check": _utcnow().date(),
+            "_last_day_check": today,
             "docs": None,
-            "name": "",                   # NEW: placeholder
+            "name": "",
+            "_last_band_idx": None,
         }
     return _STATE[user_id]
 
