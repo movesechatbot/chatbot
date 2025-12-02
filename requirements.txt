@@ -8,3 +8,4 @@ python-dotenv>=1.0.1
 requests
 flask-socketio==5.3.6
 eventlet==0.36.1
+psycopg2-binary

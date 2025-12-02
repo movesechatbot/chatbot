@@ -1,9 +1,10 @@
 from __future__ import annotations
-import logging, random, threading, time
+import logging, random, threading, time, json
 from datetime import datetime, timedelta, date, timezone
 from typing import Callable, Dict, Optional, Tuple
 from zoneinfo import ZoneInfo
 from config import SOCIAL_IG_URL, TIMEZONE
+from db import db_query_one, db_query_all, db_execute
 
 # --- CONFIG PRODUÇÃO ---
 CFG = {
@@ -90,11 +91,8 @@ DEFAULT_NO_DOC_MSG = (
 
 State = Dict[str, object]
 
-_STATE: Dict[str, State] = {}
-_LOCK = threading.RLock()
 _SENDER: Optional[Callable[[str, str], None]] = None
 _THREAD: Optional[threading.Thread] = None
-
 _LOGGER = logging.getLogger("followup")
 
 
@@ -142,6 +140,141 @@ def _rand_time_in_band(base_day_local: date, band: tuple[int, int]) -> datetime:
     return _to_utc(dt_local)
 
 
+# -------- persistência em postgres --------
+
+# colunas:
+# user_id, started_on, last_user_ts, last_bot_ts, next_due,
+# attempts_today, attempts_total, last_attempt_day,
+# days_without_reply, paused, goal_reached, name, docs
+
+def _row_to_state(row) -> State:
+    (
+        user_id,
+        started_on,
+        last_user_ts,
+        last_bot_ts,
+        next_due,
+        attempts_today,
+        attempts_total,
+        last_attempt_day,
+        days_without_reply,
+        paused,
+        goal_reached,
+        name,
+        docs_raw,
+    ) = row
+
+    today = _utcnow().date()
+    docs = None
+    if isinstance(docs_raw, str) and docs_raw.strip():
+        try:
+            docs = json.loads(docs_raw)
+        except Exception:
+            docs = None
+
+    st: State = {
+        "user_id": user_id,
+        "started_on": started_on or today,
+        "last_user_ts": last_user_ts,
+        "last_bot_ts": last_bot_ts,
+        "next_due": next_due,
+        "attempts_today": int(attempts_today or 0),
+        "attempts_total": int(attempts_total or 0),
+        "last_attempt_day": last_attempt_day,
+        "days_without_reply": int(days_without_reply or 0),
+        "paused": bool(paused),
+        "goal_reached": bool(goal_reached),
+        "name": (name or "").strip(),
+        "docs": docs,
+        "_last_day_check": today,
+        "_last_band_idx": None,
+    }
+    return st
+
+def _load_state(user_id: str) -> State:
+    row = db_query_one(
+        """
+        SELECT user_id, started_on, last_user_ts, last_bot_ts, next_due,
+               attempts_today, attempts_total, last_attempt_day,
+               days_without_reply, paused, goal_reached, name, docs
+          FROM followup_state
+         WHERE user_id = %s
+        """,
+        (user_id,),
+    )
+    if row:
+        return _row_to_state(row)
+
+    # se não existe, cria
+    today = _utcnow().date()
+    db_execute(
+        """
+        INSERT INTO followup_state (
+            user_id, started_on, attempts_today, attempts_total,
+            days_without_reply, paused, goal_reached, next_due
+        ) VALUES (%s, %s, 0, 0, 0, TRUE, FALSE, NULL)
+        """,
+        (user_id, today),
+    )
+    st: State = {
+        "user_id": user_id,
+        "started_on": today,
+        "last_user_ts": None,
+        "last_bot_ts": None,
+        "next_due": None,
+        "attempts_today": 0,
+        "attempts_total": 0,
+        "last_attempt_day": None,
+        "days_without_reply": 0,
+        "paused": True,
+        "goal_reached": False,
+        "name": "",
+        "docs": None,
+        "_last_day_check": today,
+        "_last_band_idx": None,
+    }
+    return st
+
+def _save_state(st: State) -> None:
+    docs_json = None
+    if isinstance(st.get("docs"), dict):
+        docs_json = json.dumps(st["docs"], ensure_ascii=False)
+
+    db_execute(
+        """
+        UPDATE followup_state
+           SET started_on = %s,
+               last_user_ts = %s,
+               last_bot_ts = %s,
+               next_due = %s,
+               attempts_today = %s,
+               attempts_total = %s,
+               last_attempt_day = %s,
+               days_without_reply = %s,
+               paused = %s,
+               goal_reached = %s,
+               name = %s,
+               docs = %s
+         WHERE user_id = %s
+        """,
+        (
+            st.get("started_on"),
+            st.get("last_user_ts"),
+            st.get("last_bot_ts"),
+            st.get("next_due"),
+            int(st.get("attempts_today", 0)),
+            int(st.get("attempts_total", 0)),
+            st.get("last_attempt_day"),
+            int(st.get("days_without_reply", 0)),
+            bool(st.get("paused", False)),
+            bool(st.get("goal_reached", False)),
+            (st.get("name") or "").strip(),
+            docs_json,
+            st.get("user_id"),
+        ),
+    )
+
+
 # -------- lógica de dias / plano --------
 
 def _day_index(st: State, today: date) -> int:
@@ -177,85 +310,78 @@ def _pick_band(st: State, bands: list[tuple[int, int]]) -> tuple[int, int]:
 
 def init(sender_fn: Callable[[str, str], None]) -> None:
     global _SENDER, _THREAD
-    with _LOCK:
-        if _SENDER is None:
-            _SENDER = sender_fn
-        if _THREAD is None:
-            _THREAD = threading.Thread(
-                target=_loop,
-                name="followup-loop",
-                daemon=True,
-            )
-            _THREAD.start()
+    if _SENDER is None:
+        _SENDER = sender_fn
+    if _THREAD is None:
+        _THREAD = threading.Thread(
+            target=_loop,
+            name="followup-loop",
+            daemon=True,
+        )
+        _THREAD.start()
 
 
 def mark_user_reply(user_id: str) -> None:
     now = _utcnow()
     today = now.date()
-    with _LOCK:
-        st = _get_state(user_id)
-        st["last_user_ts"] = now
-        st["paused"] = True
-        st["next_due"] = None
-        st["attempts_today"] = 0
-        st["last_attempt_day"] = today
-        st["days_without_reply"] = 0
-        st["_last_day_check"] = today
-        st.pop("_pending_override", None)
-        st.pop("_sending", None)
+    st = _load_state(user_id)
+    st["last_user_ts"] = now
+    st["paused"] = True
+    st["next_due"] = None
+    st["attempts_today"] = 0
+    st["last_attempt_day"] = today
+    st["days_without_reply"] = 0
+    st["_last_day_check"] = today
+    _save_state(st)
 
 
 def track_bot_reply(user_id: str) -> None:
     now = _utcnow()
     today = now.date()
-    with _LOCK:
-        st = _get_state(user_id)
-        st.setdefault("started_on", today)
-        st["last_bot_ts"] = now
+    st = _load_state(user_id)
+    st.setdefault("started_on", today)
+    st["last_bot_ts"] = now
 
-        if st.get("goal_reached"):
-            st["paused"] = True
-            st["next_due"] = None
-            st.pop("_pending_override", None)
-            return
-
+    if st.get("goal_reached"):
+        st["paused"] = True
+        st["next_due"] = None
+    else:
         st["paused"] = False
         bands = _bands_for_day(st, today)
         next_due = _pick_future_today(now, bands, st)
         st["next_due"] = next_due
-        st["_last_day_check"] = today
+
+    st["_last_day_check"] = today
+    _save_state(st)
 
 
 def mark_goal(user_id: str, reached: bool = True) -> None:
-    with _LOCK:
-        st = _get_state(user_id)
-        st["goal_reached"] = bool(reached)
-        if reached:
-            st["paused"] = True
-            st["next_due"] = None
-            st.pop("_pending_override", None)
-        else:
-            st["paused"] = False
+    st = _load_state(user_id)
+    st["goal_reached"] = bool(reached)
+    if reached:
+        st["paused"] = True
+        st["next_due"] = None
+    _save_state(st)
 
 
 def update_docs_status(user_id: str, info: Dict[str, object]) -> None:
     normalized = {key: bool(info.get(key)) for key in DOC_KEYS}
-    with _LOCK:
-        st = _get_state(user_id)
-        st["docs"] = normalized
+    st = _load_state(user_id)
+    st["docs"] = normalized
+    _save_state(st)
 
 def update_profile(user_id: str, name: Optional[str] = None) -> None:
     if not name:
         return
-    with _LOCK:
-        st = _get_state(user_id)
-        st["name"] = (name or "").strip()
+    st = _load_state(user_id)
+    st["name"] = (name or "").strip()
+    _save_state(st)
 
 
 # -------- núcleo do scheduler --------
 
 def _eligible(st: State, now: datetime) -> bool:
-    if st.get("goal_reached") or st.get("paused") or st.get("_sending"):
+    if st.get("goal_reached") or st.get("paused"):
         return False
 
     if not _in_window_local(now):
@@ -297,23 +423,39 @@ def _loop() -> None:
         now = _utcnow()
         due: list[Tuple[str, str, datetime, State]] = []
 
-        with _LOCK:
-            for user_id, st in list(_STATE.items()):
-                _daily_housekeeping(st, now)
-                if not _eligible(st, now):
-                    continue
-                message, next_due = _prepare_followup(st, now)
-                if not message or not next_due:
-                    continue
-                next_due = _coerce_aware(next_due)
-                if not next_due:
-                    continue
-                st["_sending"] = True
-                st["_pending_override"] = next_due
-                due.append((user_id, message, next_due))
+        # pega todos ativos (não goal_reached)
+        rows = db_query_all(
+            """
+            SELECT user_id, started_on, last_user_ts, last_bot_ts, next_due,
+                   attempts_today, attempts_total, last_attempt_day,
+                   days_without_reply, paused, goal_reached, name, docs
+              FROM followup_state
+             WHERE goal_reached = FALSE
+            """
+        )
 
-        for user_id, message, next_due in due:
-            _deliver_followup(user_id, message, next_due)
+        for row in rows:
+            st = _row_to_state(row)
+            _daily_housekeeping(st, now)
+            if not _eligible(st, now):
+                _save_state(st)
+                continue
+            message, next_due = _prepare_followup(st, now)
+            if not message or not next_due:
+                _save_state(st)
+                continue
+            next_due = _coerce_aware(next_due)
+            if not next_due:
+                _save_state(st)
+                continue
+
+            st["_pending_next_due"] = next_due
+            st["_pending_attempts_today"] = int(st["attempts_today"]) + 1
+            st["_pending_attempts_total"] = int(st["attempts_total"]) + 1
+            due.append((st["user_id"], message, next_due, st))
+
+        for user_id, message, next_due, st in due:
+            _deliver_followup(user_id, message, next_due, st)
 
 
 def _pick_next_day(now_utc: datetime, bands: list[tuple[int, int]], st: State) -> datetime:
@@ -364,50 +506,35 @@ def _prepare_followup(st: State, now: datetime) -> Tuple[Optional[str], Optional
     return message, next_due
 
 
-def _deliver_followup(user_id: str, message: str, next_due: datetime) -> None:
+def _deliver_followup(user_id: str, message: str, next_due: datetime, st: State) -> None:
     if _SENDER is None:
         _LOGGER.warning("followup sender not configured; skipping message to %s", user_id)
-        with _LOCK:
-            st = _STATE.get(user_id)
-            if st:
-                st.pop("_sending", None)
-                st.pop("_pending_override", None)
-                st.pop("_pending_next_due", None)
-                st.pop("_pending_attempts_today", None)
-                st.pop("_pending_attempts_total", None)
         return
 
     try:
         _SENDER(user_id, message)
     except Exception as exc:
         _LOGGER.warning("followup send failed for %s: %s", user_id, exc)
-        with _LOCK:
-            st = _STATE.get(user_id)
-            if st:
-                st.pop("_sending", None)
-                st.pop("_pending_override", None)
-                st.pop("_pending_next_due", None)
-                st.pop("_pending_attempts_today", None)
-                st.pop("_pending_attempts_total", None)
         return
 
     now = _utcnow()
     today = now.date()
 
-    with _LOCK:
-        st = _STATE.get(user_id)
-        if not st:
-            return
+    scheduled_due = _coerce_aware(st.get("_pending_next_due", next_due)) or next_due
+    st["attempts_today"] = int(st.get("_pending_attempts_today", st.get("attempts_today", 0)))
+    st["attempts_total"] = int(st.get("_pending_attempts_total", st.get("attempts_total", 0)))
 
-        scheduled_due = _coerce_aware(st.pop("_pending_next_due", next_due)) or next_due
-        st["attempts_today"] = int(st.pop("_pending_attempts_today", st.get("attempts_today", 0)))
-        st["attempts_total"] = int(st.pop("_pending_attempts_total", st.get("attempts_total", 0)))
-        st.pop("_sending", None)
+    st["last_attempt_day"] = today
+    st["next_due"] = scheduled_due
+    st["_last_day_check"] = today
+    st.setdefault("days_without_reply", 0)
+    st["last_bot_ts"] = now
 
-        st["last_attempt_day"] = today
-        st["next_due"] = scheduled_due
-        st["_last_day_check"] = today
-        st.setdefault("days_without_reply", 0)
+    st.pop("_pending_next_due", None)
+    st.pop("_pending_attempts_today", None)
+    st.pop("_pending_attempts_total", None)
+
+    _save_state(st)
 
 
 def _daily_housekeeping(st: State, now: datetime) -> None:
@@ -490,28 +617,6 @@ def _format_list(items: list[str]) -> str:
     if len(items) == 1:
         return items[0]
     return ", ".join(items[:-1]) + " e " + items[-1]
-
-def _get_state(user_id: str) -> State:
-    if user_id not in _STATE:
-        now = _utcnow()
-        today = now.date()
-        _STATE[user_id] = {
-            "last_user_ts": None,
-            "last_bot_ts": None,
-            "next_due": None,
-            "attempts_today": 0,
-            "attempts_total": 0,
-            "last_attempt_day": None,
-            "started_on": today,
-            "days_without_reply": 0,
-            "paused": True,
-            "goal_reached": False,
-            "_last_day_check": today,
-            "docs": None,
-            "name": "",
-            "_last_band_idx": None,
-        }
-    return _STATE[user_id]
 
 
 def _coerce_aware(value: object) -> Optional[datetime]:

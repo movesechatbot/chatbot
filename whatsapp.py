@@ -78,7 +78,6 @@ def incoming():
 
                 if t == "text":
                     txt = msg["text"]["body"].strip()
-                    followup.mark_user_reply(user)
 
                     # --- reset session --- (remover na PROD)
                     if txt.lower() == "/reset":
@@ -109,7 +108,6 @@ def incoming():
                     name_lower = (filename or "").lower()
                     meta = f"{caption_lower} {name_lower}"
 
-                    followup.mark_user_reply(user)
 
                     if media_id:
                         try:
@@ -144,7 +142,6 @@ def incoming():
                 elif t in ("audio", "voice"):
                     media_id = msg[t]["id"]
                     txt = _transcribe_media(media_id)   # mp3/m4a/ogg/opus/wav ok
-                    followup.mark_user_reply(user)
                     reply = _pipeline(txt, user)
                     _send_text(user, reply)
 
@@ -273,7 +270,6 @@ def _send_text(to: str, body: str):
     # opcional: levantar erro se não for 200
     if r.status_code >= 300:
         raise RuntimeError(f"send_text falhou: {r.status_code} {r.text}")
-    followup.track_bot_reply(to)
 
 
 def _download_media(media_id: str, preferred_name: Optional[str] = None) -> tuple[str, str, bytes]:
