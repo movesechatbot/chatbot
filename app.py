@@ -23,13 +23,13 @@ def get_docs(user_id: str) -> dict:
 def docs_completed(info: dict) -> bool:
     return bool(info.get("rg_cnh") and info.get("residencia") and info.get("renda") and info.get("email"))
 
-from datetime import datetime
+from datetime import datetime, timezone
 import re, unicodedata
 import os, json, time
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, Blueprint
 from flask_cors import CORS
 import logging
-from config import HIGH, MED, TOPK, PORT
+from config import HIGH, MED, TOPK, PORT, ALLOWED_ORIGINS
 import kb
 from llm import ask_chatgpt
 from whatsapp import bp as whatsapp_bp, _send_document_email
@@ -121,13 +121,16 @@ def is_document_intent(msg: str) -> bool:
 
 app = Flask(__name__)
 app.register_blueprint(whatsapp_bp)
-# remover parametros do cors para a prod
-CORS(app,
-     resources={r"/*": {"origins": "*"}},
-     supports_credentials=False,
-     methods=["GET","POST","OPTIONS"],
-     allow_headers=["Content-Type","Authorization"])
-########
+# Configuração CORS segura
+CORS(
+    app,
+    origins=ALLOWED_ORIGINS,
+    supports_credentials=False,  # Mantenha False para APIs sem cookies
+    methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
+    expose_headers=["Content-Type"],
+    max_age=600  # Cache de preflight por 10 minutos
+)
 
 logging.basicConfig(level=logging.INFO)
 
@@ -156,7 +159,6 @@ def admin_live(user_id):
         "mensagens": hist[-MAX_MSGS:]
     })
 
-
 @app.get("/admin/conversas")
 def listar_conversas():
     out = []
@@ -184,24 +186,9 @@ def admin_enviar():
     # não dispara o chatbot
     return jsonify({"ok": True, "mensagem": msg, "hora": agora}), 200
 
-
-
-
-# remover na prod
-@app.route("/chat", methods=["OPTIONS"])
-def chat_preflight():
-    return ("", 204, {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        "Vary": "Origin",
-    })
-#######
-
 @app.get("/healthz")
 def healthz():
     return {"status": "ok"}, 200
-
 
 @app.get("/")
 def home():
@@ -228,7 +215,6 @@ def reset():
     except Exception as e:
         app.logger.exception("erro no /reset")
         return jsonify({"erro": "falha ao resetar", "detalhe": str(e)}), 500
-
 
 @app.post("/upload-test")
 def upload_test():
@@ -522,6 +508,432 @@ def chat():
     except Exception as e:
         app.logger.exception("erro no /chat")
         return jsonify({"erro": "Falha interna no servidor", "detalhe": str(e)}), 500
+
+# endpoints de suporte ao followup
+@app.get("/debug/followup/<user_id>")
+def debug_followup(user_id):
+    import followup
+    from datetime import datetime, timezone
+    
+    st = followup._load_state(user_id)
+    now = datetime.now(timezone.utc)
+    
+    # Força housekeeping para atualizar estado
+    followup._daily_housekeeping(st, now)
+    followup._save_state(st)
+    
+    # Recalcula após housekeeping
+    st = followup._load_state(user_id)
+    
+    # Cálculos detalhados
+    today = now.date()
+    local_now = followup._to_local(now)
+    local_last_bot = followup._to_local(st.get("last_bot_ts")) if st.get("last_bot_ts") else None
+    local_last_user = followup._to_local(st.get("last_user_ts")) if st.get("last_user_ts") else None
+    
+    # Dias sem resposta
+    days_diff = 0
+    if local_last_bot:
+        days_diff = (local_now.date() - local_last_bot.date()).days
+    
+    info = {
+        "user_id": user_id,
+        "timestamp": now.isoformat(),
+        "timestamp_local": local_now.isoformat(),
+        
+        "estado_banco": {
+            "days_without_reply": st.get("days_without_reply"),
+            "paused": st.get("paused"),
+            "goal_reached": st.get("goal_reached"),
+            "next_due": st.get("next_due"),
+            "attempts_today": st.get("attempts_today"),
+            "attempts_total": st.get("attempts_total"),
+            "last_bot_ts": st.get("last_bot_ts"),
+            "last_user_ts": st.get("last_user_ts"),
+            "started_on": st.get("started_on"),
+        },
+        
+        "calculos_detalhados": {
+            "dias_diferenca_calculada": days_diff,
+            "local_last_bot_date": local_last_bot.date().isoformat() if local_last_bot else None,
+            "local_now_date": local_now.date().isoformat(),
+            "mesmo_dia": local_last_bot and local_last_bot.date() == local_now.date(),
+            "ultimo_bot_local": local_last_bot.isoformat() if local_last_bot else None,
+            "ultimo_user_local": (followup._to_local(st["last_user_ts"]).isoformat() if st.get("last_user_ts") else None),
+        },
+        
+        "verificacoes": {
+            "in_window": followup._in_window_local(now),
+            "window": f"{followup.CFG['window_start_hour']}:00-{followup.CFG['window_end_hour']}:00",
+            "day_index": followup._day_index(st, today),
+            "allowed_today": followup._allowed_today(st, today),
+            "bands_for_day": followup._bands_for_day(st, today),
+            "max_total_attempts": followup.CFG["max_total_attempts"],
+            "script_index": followup._script_index(st),
+            "script_length": len(followup.FOLLOWUP_SCRIPT),
+            "eligible": followup._eligible(st, now),
+        },
+        
+        "horarios": {
+            "now_utc": now.strftime("%Y-%m-%d %H:%M:%S UTC"),
+            "now_local": local_now.strftime("%Y-%m-%d %H:%M:%S"),
+            "window_start": f"{followup.CFG['window_start_hour']}:00",
+            "window_end": f"{followup.CFG['window_end_hour']}:00",
+        }
+    }
+    
+    return jsonify(info)
+
+@app.post("/debug/simulate-next-day/<user_id>")
+def simulate_next_day(user_id):
+    """Simula que passou 1 dia (para testes)"""
+    import followup
+    from datetime import datetime, timedelta, timezone
+    
+    st = followup._load_state(user_id)
+    
+    if st.get("last_bot_ts"):
+        # Subtrai 25 horas para garantir que passa 1 dia completo
+        new_last_bot_ts = st["last_bot_ts"] - timedelta(hours=25)
+        st["last_bot_ts"] = new_last_bot_ts
+        
+        # Limpa o last_user_ts para simular que usuário não respondeu
+        st["last_user_ts"] = None
+        
+        # Força recálculo
+        now = datetime.now(timezone.utc)
+        followup._daily_housekeeping(st, now)
+        followup._save_state(st)
+        
+        # Recarrega para ver estado atualizado
+        st = followup._load_state(user_id)
+        followup._daily_housekeeping(st, now)
+        
+        return jsonify({
+            "status": "success",
+            "message": "Simulado 1 dia à frente",
+            "estado_atual": {
+                "days_without_reply": st.get("days_without_reply"),
+                "paused": st.get("paused"),
+                "next_due": st.get("next_due"),
+                "last_bot_ts": st.get("last_bot_ts"),
+                "last_user_ts": st.get("last_user_ts"),
+            },
+            "verificacoes": {
+                "day_index": followup._day_index(st, now.date()),
+                "allowed_today": followup._allowed_today(st, now.date()),
+                "eligible": followup._eligible(st, now),
+            }
+        })
+    
+    return jsonify({"status": "error", "message": "No last_bot_ts found"}), 400
+
+@app.post("/debug/set-state/<user_id>")
+def set_state(user_id):
+    """Define estado manualmente para testes"""
+    import followup
+    from datetime import datetime, timedelta, timezone
+    
+    data = request.get_json() or {}
+    
+    st = followup._load_state(user_id)
+    
+    # Campos que podem ser ajustados
+    if "days_without_reply" in data:
+        st["days_without_reply"] = int(data["days_without_reply"])
+    if "paused" in data:
+        st["paused"] = bool(data["paused"])
+    if "attempts_today" in data:
+        st["attempts_today"] = int(data["attempts_today"])
+    if "attempts_total" in data:
+        st["attempts_total"] = int(data["attempts_total"])
+    if "last_bot_ts" in data:
+        # Suporta "now", "yesterday", ou timestamp específico
+        if data["last_bot_ts"] == "now":
+            st["last_bot_ts"] = datetime.now(timezone.utc)
+        elif data["last_bot_ts"] == "yesterday":
+            st["last_bot_ts"] = datetime.now(timezone.utc) - timedelta(days=1)
+    
+    followup._save_state(st)
+    
+    return jsonify({"status": "updated", "state": st})
+
+@app.route("/monitor/followup")
+def monitor_followup():
+    import followup
+    from datetime import datetime, timezone
+    
+    info = {
+        "thread_alive": followup._THREAD and followup._THREAD.is_alive(),
+        "sender_configured": followup._SENDER is not None,
+        "current_time": datetime.now(timezone.utc).isoformat(),
+    }
+    
+    # Conta usuários em followup
+    from db import db_query_all
+    rows = db_query_all("SELECT COUNT(*) FROM followup_state WHERE goal_reached = FALSE")
+    info["active_users"] = rows[0][0] if rows else 0
+    
+    return jsonify(info)
+
+@app.post("/debug/trigger-followup/<user_id>")
+def trigger_followup(user_id):
+    """Força a verificação de elegibilidade e envia repique se possível"""
+    import followup
+    from datetime import datetime, timedelta, timezone
+    
+    now = datetime.now(timezone.utc)
+    st = followup._load_state(user_id)
+    
+    # Força housekeeping para atualizar estado
+    followup._daily_housekeeping(st, now)
+    followup._save_state(st)
+    
+    # Recarrega estado atualizado
+    st = followup._load_state(user_id)
+    
+    # Verifica elegibilidade com todas as regras
+    eligible = followup._eligible(st, now)
+    
+    if eligible:
+        # Prepara mensagem e próximo agendamento
+        message, next_due = followup._prepare_followup(st, now)
+        
+        if message and next_due:
+            # Envia mensagem imediatamente
+            try:
+                followup._SENDER(user_id, message)
+                
+                # Atualiza estado no banco
+                st["attempts_today"] = int(st.get("attempts_today", 0)) + 1
+                st["attempts_total"] = int(st.get("attempts_total", 0)) + 1
+                st["last_bot_ts"] = now  # Importante para gap mínimo
+                st["last_attempt_day"] = now.date()
+                st["next_due"] = next_due
+                followup._save_state(st)
+                
+                return jsonify({
+                    "status": "success",
+                    "message": "Followup enviado com sucesso",
+                    "message_content": message,
+                    "next_due": next_due.isoformat(),
+                    "next_due_local": followup._to_local(next_due).isoformat(),
+                    "attempts_today": st["attempts_today"],
+                    "attempts_total": st["attempts_total"],
+                    "day_index": followup._day_index(st, now.date()),
+                    "allowed_today": followup._allowed_today(st, now.date())
+                })
+            except Exception as e:
+                app.logger.error(f"Erro ao enviar followup: {e}", exc_info=True)
+                return jsonify({
+                    "status": "error", 
+                    "message": f"Falha ao enviar mensagem: {str(e)}"
+                }), 500
+        else:
+            return jsonify({
+                "status": "not_ready",
+                "reason": "prepare_followup retornou None",
+                "message": str(message)[:100] if message else None,
+                "next_due": next_due.isoformat() if next_due else None
+            })
+    else:
+        # Explica detalhadamente por que não é elegível
+        reasons = []
+        details = {}
+        
+        # Verificações básicas
+        if st.get("goal_reached"): 
+            reasons.append("goal_reached=True")
+        details["goal_reached"] = st.get("goal_reached")
+        
+        if st.get("paused"): 
+            reasons.append("paused=True")
+        details["paused"] = st.get("paused")
+        
+        # Janela de tempo
+        in_window = followup._in_window_local(now)
+        if not in_window: 
+            reasons.append("fora_da_janela")
+        details["in_window"] = in_window
+        
+        # Dia do ciclo
+        day_index = followup._day_index(st, now.date())
+        if day_index <= 0: 
+            reasons.append(f"dia_<=_0 (dia={day_index})")
+        details["day_index"] = day_index
+        
+        # Next due
+        next_due_val = st.get("next_due")
+        details["next_due"] = next_due_val
+        if next_due_val is None:
+            reasons.append("next_due=None")
+        else:
+            next_due_dt = followup._coerce_aware(next_due_val)
+            if next_due_dt and now < next_due_dt:
+                reasons.append(f"agora < next_due ({now.strftime('%H:%M')} < {followup._to_local(next_due_dt).strftime('%H:%M')})")
+        
+        # Última mensagem do bot
+        last_bot_ts = followup._coerce_aware(st.get("last_bot_ts"))
+        details["last_bot_ts"] = last_bot_ts
+        if last_bot_ts is None:
+            reasons.append("last_bot_ts=None")
+        
+        # Gap mínimo
+        min_gap = int(followup.CFG.get("min_gap_minutes", 0))
+        if min_gap > 0 and last_bot_ts:
+            gap = now - last_bot_ts
+            details["gap_minutes"] = gap.total_seconds() / 60
+            if gap < timedelta(minutes=min_gap):
+                reasons.append(f"gap_minimo_{min_gap}min (gap={gap.total_seconds()/60:.1f}min)")
+        
+        # Limites de tentativas
+        attempts_total = int(st.get("attempts_total", 0))
+        details["attempts_total"] = attempts_total
+        if attempts_total >= followup.CFG["max_total_attempts"]:
+            reasons.append(f"max_attempts ({attempts_total}/{followup.CFG['max_total_attempts']})")
+        
+        allowed_today = followup._allowed_today(st, now.date())
+        attempts_today = int(st.get("attempts_today", 0))
+        details["allowed_today"] = allowed_today
+        details["attempts_today"] = attempts_today
+        if attempts_today >= allowed_today:
+            reasons.append(f"limite_diario ({attempts_today}/{allowed_today})")
+        
+        # Verificação de mesmo dia da última resposta do bot
+        if last_bot_ts:
+            local_now = followup._to_local(now)
+            local_last_bot = followup._to_local(last_bot_ts)
+            same_bot_day = local_now.date() == local_last_bot.date()
+            details["mesmo_dia_ultimo_bot"] = same_bot_day
+            if same_bot_day:
+                reasons.append(f"mesmo_dia_ultimo_bot (last_bot={local_last_bot.strftime('%H:%M')})")
+        
+        # Verificação de usuário respondeu depois do bot
+        last_user_ts = followup._coerce_aware(st.get("last_user_ts"))
+        details["last_user_ts"] = last_user_ts
+        if last_user_ts and last_bot_ts and last_user_ts > last_bot_ts:
+            reasons.append("usuario_respondeu_depois")
+        
+        # Script disponível
+        script_idx = followup._script_index(st)
+        details["script_index"] = script_idx
+        if script_idx >= len(followup.FOLLOWUP_SCRIPT):
+            reasons.append(f"script_esgotado ({script_idx}/{len(followup.FOLLOWUP_SCRIPT)})")
+        
+        started_on = st.get("started_on")
+        details["started_on"] = started_on
+        if started_on:
+            local_now = followup._to_local(now)
+            same_started_day = local_now.date() == started_on
+            details["mesmo_dia_started"] = same_started_day
+            if same_started_day:
+                reasons.append(f"mesmo_dia_inicio_ciclo (started={started_on})")
+        
+        return jsonify({
+            "status": "not_eligible",
+            "reasons": reasons,
+            "details": details,
+            "now": now.isoformat(),
+            "now_local": followup._to_local(now).isoformat()
+        })
+
+@app.post("/debug/reset-next-due/<user_id>")
+def reset_next_due(user_id):
+    import followup
+    st = followup._load_state(user_id)
+    st["next_due"] = None
+    followup._save_state(st)
+    return jsonify({"status": "success", "next_due": "cleared"})
+
+@app.post("/debug/create-test-state/<user_id>")
+def create_test_state(user_id):
+    """Cria um estado PERFEITO para testes de followup"""
+    import followup
+    from datetime import datetime, timedelta, timezone
+    
+    data = request.get_json() or {}
+    day = data.get("day", 1)  # Dia do ciclo (1, 2, 3...)
+    
+    # Data de referência: ontem para simular ciclo começado
+    now = datetime.now(timezone.utc)
+    yesterday = now - timedelta(days=1)
+    
+    # CONSTRÓI ESTADO CONSISTENTE
+    state_data = {
+        "user_id": user_id,
+        "started_on": yesterday.date(),  # Ciclo começou ONTEM
+        "last_bot_ts": yesterday,        # Última resposta do bot foi ONTEM
+        "last_user_ts": None,            # Usuário NÃO respondeu desde então
+        "days_without_reply": day,       # Força dia específico
+        "paused": False if day > 0 else True,
+        "goal_reached": False,
+        "attempts_today": 0,
+        "attempts_total": 0,
+        "last_attempt_day": now.date(),
+        "next_due": None,
+        "name": "Test User",
+        "docs": None
+    }
+    
+    # SALVA DIRETO NO BANCO (evita lógicas intermediárias)
+    from db import db_execute
+    import json
+    
+    docs_json = json.dumps(state_data["docs"]) if state_data["docs"] else None
+    
+    # Primeiro, deleta se existir
+    db_execute("DELETE FROM followup_state WHERE user_id = %s", (user_id,))
+    
+    # Insere estado perfeito
+    db_execute("""
+        INSERT INTO followup_state 
+        (user_id, started_on, last_user_ts, last_bot_ts, next_due,
+         attempts_today, attempts_total, last_attempt_day,
+         days_without_reply, paused, goal_reached, name, docs)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """,
+        (
+            state_data["user_id"],
+            state_data["started_on"],
+            state_data["last_user_ts"],
+            state_data["last_bot_ts"],
+            state_data["next_due"],
+            state_data["attempts_today"],
+            state_data["attempts_total"],
+            state_data["last_attempt_day"],
+            state_data["days_without_reply"],
+            state_data["paused"],
+            state_data["goal_reached"],
+            state_data["name"],
+            docs_json
+        )
+    )
+    
+    # Carrega para verificação
+    st = followup._load_state(user_id)
+    
+    return jsonify({
+        "status": "created",
+        "day": day,
+        "state": st,
+        "note": f"Estado criado para Dia {day}. Use /debug/trigger-followup para testar."
+    })
+
+# WEBHOOK PARA SERVIÇOS EXTERNOS
+bp = Blueprint("whatsapp", __name__)
+
+@bp.before_app_request
+def block_browser_access():
+    """Bloqueia acesso de navegadores ao webhook do WhatsApp"""
+    if request.endpoint == 'whatsapp.incoming':
+        # Verifica se é uma requisição do Meta (tem signature header)
+        signature = request.headers.get('X-Hub-Signature-256')
+        user_agent = request.headers.get('User-Agent', '')
+        
+        # Se não tem signature E parece ser navegador, bloqueia
+        if not signature and any(agent in user_agent for agent in ['Mozilla', 'Chrome', 'Safari', 'Firefox']):
+            app.logger.warning(f"Tentativa de acesso via navegador ao webhook: {user_agent}")
+            return "Acesso não autorizado", 403
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=PORT)

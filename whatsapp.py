@@ -366,3 +366,4 @@ def _send_document_email(
 
 
 followup.init(_send_text)
+print(f"Followup thread alive: {followup._THREAD.is_alive()}")
