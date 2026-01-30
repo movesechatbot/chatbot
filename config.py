@@ -7,6 +7,8 @@ OPENAI_MODEL   = os.getenv("OPENAI_MODEL", "")
 WHATSAPP_TOKEN = os.getenv("WHATSAPP_TOKEN", "")
 PHONE_NUMBER_ID = os.getenv("PHONE_NUMBER_ID", "")
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN", "")
+DATABASE_URL = os.getenv("DATABASE_URL", "")
+
 
 HIGH = float(os.getenv("HIGH", "0.83"))
 MED  = float(os.getenv("MED",  "0.82"))

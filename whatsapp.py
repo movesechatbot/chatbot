@@ -79,6 +79,8 @@ def incoming():
                 if t == "text":
                     txt = msg["text"]["body"].strip()
 
+                    followup.mark_user_reply(user)
+
                     # --- reset session --- (remover na PROD)
                     if txt.lower() == "/reset":
                         try:
@@ -100,6 +102,9 @@ def incoming():
                         _notify_doc("email", user, email=m.group(0))
 
                 elif t in ("document", "image"):
+
+                    followup.mark_user_reply(user)
+
                     media_payload = msg.get(t, {}) or {}
                     caption = (media_payload.get("caption") or "").strip()
                     filename = media_payload.get("filename")
@@ -140,6 +145,9 @@ def incoming():
                     _send_text(user, reply)
 
                 elif t in ("audio", "voice"):
+
+                    followup.mark_user_reply(user)
+
                     media_id = msg[t]["id"]
                     txt = _transcribe_media(media_id)   # mp3/m4a/ogg/opus/wav ok
                     reply = _pipeline(txt, user)
@@ -363,7 +371,3 @@ def _send_document_email(
         raise RuntimeError(f"Resend retornou {resp.status_code}: {resp.text[:200]}")
 
     return True
-
-
-followup.init(_send_text)
-print(f"Followup thread alive: {followup._THREAD.is_alive()}")
